@@ -1,0 +1,74 @@
+@import "scss/variables";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+$theme-colors: (
+  // "primary": $purple,
+    // "secondary": $blue,
+    // "light": $gray,
+    "success": $green
+);
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+//  Import scss components files here.
+@import "scss/fonts";
+@import "scss/mixins";
+@import "scss/overrides";
+@import "scss/animations";
+
+// Import page/component scss files here.
+@import "scss/components";
+@import "scss/pages";
+
+// Global styles
+html,
+body,
+#root {
+  height: 100%;
+  background: linear-gradient(93.69deg, #acbac4 -8.54%, #c6d1da 88.8%);
+}
+
+body {
+  margin: 0;
+  @include helvetica-text;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-disabled {
+  cursor: not-allowed;
+}
+
+.section {
+  &--title {
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 41px;
+    letter-spacing: 0.04em;
+
+    @include responsive(md) {
+      font-size: 28px;
+      line-height: 32px;
+      margin-bottom: 16px;
+      z-index: 1;
+    }
+    @include responsive(sm) {
+      font-size: 24px;
+      line-height: 28px;
+      margin-bottom: 16px;
+      z-index: 1;
+    }
+  }
+}
+
+.text-shadow {
+  @include responsive-up(xl) {
+    text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.4);
+  }
+}
+
+textarea.form-control.is-invalid {
+  background-position: right calc(0.375em + 0.1875rem) center !important;
+}

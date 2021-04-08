@@ -1,0 +1,19 @@
+//.btn {
+//  border-radius: $border-radius;
+//  &.btn-primary {
+//    color: $white;
+//  }
+//}
+body {
+  color: $text;
+}
+.form-control {
+  font-size: 18px;
+  line-height: 21px;
+}
+@include responsive(sm) {
+  .form-control {
+    font-size: 14px;
+    line-height: 16px;
+  }
+}

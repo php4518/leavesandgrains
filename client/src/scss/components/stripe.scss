@@ -1,0 +1,13 @@
+.stripe-container {
+	display: flex;
+
+	.StripeElement {
+		display: flex;
+		align-items: center;
+		width: 100%;
+
+		.__PrivateStripeElement {
+			width: 100%;
+		}
+	}
+}

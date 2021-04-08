@@ -1,0 +1,55 @@
+.zr-cards-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: opacity 0.1s ease-in-out;
+  .zr-cards {
+    flex-grow: 1;
+    padding-top: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1;
+    width: 100%;
+    .zr-card {
+      padding: 2rem;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background: $white;
+      position: absolute;
+      will-change: transform;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0.25rem 0.625rem $blackWithOpacity25;
+      border-radius: 0.75rem;
+    }
+    .first-card {
+      z-index: 3;
+    }
+    .second-card {
+      z-index: 1;
+      transform: scale(1) translate(0.5rem, -0.25rem) rotate(3deg);
+      margin-left: 1rem;
+    }
+    .third-card {
+      z-index: 2;
+      transform: rotate(-3deg);
+      margin-left: -1.5rem;
+    }
+  }
+}
+
+@keyframes moveLast {
+  0% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-3deg);
+  }
+}

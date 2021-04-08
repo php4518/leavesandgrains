@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "leaves-and-grains",
+  "engines": {
+    "node": ">10"
+  },
+  "scripts": {
+    "preinstall": "cd client && yarn",
+    "postinstall": "cd server && yarn",
+    "client": "cd client && yarn start",
+    "server": "cd server && yarn start",
+    "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "concurrently": "5.1.0",
+    "express-session": "1.17.1"
+  }
+}
