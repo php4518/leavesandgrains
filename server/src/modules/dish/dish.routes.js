@@ -7,7 +7,7 @@ router.route('/')
   /** GET /api/dishes - Get list of dishes */
   .get(dishCtrl.getAll);
 
-router.route('/:bookId')
+router.route('/:dishId')
   /** GET /api/dishes/:dishId - Get dish */
   .get(dishCtrl.get)
 
@@ -15,7 +15,7 @@ router.route('/:bookId')
   // .put(validate(paramValidation.updateBook), dishCtrl.update)
 
   /** DELETE /api/dishes/:dishId - Delete dish */
-  .delete(dishCtrl.remove);
+  // .delete(dishCtrl.remove);
 
 /** Load dish when API with dishId route parameter is hit */
 router.param('dishId', dishCtrl.load);

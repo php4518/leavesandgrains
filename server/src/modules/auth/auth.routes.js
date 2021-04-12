@@ -23,6 +23,9 @@ const paramValidation = {
 };
 
 /** POST /api/auth/login - Returns token if correct username and password is provided */
+router.route('/loginnn')
+  .get((req, res) => res.send('OK'));
+/** POST /api/auth/login - Returns token if correct username and password is provided */
 router.route('/login')
   .post(validate(paramValidation.login), authCtrl.login);
 

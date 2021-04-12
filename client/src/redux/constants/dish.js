@@ -1,0 +1,4 @@
+export const GET_DISHES = 'GET_DISHES';
+export const SET_DISHES = 'SET_DISHES';
+export const SHOW_DISHES_LOADING = 'SHOW_DISHES_LOADING';
+export const SHOW_DISHES_MESSAGE = 'SHOW_DISHES_MESSAGE';

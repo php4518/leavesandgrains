@@ -1,0 +1,4 @@
+export const GET_FUNDS = 'GET_FUNDS';
+export const SET_FUNDS = 'SET_FUNDS';
+export const SHOW_FUNDS_LOADING = 'SHOW_FUNDS_LOADING';
+export const SHOW_FUNDS_MESSAGE = 'SHOW_FUNDS_MESSAGE';

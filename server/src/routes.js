@@ -12,6 +12,7 @@ router.get('/health-check', (req, res) => res.send('OK'));
 
 // mount auth routes at /auth
 router.use('/auth', authRoutes);
+router.use('/dishes', dishRoutes);
 
 // Validating all the APIs with jwt token.
 router.use(expressJwt({
@@ -31,7 +32,5 @@ router.use(expressJwt({
 
 // mount user routes at /users
 router.use('/users', userRoutes);
-
-router.use('/dishes', dishRoutes);
 
 module.exports = router;

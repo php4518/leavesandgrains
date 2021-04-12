@@ -12,7 +12,9 @@
     "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
+    "axios": "0.21.1",
     "concurrently": "5.1.0",
-    "express-session": "1.17.1"
+    "express-session": "1.17.1",
+    "reactstrap": "8.9.0"
   }
 }
