@@ -4,9 +4,9 @@ const MenuHeader = () => {
   return (
     <div
       className="menu-header section-dark"
-      style={{ backgroundImage: "url(" + require("assets/img/menu-header.jpg").default + ")" }}
+      style={{backgroundImage: "url(" + require("assets/img/menu-header.jpg").default + ")"}}
     >
-      <div className="filter" />
+      <div className="filter"/>
     </div>
   );
 }

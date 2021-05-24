@@ -36,7 +36,7 @@ async function create(req, res, next) {
   book.owner = owner;
 
   try {
-    const foundBook = await Book.findOne({ bookName: book.bookName, owner }).exec();
+    const foundBook = await Book.findOne({bookName: book.bookName, owner}).exec();
     if (foundBook) {
       throw new APIError('Book name must be unique', httpStatus.CONFLICT, true);
     }
@@ -55,7 +55,7 @@ async function create(req, res, next) {
  * @returns {Book}
  */
 async function update(req, res, next) {
-  const { book } = req;
+  const {book} = req;
   book.bookName = req.body.bookName || book.bookName;
   book.author = req.body.author || book.author;
   book.isbn = req.body.isbn || book.isbn;
@@ -85,7 +85,7 @@ async function list(req, res, next) {
  * @returns {Book}
  */
 async function remove(req, res, next) {
-  const { book } = req;
+  const {book} = req;
   try {
     const deletedBook = await book.remove();
     return res.json(deletedBook);

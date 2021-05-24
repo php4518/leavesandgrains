@@ -6,7 +6,7 @@ const compress = require('compression');
 const methodOverride = require('method-override');
 const cors = require('cors');
 const httpStatus = require('http-status');
-const { ValidationError } = require('express-validation');
+const {ValidationError} = require('express-validation');
 const helmet = require('helmet');
 const routes = require('./routes');
 const config = require('./config');
@@ -29,15 +29,15 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
+// parse body params and attache them to req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 // mount all routes on /api path
 app.use('/api', routes);
 
 // admin panel
 app.use('/admin', adminRouter);
-
-// parse body params and attache them to req.body
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/public', express.static('public'));
 

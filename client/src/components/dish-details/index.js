@@ -1,10 +1,10 @@
 import React from "react";
-import {Row, Col, Modal, Nav, NavItem, NavLink, TabContent, TabPane, Table} from "reactstrap";
+import {Col, Modal, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import {allGainDetails, getPrice} from "../../helpers/utils";
 import {DISH_DETAILS_TAB} from "../../helpers/constants";
 import ImageCarousel from "../image-carousel";
 
-const DishDetails = ({ dish, show = false, toggleModal }) => {
+const DishDetails = ({dish = false, toggleModal}) => {
   const [activeTab, setActiveTab] = React.useState(DISH_DETAILS_TAB[0]);
   const toggle = (tab) => {
     if (activeTab !== tab) {
@@ -12,9 +12,9 @@ const DishDetails = ({ dish, show = false, toggleModal }) => {
     }
   };
 
-  if(!show) return null
+  if (!dish) return null
   return (
-    <Modal isOpen={show} toggle={toggleModal} size="xl" className="dish-details">
+    <Modal isOpen={!!dish} toggle={toggleModal} size="xl" className="dish-details">
       <div className="modal-body">
         <button
           aria-label="Close"
@@ -42,8 +42,8 @@ const DishDetails = ({ dish, show = false, toggleModal }) => {
                   <div className="nav-tabs-wrapper">
                     <Nav id="tabs" role="tablist" tabs>
                       {
-                        DISH_DETAILS_TAB.map(tab =>
-                          <NavItem>
+                        DISH_DETAILS_TAB.map((tab, i) =>
+                          <NavItem key={i}>
                             <NavLink
                               className={activeTab === tab ? "active" : ""}
                               onClick={() => toggle(tab)}
@@ -69,7 +69,7 @@ const DishDetails = ({ dish, show = false, toggleModal }) => {
                     <div className="nutritions">
                       {
                         dish.nutritions.map(({name, perServing}, index) =>
-                          <Row className="py-1">
+                          <Row className="py-1" key={index}>
                             <Col className="text-left">{name}</Col>
                             <Col className="text-right">{perServing}</Col>
                           </Row>
@@ -89,7 +89,7 @@ const DishDetails = ({ dish, show = false, toggleModal }) => {
                     </div>
                   </TabPane>
                   <TabPane tabId={DISH_DETAILS_TAB[2]}>
-                    <div className="main-details" dangerouslySetInnerHTML={{__html: dish.instructions || ''}} />
+                    <div className="main-details" dangerouslySetInnerHTML={{__html: dish.instructions || ''}}/>
                   </TabPane>
                 </TabContent>
               </div>

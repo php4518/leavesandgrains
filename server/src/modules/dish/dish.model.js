@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const _ = require('lodash');
 const APIError = require('../../helpers/APIError');
+const {MEALS_ENUM} = require('../../utils/constants');
 
 /**
  * Dish Schema
@@ -33,12 +34,12 @@ const DishSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum : ['MEALS','PLUS', 'BREAKFAST', 'SNACKS', 'DRINKS'],
-    default: 'MEALS',
+    enum: Object.keys(MEALS_ENUM),
+    default: MEALS_ENUM.MEALS,
   },
   proteinType: {
     type: String,
-    enum : ['LAMB', 'VEGAN', 'VEGETARIAN'],
+    enum: ['LAMB', 'VEGAN', 'VEGETARIAN'],
     default: 'VEGETARIAN',
   },
   instructions: {
@@ -77,7 +78,7 @@ const DishSchema = new mongoose.Schema({
     required: false,
     default: 0
   },
-  nutritions: [{ name: String, perServing: String }],
+  nutritions: [{name: String, perServing: String}],
   isActive: {
     type: Boolean,
     default: true,
@@ -116,9 +117,9 @@ DishSchema.statics = {
    * @param {number} limit - Limit number of dishes to be returned.
    * @returns {Promise<Dish[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list({skip = 0, limit = 50} = {}) {
     return this.find()
-      .sort({ createdAt: -1 })
+      .sort({createdAt: -1})
       .skip(+skip)
       .limit(+limit)
       .exec();
@@ -129,7 +130,19 @@ DishSchema.statics = {
    */
   getAll(filter = {}) {
     return this.find(filter)
-      .sort({ createdAt: -1 })
+      .sort({createdAt: -1})
+      .exec();
+  },
+  /**
+   * Query dishes
+   * @returns {Promise<Dish[]>}
+   */
+  async fetch(query = [], limit = 1) {
+    // let totalDocs = await this.countDocuments(query);
+    // let r = Math.floor(Math.random() * totalDocs);
+    // return this.find(query).limit(limit).skip(r);
+    return this.aggregate(query)
+      .sort({createdAt: -1})
       .exec();
   },
 };

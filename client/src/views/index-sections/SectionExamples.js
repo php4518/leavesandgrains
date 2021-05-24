@@ -16,7 +16,7 @@ function SectionExamples() {
                   alt="..."
                   className="img-rounded img-responsive"
                   src={require("assets/img/examples/landing-page.png").default}
-                  style={{ width: "100%" }}
+                  style={{width: "100%"}}
                 />
               </a>
               <Button
@@ -35,7 +35,7 @@ function SectionExamples() {
                   alt="..."
                   className="img-rounded img-responsive"
                   src={require("assets/img/examples/profile-page.png").default}
-                  style={{ width: "100%" }}
+                  style={{width: "100%"}}
                 />
               </a>
               <Button
@@ -50,7 +50,8 @@ function SectionExamples() {
             </Col>
           </Row>
         </Container>
-      </div>{" "}
+      </div>
+      {" "}
     </>
   );
 }

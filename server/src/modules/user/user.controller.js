@@ -1,4 +1,14 @@
 const User = require('./user.model');
+const otpGenerator = require('otp-generator');
+const config = require('../../config')
+const APIError = require('../../helpers/APIError');
+const httpStatus = require('http-status');
+const Razorpay = require('razorpay');
+
+const razorpay = new Razorpay({
+  key_id: config.razorpayId,
+  key_secret: config.razorpaySecret
+});
 
 /**
  * Load user and append to req.
@@ -37,17 +47,21 @@ async function getProfile(req, res, next) {
 /**
  * Update existing user
  * @property {string} req.body.email - The email of user.
- * @property {string} req.body.firstName - The firstName of user.
- * @property {string} req.body.lastName - The lastName of user.
+ * @property {string} req.body.name - The name of user.
  * @returns {User}
  */
 async function update(req, res, next) {
-  const { user } = req;
-  user.email = req.body.email;
-  user.firstName = req.body.firstName || user.firstName;
-  user.lastName = req.body.lastName || user.lastName;
-
+  const {user} = req;
   try {
+    if(user.email !== req.body.email) {
+      const foundUser = await User.findOne({email: req.body.email}).exec();
+      if (foundUser) {
+        throw new APIError('Email Address is already registered, try with other email address.', httpStatus.CONFLICT);
+      }
+    };
+    user.email = req.body.email;
+    user.name = req.body.name;
+
     const savedUser = await user.save();
     return res.json(savedUser.safeModel());
   } catch (error) {
@@ -62,9 +76,9 @@ async function update(req, res, next) {
  * @returns {User[]}
  */
 async function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
+  const {limit = 50, skip = 0} = req.query;
   try {
-    const users = await User.list({ limit, skip });
+    const users = await User.list({limit, skip});
     return res.json(users);
   } catch (error) {
     return next(error);
@@ -76,11 +90,36 @@ async function list(req, res, next) {
  * @returns {User}
  */
 async function remove(req, res, next) {
-  const { user } = req;
+  const {user} = req;
   try {
     const deletedUser = await user.remove();
     return res.json(deletedUser.safeModel());
   } catch (error) {
+    return next(error);
+  }
+}
+
+async function makePayment(req, res, next) {
+  const { amount, customer } = req.body;
+  const receipt = otpGenerator.generate(12, { digits: false, upperCase: false, specialChars: false });
+  const options = {
+    amount: parseInt(amount * 100),
+    currency: 'INR',
+    receipt,
+    payment_capture: 1,
+    notes: { customer }
+  }
+  console.log(options.amount);
+  try {
+    const response = await razorpay.orders.create(options)
+    console.log(response)
+    res.json({
+      id: response.id,
+      currency: response.currency,
+      amount: response.amount
+    })
+  } catch (error) {
+    console.log(error);
     return next(error);
   }
 }
@@ -92,4 +131,5 @@ module.exports = {
   update,
   list,
   remove,
+  makePayment
 };

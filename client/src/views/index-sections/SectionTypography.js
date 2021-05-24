@@ -60,7 +60,7 @@ function SectionTypography() {
                   diam nonummy nibh euismod tincidunt ut laoreet dolore magna
                   aliquam erat volutpat. Ut wisi enim ad minim veniam.
                 </p>
-                <br />
+                <br/>
                 <footer className="blockquote-footer">
                   Someone famous in{" "}
                   <cite title="source Title">Source Title</cite>
@@ -106,13 +106,13 @@ function SectionTypography() {
             <div className="typography-line">
               <h2>
                 <span className="note">Small tag</span>
-                Header with small subtitle <br />
+                Header with small subtitle <br/>
                 <small>".small" is a tag for the headers</small>
               </h2>
             </div>
           </Row>
         </div>
-        <br />
+        <br/>
         <div id="images">
           <Container>
             <div className="title">

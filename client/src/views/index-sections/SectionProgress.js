@@ -31,24 +31,24 @@ function SectionProgress() {
             <Col md="6">
               <div className="title">
                 <h3>Progress Bar</h3>
-                <br />
+                <br/>
               </div>
               <Progress
                 max="100"
                 value="25"
                 barClassName="progress-bar-success"
               />
-              <br />
-              <Progress max="100" value="50" barClassName="progress-bar-info" />
-              <br />
+              <br/>
+              <Progress max="100" value="50" barClassName="progress-bar-info"/>
+              <br/>
               <Progress
                 max="100"
                 value="100"
                 barClassName="progress-bar-danger"
               />
-              <br />
+              <br/>
               <Progress multi>
-                <Progress bar max="100" value="15" />
+                <Progress bar max="100" value="15"/>
                 <Progress
                   bar
                   barClassName="progress-bar-success"
@@ -66,7 +66,7 @@ function SectionProgress() {
             <Col md="6">
               <div className="title">
                 <h3>Pagination</h3>
-                <br />
+                <br/>
               </div>
               <nav aria-label="Page navigation example">
                 <Pagination>
@@ -76,7 +76,7 @@ function SectionProgress() {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i aria-hidden={true} className="fa fa-angle-left" />
+                      <i aria-hidden={true} className="fa fa-angle-left"/>
                       <span className="sr-only">Previous</span>
                     </PaginationLink>
                   </PaginationItem>
@@ -126,13 +126,13 @@ function SectionProgress() {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i aria-hidden={true} className="fa fa-angle-right" />
+                      <i aria-hidden={true} className="fa fa-angle-right"/>
                       <span className="sr-only">Next</span>
                     </PaginationLink>
                   </PaginationItem>
                 </Pagination>
               </nav>
-              <br />
+              <br/>
               <nav aria-label="...">
                 <Pagination>
                   <PaginationItem>
@@ -196,7 +196,7 @@ function SectionProgress() {
               </nav>
             </Col>
           </Row>
-          <br />
+          <br/>
           <Row>
             <Col md="6">
               <div className="title">
@@ -267,7 +267,8 @@ function SectionProgress() {
             </Col>
           </Row>
         </Container>
-      </div>{" "}
+      </div>
+      {" "}
     </>
   );
 }

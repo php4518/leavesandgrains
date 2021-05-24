@@ -19,21 +19,21 @@ import SectionDownload from "views/index-sections/SectionDownload.js";
 const Index = () => {
   return (
     <>
-      <Header />
+      <Header/>
       <div className="main">
-        <SectionButtons />
-        <SectionNavbars />
-        <SectionNavigation />
-        <SectionProgress />
-        <SectionNotifications />
-        <SectionTypography />
-        <SectionJavaScript />
-        <SectionCarousel />
-        <SectionNucleoIcons />
-        <SectionDark />
-        <SectionLogin />
-        <SectionExamples />
-        <SectionDownload />
+        <SectionButtons/>
+        <SectionNavbars/>
+        <SectionNavigation/>
+        <SectionProgress/>
+        <SectionNotifications/>
+        <SectionTypography/>
+        <SectionJavaScript/>
+        <SectionCarousel/>
+        <SectionNucleoIcons/>
+        <SectionDark/>
+        <SectionLogin/>
+        <SectionExamples/>
+        <SectionDownload/>
       </div>
     </>
   );

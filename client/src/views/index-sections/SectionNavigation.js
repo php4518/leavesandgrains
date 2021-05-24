@@ -35,9 +35,9 @@ function SectionNavigation() {
                   id="navbar-primary"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse navbar toggler="#navbar-primary">
                   <Nav className="ml-auto" navbar>
@@ -50,7 +50,7 @@ function SectionNavigation() {
                           aria-hidden={true}
                           className="nc-icon nc-compass-05"
                         />
-                         Discover
+                        Discover
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -62,7 +62,7 @@ function SectionNavigation() {
                           aria-hidden={true}
                           className="nc-icon nc-single-02"
                         />
-                         Profile
+                        Profile
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -74,7 +74,7 @@ function SectionNavigation() {
                           aria-hidden={true}
                           className="nc-icon nc-settings-gear-65"
                         />
-                         Settings
+                        Settings
                       </NavLink>
                     </NavItem>
                   </Nav>
@@ -96,9 +96,9 @@ function SectionNavigation() {
                   id="navbar-info"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse navbar toggler="#navbar-info">
                   <Nav className="ml-auto" navbar>
@@ -145,9 +145,9 @@ function SectionNavigation() {
                   id="navbar-success"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse
                   navbar
@@ -207,9 +207,9 @@ function SectionNavigation() {
                   id="navbar-warning"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse navbar toggler="#navbar-warning">
                   <Nav className="ml-auto" navbar>
@@ -229,7 +229,7 @@ function SectionNavigation() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="fa fa-twitter" />
+                        <i aria-hidden={true} className="fa fa-twitter"/>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -237,7 +237,7 @@ function SectionNavigation() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="fa fa-google-plus" />
+                        <i aria-hidden={true} className="fa fa-google-plus"/>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -245,7 +245,7 @@ function SectionNavigation() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="fa fa-instagram" />
+                        <i aria-hidden={true} className="fa fa-instagram"/>
                       </NavLink>
                     </NavItem>
                   </Nav>
@@ -267,9 +267,9 @@ function SectionNavigation() {
                   id="navbar-danger"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse
                   navbar
@@ -294,7 +294,7 @@ function SectionNavigation() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="fa fa-twitter" />
+                        <i aria-hidden={true} className="fa fa-twitter"/>
                         Tweet
                       </NavLink>
                     </NavItem>
@@ -303,7 +303,7 @@ function SectionNavigation() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="fa fa-pinterest" />
+                        <i aria-hidden={true} className="fa fa-pinterest"/>
                         Pin
                       </NavLink>
                     </NavItem>
@@ -326,9 +326,9 @@ function SectionNavigation() {
                   id="navbar-transparent"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse navbar toggler="#navbar-transparent">
                   <Nav className="ml-auto" navbar>
@@ -349,7 +349,7 @@ function SectionNavigation() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="fa fa-twitter" />
+                        <i aria-hidden={true} className="fa fa-twitter"/>
                         Twitter
                       </NavLink>
                     </NavItem>
@@ -358,7 +358,7 @@ function SectionNavigation() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="fa fa-instagram" />
+                        <i aria-hidden={true} className="fa fa-instagram"/>
                         Instagram
                       </NavLink>
                     </NavItem>
@@ -368,7 +368,8 @@ function SectionNavigation() {
             </Navbar>
           </div>
         </div>
-      </div>{" "}
+      </div>
+      {" "}
     </>
   );
 }

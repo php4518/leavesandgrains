@@ -1,8 +1,8 @@
 import React from "react";
-import {Card, Carousel, CarouselCaption, CarouselIndicators, CarouselItem, Col, Container, Row} from "reactstrap";
+import {Card, Carousel, CarouselCaption, CarouselIndicators, CarouselItem} from "reactstrap";
 import {getImageUrl} from "../../helpers/utils";
 
-const ImageCarousel = ({ items }) => {
+const ImageCarousel = ({items}) => {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [animating, setAnimating] = React.useState(false);
   const onExiting = () => {
@@ -38,16 +38,16 @@ const ImageCarousel = ({ items }) => {
             activeIndex={activeIndex}
             onClickHandler={goToIndex}
           />
-          {items.map((item) => {
+          {items.map((item, index) => {
             return (
               <CarouselItem
                 onExiting={onExiting}
                 onExited={onExited}
                 key={getImageUrl(item)}
               >
-                <img src={getImageUrl(item)} alt={item.altText} />
+                <img src={getImageUrl(item)} alt={item.altText}/>
                 <CarouselCaption
-                  captionText={item.caption}
+                  captionText={index.toString()}
                   captionHeader=""
                 />
               </CarouselItem>
@@ -66,7 +66,7 @@ const ImageCarousel = ({ items }) => {
                 }}
                 role="button"
               >
-                <span className="fa fa-angle-left" />
+                <span className="fa fa-angle-left"/>
                 <span className="sr-only">Previous</span>
               </a>
               <a
@@ -79,7 +79,7 @@ const ImageCarousel = ({ items }) => {
                 }}
                 role="button"
               >
-                <span className="fa fa-angle-right" />
+                <span className="fa fa-angle-right"/>
                 <span className="sr-only">Next</span>
               </a>
             </>

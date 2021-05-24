@@ -4,7 +4,7 @@ const gap = require("gulp-append-prepend");
 gulp.task("licenses", async function () {
   // this is to add Creative Tim licenses in the production mode for the minified js
   gulp
-    .src("build/static/js/*chunk.js", { base: "./" })
+    .src("build/static/js/*chunk.js", {base: "./"})
     .pipe(
       gap.prependText(`/*!
 =========================================================
@@ -12,19 +12,19 @@ Leaves and Grains
 =========================================================
 */`)
     )
-    .pipe(gulp.dest("./", { overwrite: true }));
+    .pipe(gulp.dest("./", {overwrite: true}));
 
   // this is to add Creative Tim licenses in the production mode for the minified html
   gulp
-    .src("build/index.html", { base: "./" })
+    .src("build/index.html", {base: "./"})
     .pipe(
       gap.prependText(``)
     )
-    .pipe(gulp.dest("./", { overwrite: true }));
+    .pipe(gulp.dest("./", {overwrite: true}));
 
   // this is to add Creative Tim licenses in the production mode for the minified css
   gulp
-    .src("build/static/css/*chunk.css", { base: "./" })
+    .src("build/static/css/*chunk.css", {base: "./"})
     .pipe(
       gap.prependText(`/*!
 =========================================================
@@ -32,6 +32,6 @@ Leaves and Grains
 =========================================================
 */`)
     )
-    .pipe(gulp.dest("./", { overwrite: true }));
+    .pipe(gulp.dest("./", {overwrite: true}));
   return;
 });

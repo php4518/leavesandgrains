@@ -29,7 +29,7 @@ function SectionNotifications() {
               aria-label="Close"
               onClick={() => setAlertSuccess(false)}
             >
-              <i className="nc-icon nc-simple-remove" />
+              <i className="nc-icon nc-simple-remove"/>
             </button>
             <span>This is a notification with close button.</span>
           </Container>
@@ -48,10 +48,10 @@ function SectionNotifications() {
                 aria-label="Close"
                 onClick={() => setAlertWarning(false)}
               >
-                <i className="nc-icon nc-simple-remove" />
+                <i className="nc-icon nc-simple-remove"/>
               </button>
               <div className="message">
-                <i className="nc-icon nc-bell-55" /> This is a notification with
+                <i className="nc-icon nc-bell-55"/> This is a notification with
                 close button and icon.
               </div>
             </div>
@@ -67,10 +67,10 @@ function SectionNotifications() {
                 aria-label="Close"
                 onClick={() => setAlertDanger(false)}
               >
-                <i className="nc-icon nc-simple-remove" />
+                <i className="nc-icon nc-simple-remove"/>
               </button>
               <div className="message">
-                <i className="nc-icon nc-bell-55" /> This is a notification with
+                <i className="nc-icon nc-bell-55"/> This is a notification with
                 close button and icon and have many lines. You can see that the
                 icon and the close button are always vertically aligned. This is
                 a beautiful notification. So you don't have to worry about the

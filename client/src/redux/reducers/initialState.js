@@ -1,6 +1,7 @@
 const initialState = {
-  funds: { loading: false, funds: [], message: '' },
-  dishes: { loading: false, dishes: [], message: '' }
+  dishes: { dishes: [] },
+  cart: { mealPlans: [], individualMeals: {} },
+  user: { userAddresses: [], orders: [] }
 };
 export default initialState;
 

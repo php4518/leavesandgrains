@@ -2,17 +2,18 @@ const config = require('../config');
 const User = require('../modules/user/user.model');
 
 const addAdminUser = async () => {
-  await User.updateOne(
-    { email: config.adminEmail },
-    { $set: {
-        password: User.generatePassword(config.adminPassword),
-        role: 'ADMIN',
-        firstName: 'Admin',
-        lastName: 'Admin'
-      }
-    },
-    { upsert: true }
-  ).exec();
+  const admin = await User.findOne({email: config.adminEmail}).exec();
+  if (!admin) {
+    const adminUser = new User({
+      email: config.adminEmail,
+      password: User.generatePassword(config.adminPassword),
+      role: 'ADMIN',
+      name: 'Admin',
+    });
+    await adminUser.save();
+  } else {
+    console.log('ADMIN ALREADY EXISTS');
+  }
 }
 
 const seedDB = async () => {

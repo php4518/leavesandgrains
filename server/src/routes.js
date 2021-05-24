@@ -2,8 +2,13 @@ const express = require('express');
 const expressJwt = require('express-jwt');
 const config = require('./config');
 const userRoutes = require('./modules/user/user.routes');
+const addressRoutes = require('./modules/address/address.route');
+const orderRoutes = require('./modules/order/order.routes');
+const adminOrderRoutes = require('./modules/admin-order/admin-order.routes');
 const authRoutes = require('./modules/auth/auth.routes');
 const dishRoutes = require('./modules/dish/dish.routes');
+const mealRoutes = require('./modules/meals/meals.routes');
+const supportRoutes = require('./modules/support/support.routes');
 
 const router = express.Router();
 
@@ -13,6 +18,9 @@ router.get('/health-check', (req, res) => res.send('OK'));
 // mount auth routes at /auth
 router.use('/auth', authRoutes);
 router.use('/dishes', dishRoutes);
+router.use('/meals', mealRoutes);
+router.use('/support', supportRoutes);
+router.use('/admin-order', adminOrderRoutes);
 
 // Validating all the APIs with jwt token.
 router.use(expressJwt({
@@ -32,5 +40,7 @@ router.use(expressJwt({
 
 // mount user routes at /users
 router.use('/users', userRoutes);
+router.use('/address', addressRoutes);
+router.use('/order', orderRoutes);
 
 module.exports = router;

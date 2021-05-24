@@ -1,14 +1,16 @@
-@media screen and (max-width: 320px){
+@media screen and (max-width: 320px) {
   .index {
     .presentation-subtitle {
       margin-bottom: 100px;
     }
+
     .category.category-absolute {
       margin-top: 20px;
     }
   }
 }
-@media screen and (max-width: 374px){
+
+@media screen and (max-width: 374px) {
   .index {
     .presentation-subtitle {
       margin-bottom: 100px;
@@ -17,14 +19,16 @@
   nav[aria-label="pagination"] {
     justify-content: center;
     text-align: center;
+
     .pagination {
       display: inline-block;
+
       .page-item {
         margin-bottom: 5px;
       }
     }
   }
   .register-page .page-header .container {
-    margin-top: 7rem!important;
+    margin-top: 7rem !important;
   }
 }

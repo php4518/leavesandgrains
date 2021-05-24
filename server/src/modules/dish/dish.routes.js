@@ -11,11 +11,11 @@ router.route('/:dishId')
   /** GET /api/dishes/:dishId - Get dish */
   .get(dishCtrl.get)
 
-  /** PUT /api/dishes/:dishId - Update dish */
-  // .put(validate(paramValidation.updateBook), dishCtrl.update)
+/** PUT /api/dishes/:dishId - Update dish */
+// .put(validate(paramValidation.updateBook), dishCtrl.update)
 
-  /** DELETE /api/dishes/:dishId - Delete dish */
-  // .delete(dishCtrl.remove);
+/** DELETE /api/dishes/:dishId - Delete dish */
+// .delete(dishCtrl.remove);
 
 /** Load dish when API with dishId route parameter is hit */
 router.param('dishId', dishCtrl.load);

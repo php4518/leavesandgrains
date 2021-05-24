@@ -71,7 +71,7 @@ describe('## User APIs', () => {
 
   describe('# POST /api/auth/login', () => {
     it('should login the new user', (done) => {
-      const loginPayload = { email, password };
+      const loginPayload = {email, password};
       request(server)
         .post('/api/auth/login')
         .send(loginPayload)
@@ -90,7 +90,7 @@ describe('## User APIs', () => {
         .catch(done);
     });
     it('should error when wrong password is provided', (done) => {
-      const loginPayload = { email, password: faker.random.alphaNumeric(8) };
+      const loginPayload = {email, password: faker.random.alphaNumeric(8)};
       request(server)
         .post('/api/auth/login')
         .send(loginPayload)
@@ -107,7 +107,7 @@ describe('## User APIs', () => {
     it('should get user details', (done) => {
       request(server)
         .get(`/api/users/${user._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.email).to.equal(user.email);
@@ -136,7 +136,7 @@ describe('## User APIs', () => {
     it('should report error with message - Not found, when user does not exists', (done) => {
       request(server)
         .get('/api/users/56c787ccc67fc16ccc1a5e92')
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.equal('No such user exists!');
@@ -152,7 +152,7 @@ describe('## User APIs', () => {
       const payload = _.pick(user, ['firstName', 'lastName', 'email']);
       request(server)
         .put(`/api/users/${user._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .send(payload)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -170,7 +170,7 @@ describe('## User APIs', () => {
     it('should get all users', (done) => {
       request(server)
         .get('/api/users')
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body).to.be.an('array');
@@ -185,7 +185,7 @@ describe('## User APIs', () => {
       const invalidId = '56z787zzz67fc';
       request(server)
         .get(`/api/users/${invalidId}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.INTERNAL_SERVER_ERROR)
         .then((res) => {
           expect(res.body.message).to.equal(`Cast to ObjectId failed for value "${invalidId}" at path "_id" for model "User"`);
@@ -199,7 +199,7 @@ describe('## User APIs', () => {
     it('should get user profile', (done) => {
       request(server)
         .get('/api/users/profile')
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.email).to.equal(user.email);
@@ -215,7 +215,7 @@ describe('## User APIs', () => {
     it('should delete user', (done) => {
       request(server)
         .delete(`/api/users/${user._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.email).to.equal(user.email);
@@ -229,7 +229,7 @@ describe('## User APIs', () => {
     it('should throw 404 error if the user was already deleted', (done) => {
       request(server)
         .delete(`/api/users/${user._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.be.equal('No such user exists!');
@@ -240,7 +240,7 @@ describe('## User APIs', () => {
     it('should throw 404 error when requesting user profile when user is deleted', (done) => {
       request(server)
         .get('/api/users/profile')
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.be.equal('No such user exists!');

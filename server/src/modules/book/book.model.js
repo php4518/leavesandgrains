@@ -76,9 +76,9 @@ BookSchema.statics = {
    * @param {number} limit - Limit number of books to be returned.
    * @returns {Promise<Book[]>}
    */
-  listLazy({ skip = 0, limit = 50 } = {}) {
+  listLazy({skip = 0, limit = 50} = {}) {
     return this.find()
-      .sort({ createdAt: -1 })
+      .sort({createdAt: -1})
       .skip(skip)
       .limit(limit)
       .populate('owner')

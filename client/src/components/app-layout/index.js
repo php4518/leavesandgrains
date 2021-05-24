@@ -2,11 +2,13 @@ import React from 'react';
 import NavigationBar from 'components/nav-bar';
 import Footer from 'components/footer';
 
-const AppLayout = ({ children }) => (
+const AppLayout = ({children}) => (
   <main>
-    <NavigationBar />
-    {children}
-    <Footer />
+    <NavigationBar/>
+    <div className="app-layout">
+      {children}
+    </div>
+    <Footer/>
   </main>
 );
 

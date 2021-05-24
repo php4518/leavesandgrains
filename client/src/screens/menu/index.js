@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
 import {getDishes} from 'redux/actions/dish';
+import {addIndividualMealToCart} from 'redux/actions/cart';
 import DishCard from "../../components/dish-card";
 import DishDetails from "../../components/dish-details";
 import MenuHeader from "../../components/header/menuHeader";
 import {CALORIES_TYPES, CARBS_TYPES, FAT_TYPES, MEAL_TYPES, PROTEIN_TYPES, SORT_TYPES} from "../../helpers/constants";
+import AppAlert from "../../components/alert";
+
 const defaultFilters = {
   categories: [],
   proteins: [],
@@ -17,49 +20,55 @@ const defaultFilters = {
 };
 
 const Menu = (props) => {
+  const dispatch = useDispatch();
+  const { allDishes, dishStatus, individualMeals } = useSelector(({ dish, cart }) => ({
+    allDishes: dish.dishes,
+    dishStatus: dish.dishStatus,
+    individualMeals: cart.individualMeals
+  }));
+
   const [dishes, setDishes] = useState([]);
   const [dishDetail, showDishDetails] = useState(null);
   const [filters, setFilters] = useState(defaultFilters);
-  useEffect(props.getDishes, []); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => setDishes(props.dishes), [props.dishes]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => dispatch(getDishes()), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => setDishes(allDishes), [allDishes]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const filterDishes = (filterObj) => {
-    let currentDishes = [...props.dishes];
+    let currentDishes = [...allDishes];
     currentDishes = currentDishes.filter(dish => {
       let categoriesFlag = true;
       let proteinsFlag = true;
       let caloriesFlag = true;
       let carbsFlag = true;
       let fatsFlag = true;
-      if(filterObj.categories.length) {
+      if (filterObj.categories.length) {
         categoriesFlag = filterObj.categories.includes(dish.category)
       }
-      if(filterObj.proteins.length) {
+      if (filterObj.proteins.length) {
         proteinsFlag = filterObj.proteins.includes(dish.proteinType)
       }
-      if(filterObj.calories) {
-        debugger
-        if(filterObj.calories === "< 200g") {
+      if (filterObj.calories) {
+        if (filterObj.calories === "< 200g") {
           caloriesFlag = dish.calories < 200
-        } else if(filterObj.calories === "> 400g") {
+        } else if (filterObj.calories === "> 400g") {
           caloriesFlag = dish.calories > 400
         } else {
           caloriesFlag = dish.calories === 200 || dish.calories === 400 || (dish.calories > 200 && dish.calories < 400)
         }
       }
-      if(filterObj.carbs) {
-        if(filterObj.carbs === "< 20g") {
+      if (filterObj.carbs) {
+        if (filterObj.carbs === "< 20g") {
           carbsFlag = dish.carbs < 20
-        } else if(filterObj.carbs === "> 40g") {
+        } else if (filterObj.carbs === "> 40g") {
           carbsFlag = dish.carbs > 40
         } else {
           carbsFlag = dish.carbs === 20 || dish.carbs === 40 || (dish.carbs > 20 && dish.carbs < 40)
         }
       }
-      if(filterObj.fats) {
-        if(filterObj.fats === "< 20g") {
+      if (filterObj.fats) {
+        if (filterObj.fats === "< 20g") {
           fatsFlag = dish.fats < 20
-        } else if(filterObj.fats === "> 40g") {
+        } else if (filterObj.fats === "> 40g") {
           fatsFlag = dish.fats > 40
         } else {
           fatsFlag = dish.fats === 20 || dish.fats === 40 || (dish.fats > 20 && dish.carbs < 40)
@@ -67,24 +76,25 @@ const Menu = (props) => {
       }
       return categoriesFlag && proteinsFlag && caloriesFlag && carbsFlag && fatsFlag;
     })
-    if(filterObj.sort) {
-      if(filterObj.sort === "NEW") {
+    if (filterObj.sort) {
+      if (filterObj.sort === "NEW") {
         currentDishes = _.orderBy(currentDishes, ['createdAt'], ['desc']);
-      } else if(filterObj.sort === "Name A-Z") {
+      } else if (filterObj.sort === "Name A-Z") {
         currentDishes = _.sortBy(currentDishes, 'title');
       } else {
         currentDishes = _.sortBy(currentDishes, 'calories');
       }
     }
     setDishes(currentDishes);
-  }
+  };
+
   const updateFilters = (e) => {
     let key = e.target.name;
     let value = e.target.labels[0].textContent.trim();
     let currentValues;
-    if(e.target.type === "checkbox") {
+    if (e.target.type === "checkbox") {
       currentValues = [...filters[key]];
-      if(e.target.checked) {
+      if (e.target.checked) {
         currentValues.push(value);
       } else {
         currentValues.splice(currentValues.indexOf(value), 1);
@@ -103,10 +113,19 @@ const Menu = (props) => {
   const clearFilters = () => {
     setFilters(defaultFilters);
     filterDishes(defaultFilters);
-  }
+  };
+
+  const handleAddItem = (item) => {
+    if (props.onMealSelect) {
+      props.onMealSelect(item)
+    } else {
+      dispatch(addIndividualMealToCart(item));
+    }
+  };
+
   return (
     <div className="menu-page">
-      <MenuHeader />
+      {!props.hideHeader && <MenuHeader/>}
       <Row className="mb-5 mx-2">
         <Col md="3">
           <div className="menu-page-filter">
@@ -128,8 +147,8 @@ const Menu = (props) => {
                 </div>
                 <Row>
                   {
-                    MEAL_TYPES.map(type =>
-                      <Col md="6">
+                    MEAL_TYPES.map((type, i) =>
+                      <Col md="6" key={i}>
                         <FormGroup check>
                           <Label check>
                             <Input
@@ -138,7 +157,7 @@ const Menu = (props) => {
                               checked={filters.categories.includes(type)}
                               onChange={updateFilters}
                             />
-                            {type} <span className="form-check-sign" />
+                            {type} <span className="form-check-sign"/>
                           </Label>
                         </FormGroup>
                       </Col>
@@ -152,8 +171,8 @@ const Menu = (props) => {
                 </div>
                 <Row>
                   {
-                    PROTEIN_TYPES.map(type =>
-                      <Col md="6">
+                    PROTEIN_TYPES.map((type, i) =>
+                      <Col md="6" key={i}>
                         <FormGroup check>
                           <Label check>
                             <Input
@@ -162,7 +181,7 @@ const Menu = (props) => {
                               checked={filters.proteins.includes(type)}
                               onChange={updateFilters}
                             />
-                            {type} <span className="form-check-sign" />
+                            {type} <span className="form-check-sign"/>
                           </Label>
                         </FormGroup>
                       </Col>
@@ -177,8 +196,8 @@ const Menu = (props) => {
                   </div>
                   <Row className="m-0">
                     {
-                      CALORIES_TYPES.map(type =>
-                        <Col md="4" className="pl-0 pr-0">
+                      CALORIES_TYPES.map((type, i) =>
+                        <Col md="4" className="pl-0 pr-0" key={i}>
                           <div className="form-check-radio">
                             <Label check>
                               <Input
@@ -188,7 +207,7 @@ const Menu = (props) => {
                                 checked={filters.calories === type}
                                 onChange={updateFilters}
                               />
-                              {type} <span className="form-check-sign" />
+                              {type} <span className="form-check-sign"/>
                             </Label>
                           </div>
                         </Col>
@@ -204,8 +223,8 @@ const Menu = (props) => {
                   </div>
                   <Row className="m-0">
                     {
-                      CARBS_TYPES.map(type =>
-                        <Col md="4" className="pl-0 pr-0">
+                      CARBS_TYPES.map((type, i) =>
+                        <Col md="4" className="pl-0 pr-0" key={i}>
                           <div className="form-check-radio">
                             <Label check>
                               <Input
@@ -215,7 +234,7 @@ const Menu = (props) => {
                                 checked={filters.carbs === type}
                                 onChange={updateFilters}
                               />
-                              {type} <span className="form-check-sign" />
+                              {type} <span className="form-check-sign"/>
                             </Label>
                           </div>
                         </Col>
@@ -231,8 +250,8 @@ const Menu = (props) => {
                   </div>
                   <Row className="m-0">
                     {
-                      FAT_TYPES.map(type =>
-                        <Col md="4" className="pl-0 pr-0">
+                      FAT_TYPES.map((type, i) =>
+                        <Col md="4" className="pl-0 pr-0" key={i}>
                           <div className="form-check-radio">
                             <Label check>
                               <Input
@@ -242,7 +261,7 @@ const Menu = (props) => {
                                 checked={filters.fats === type}
                                 onChange={updateFilters}
                               />
-                              {type} <span className="form-check-sign" />
+                              {type} <span className="form-check-sign"/>
                             </Label>
                           </div>
                         </Col>
@@ -257,8 +276,8 @@ const Menu = (props) => {
                     <h3>Sort</h3>
                   </div>
                   {
-                    SORT_TYPES.map(type =>
-                      <div className="form-check-radio">
+                    SORT_TYPES.map((type, i) =>
+                      <div className="form-check-radio" key={i}>
                         <Label check>
                           <Input
                             id="sort"
@@ -267,7 +286,7 @@ const Menu = (props) => {
                             checked={filters.sort === type}
                             onChange={updateFilters}
                           />
-                          {type} <span className="form-check-sign" />
+                          {type} <span className="form-check-sign"/>
                         </Label>
                       </div>
                     )
@@ -280,30 +299,27 @@ const Menu = (props) => {
         <Col md="9">
           <div className="title">
             <h2 className="font-weight-bold">MEALS</h2>
-            <div className="description mt-2 mb-4">Enjoy our range of 50+ high-protein meals crafted by our Chef and Nutritionist. Nourishing and packed with flavour.</div>
+            <div className="description mt-2 mb-4">Enjoy our range of 50+ high-protein meals crafted by our Chef and
+              Nutritionist. Nourishing and packed with flavour.
+            </div>
           </div>
+          <AppAlert alert={dishStatus} />
           <Row>
             {
               (!dishes.length) ? <Col className="no-data-available">No meals available</Col> :
-              dishes.map((item, index) =>
-                <Col key={`item-card-${item._id}-${index}`} lg="4" md="6" sm="6">
-                  <DishCard dish={item} onClick={showDishDetails}/>
-                </Col>
-              )
+                dishes.map((item, index) =>
+                  <Col key={index} lg="4" md="6" sm="6">
+                    <DishCard dish={item} onClick={showDishDetails} addItem={handleAddItem}
+                              quantity={individualMeals[item._id]?.quantity}/>
+                  </Col>
+                )
             }
           </Row>
         </Col>
       </Row>
-      <DishDetails dish={dishDetail} show={!!dishDetail} toggleModal={() => showDishDetails(null)} />
+      <DishDetails dish={dishDetail} toggleModal={() => showDishDetails(null)}/>
     </div>
   );
 }
 
-const mapStateToProps = ({ dish }) => {
-  const { dishes: { dishes, loading, message } = {} } = dish;
-  return { loading, dishes, message };
-};
-
-const mapDispatchToProps = { getDishes };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default Menu;

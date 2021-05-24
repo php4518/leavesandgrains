@@ -17,11 +17,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
+  name: {
     type: String,
     required: true,
   },
@@ -91,7 +87,7 @@ UserSchema.statics = {
    * @returns {Promise<User, APIError>}
    */
   async getByEmail(email) {
-    const user = await this.findOne({ email }).exec();
+    const user = await this.findOne({email}).exec();
     if (!user) {
       throw new APIError('No such user exists!', httpStatus.NOT_FOUND);
     }
@@ -104,9 +100,9 @@ UserSchema.statics = {
    * @param {number} limit - Limit number of users to be returned.
    * @returns {Promise<User[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list({skip = 0, limit = 50} = {}) {
     return this.find()
-      .sort({ createdAt: -1 })
+      .sort({createdAt: -1})
       .skip(+skip)
       .limit(+limit)
       .exec();

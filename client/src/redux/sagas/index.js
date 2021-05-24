@@ -1,10 +1,12 @@
 import {all} from 'redux-saga/effects';
-import home from './home';
 import dish from './dish';
+import cart from './cart';
+import user from './user';
 
 export default function* rootSaga(getState) {
   yield all([
-    home(),
     dish(),
+    cart(),
+    user(),
   ]);
 }

@@ -89,7 +89,7 @@ function SectionJavaScript() {
                       Never mind
                     </Button>
                   </div>
-                  <div className="divider" />
+                  <div className="divider"/>
                   <div className="right-side">
                     <Button className="btn-link" color="danger" type="button">
                       Delete
@@ -179,7 +179,7 @@ function SectionJavaScript() {
                 </PopoverBody>
               </UncontrolledPopover>
             </Col>
-            <br />
+            <br/>
             <Col md="6">
               <div className="title">
                 <h3>Datepicker</h3>
@@ -196,7 +196,7 @@ function SectionJavaScript() {
                       <InputGroupAddon addonType="append">
                         <InputGroupText>
                           <span className="glyphicon glyphicon-calendar">
-                            <i aria-hidden={true} className="fa fa-calendar" />
+                            <i aria-hidden={true} className="fa fa-calendar"/>
                           </span>
                         </InputGroupText>
                       </InputGroupAddon>
@@ -275,7 +275,8 @@ function SectionJavaScript() {
             <h3>Carousel</h3>
           </div>
         </Container>
-      </div>{" "}
+      </div>
+      {" "}
     </>
   );
 }

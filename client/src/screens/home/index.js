@@ -1,14 +1,17 @@
 import React, {useEffect} from "react";
-import {connect} from 'react-redux'
+import {useDispatch, useSelector} from "react-redux";
 import {getDishes} from 'redux/actions/dish';
 import Header from "../../components/header/homeHeader";
 import {Button, Col, Container, Row} from "reactstrap";
 import DishCard from "../../components/dish-card";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import AppAlert from "../../components/alert";
 
-const Home = (props) => {
+const Home = () => {
+  const dispatch = useDispatch();
+  const {dishes, dishStatus} = useSelector(({ dish: { dishes, dishStatus } }) => ({dishes, dishStatus}));
 
-  useEffect(props.getDishes, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => dispatch(getDishes()), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const history = useHistory();
   const goto = (page) => history.push(`/${page}`);
@@ -19,9 +22,10 @@ const Home = (props) => {
       <div className="title text-center">
         <h2 className="font-weight-bold mb-5">Our Meals</h2>
         <Container>
+          <AppAlert alert={dishStatus} />
           <Row className="justify-content-center">
             {
-              [...props.dishes, ...props.dishes].slice(0, 4).map(item =>
+              dishes.slice(0, 4).map(item =>
                 <Col key={`item-card-${item._id}`} md="3" sm="6">
                   <DishCard dish={item} showDetails={false}/>
                 </Col>
@@ -40,11 +44,4 @@ const Home = (props) => {
   );
 }
 
-const mapStateToProps = ({ dish }) => {
-  const { dishes: { dishes, loading, message } = {} } = dish;
-  return { loading, dishes, message };
-};
-
-const mapDispatchToProps = { getDishes };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

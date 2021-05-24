@@ -1,37 +1,28 @@
-import {SET_DISHES, SHOW_DISHES_LOADING, SHOW_DISHES_MESSAGE} from '../constants/dish';
+import {SET_DISHES, SET_MEALS, DISH_STATUS} from '../constants/dish';
 import initialState from "./initialState";
 
 // const initState = {
 //   dishes: { loading: false, dishes: [], message: '' }
 // };
 
-const dish = (state = initialState, action) => {
+const dish = (state = initialState.dishes, action) => {
   switch (action.type) {
-    case SHOW_DISHES_LOADING: {
+    case DISH_STATUS: {
       return {
         ...state,
-        dishes: {
-          ...state.dishes,
-          loading: action.loading,
-        }
-      }
-    }
-    case SHOW_DISHES_MESSAGE: {
-      return {
-        ...state,
-        dishes: {
-          ...state.dishes,
-          message: action.message,
-        }
+        dishStatus: action.payload,
       }
     }
     case SET_DISHES: {
       return {
         ...state,
-        dishes: {
-          ...state.dishes,
-          dishes: [...action.dishes],
-        }
+        dishes: [...action.dishes],
+      }
+    }
+    case SET_MEALS: {
+      return {
+        ...state,
+        meals: action.meals,
       }
     }
     default:

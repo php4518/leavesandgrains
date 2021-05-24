@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {
   Button,
   Col,
-  Container,
+  Container, Form,
   FormGroup,
   Input,
   Label,
@@ -13,35 +13,42 @@ import {
   TabContent,
   TabPane,
 } from "reactstrap";
+import MenuHeader from "../../components/header/menuHeader";
+import AppAlert from "../../components/alert";
+import {useDispatch, useSelector} from "react-redux";
+import {useLocation} from "react-router";
+import {contactSupport} from "../../redux/actions/user";
 
 const Contact = () => {
-  const [activeTab, setActiveTab] = useState("1");
+  const {state: { order } = {}} = useLocation();
+  const dispatch = useDispatch();
+  const { userStatus, currentUser } = useSelector(({ user }) => {
+    const { userStatus , currentUser } = user;
+    return { userStatus , currentUser };
+  });
+  const { _id: customer, email = '', name = '' } = currentUser;
 
-  const toggle = (tab) => {
-    if (activeTab !== tab) {
-      setActiveTab(tab);
-    }
+  const [contactFields, setContactFields] = useState({
+    customer,
+    order,
+    email,
+    name,
+    subject: '',
+    description: '',
+  });
+
+  const handleInputChange = (e) => setContactFields({...contactFields, [e.target.name]: e.target.value});
+
+  const handleSupportQuery = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(contactSupport(contactFields));
   };
 
-  useEffect(() => {
-    document.body.classList.add("landing-page");
-    return function cleanup() {
-      document.body.classList.remove("landing-page");
-    };
-  });
   return (
     <>
-      <div
-        style={{
-          backgroundImage:
-            "url(" + require("assets/img/fabio-mangione.jpg").default + ")",
-        }}
-        className="page-header page-header-xs"
-        data-parallax={true}
-      >
-        <div className="filter" />
-      </div>
-      <div className="section profile-content">
+      <MenuHeader/>
+      <div className="section profile-content contact-page">
         <Container>
           <div className="owner">
             <div className="avatar">
@@ -51,135 +58,58 @@ const Contact = () => {
                 src={require("assets/img/faces/joe-gardner-2.jpg").default}
               />
             </div>
-            <div className="name">
-              <h4 className="title">
-                Jane Faker <br />
-              </h4>
-              <h6 className="description">Music Producer</h6>
-            </div>
+            <h2 className="title">Contact Us</h2>
           </div>
           <Row>
-            <Col className="ml-auto mr-auto text-center" md="6">
-              <p>
-                An artist of considerable range, Jane Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.
-              </p>
-              <br />
-              <Button className="btn-round" color="default" outline>
-                <i className="fa fa-cog" /> Settings
-              </Button>
+            <Col className="ml-auto mr-auto" md="6">
+              <Form onSubmit={handleSupportQuery}>
+                <label>Name</label>
+                <Input
+                  name="name"
+                  value={currentUser.name}
+                  placeholder="Name"
+                  type="text"
+                  required
+                  onChange={handleInputChange}
+                />
+                <label>Email</label>
+                <Input
+                  name="email"
+                  value={currentUser.email}
+                  placeholder="Email"
+                  type="email"
+                  required
+                  onChange={handleInputChange}
+                />
+                <label>Subject</label>
+                <Input
+                  name="subject"
+                  value={contactFields.subject}
+                  placeholder="Subject"
+                  required
+                  onChange={handleInputChange}
+                />
+                <label>Description</label>
+                <Input
+                  name="description"
+                  value={contactFields.description}
+                  placeholder="Description"
+                  type="textarea"
+                  required
+                  onChange={handleInputChange}
+                />
+                <center>
+                  <Button className="btn-round mt-4 mx-auto w-25" color="info"> submit </Button>
+                </center>
+                <AppAlert alert={userStatus}/>
+              </Form>
+
             </Col>
           </Row>
-          <br />
-          <div className="nav-tabs-navigation">
-            <div className="nav-tabs-wrapper">
-              <Nav role="tablist" tabs>
-                <NavItem>
-                  <NavLink
-                    className={activeTab === "1" ? "active" : ""}
-                    onClick={() => {
-                      toggle("1");
-                    }}
-                  >
-                    Follows
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={activeTab === "2" ? "active" : ""}
-                    onClick={() => {
-                      toggle("2");
-                    }}
-                  >
-                    Following
-                  </NavLink>
-                </NavItem>
-              </Nav>
-            </div>
-          </div>
-          {/* Tab panes */}
-          <TabContent className="following" activeTab={activeTab}>
-            <TabPane tabId="1" id="follows">
-              <Row>
-                <Col className="ml-auto mr-auto" md="6">
-                  <ul className="list-unstyled follows">
-                    <li>
-                      <Row>
-                        <Col className="ml-auto mr-auto" lg="2" md="4" xs="4">
-                          <img
-                            alt="..."
-                            className="img-circle img-no-padding img-responsive"
-                            src={
-                              require("assets/img/faces/clem-onojeghuo-2.jpg")
-                                .default
-                            }
-                          />
-                        </Col>
-                        <Col className="ml-auto mr-auto" lg="7" md="4" xs="4">
-                          <h6>
-                            Flume <br />
-                            <small>Musical Producer</small>
-                          </h6>
-                        </Col>
-                        <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
-                          <FormGroup check>
-                            <Label check>
-                              <Input
-                                defaultChecked
-                                defaultValue=""
-                                type="checkbox"
-                              />
-                              <span className="form-check-sign" />
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </li>
-                    <hr />
-                    <li>
-                      <Row>
-                        <Col className="mx-auto" lg="2" md="4" xs="4">
-                          <img
-                            alt="..."
-                            className="img-circle img-no-padding img-responsive"
-                            src={
-                              require("assets/img/faces/ayo-ogunseinde-2.jpg")
-                                .default
-                            }
-                          />
-                        </Col>
-                        <Col lg="7" md="4" xs="4">
-                          <h6>
-                            Banks <br />
-                            <small>Singer</small>
-                          </h6>
-                        </Col>
-                        <Col lg="3" md="4" xs="4">
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign" />
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </li>
-                  </ul>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane className="text-center" tabId="2" id="following">
-              <h3 className="text-muted">Not following anyone yet :(</h3>
-              <Button className="btn-round" color="warning">
-                Find artists
-              </Button>
-            </TabPane>
-          </TabContent>
+          <br/>
         </Container>
       </div>
-      </>
+    </>
   );
 }
 

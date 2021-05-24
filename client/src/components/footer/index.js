@@ -15,7 +15,7 @@ const Footer = () => {
                   rel="noreferrer"
                   title="Follow us on Twitter"
                 >
-                  <i className="fa fa-twitter" />
+                  <i className="fa fa-twitter"/>
                   <p className="d-lg-none">Twitter</p>
                 </a>
               </li>
@@ -26,7 +26,7 @@ const Footer = () => {
                   rel="noreferrer"
                   title="Like us on Facebook"
                 >
-                  <i className="fa fa-facebook-square" />
+                  <i className="fa fa-facebook-square"/>
                   <p className="d-lg-none">Facebook</p>
                 </a>
               </li>
@@ -37,7 +37,7 @@ const Footer = () => {
                   rel="noreferrer"
                   title="Follow us on Instagram"
                 >
-                  <i className="fa fa-instagram" />
+                  <i className="fa fa-instagram"/>
                   <p className="d-lg-none">Instagram</p>
                 </a>
               </li>
@@ -46,7 +46,7 @@ const Footer = () => {
           <div className="credits ml-auto">
             <span className="copyright">
               © {new Date().getFullYear()}, made with{" "}
-              <i className="fa fa-heart heart" /> by Leaves and Grains
+              <i className="fa fa-heart heart"/> by Leaves and Grains
             </span>
           </div>
         </Row>

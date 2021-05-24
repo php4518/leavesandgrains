@@ -1,9 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const AdminBro = require('admin-bro');
 const uploadFeature = require('@admin-bro/upload')
 const User = require('../modules/user/user.model');
 const Dish = require('../modules/dish/dish.model');
-const { disableAdminUserAction } = require('../utils');
+const Order = require('../modules/order/order.model');
+const Address = require('../modules/address/address.model');
+const Support = require('../modules/support/support.model');
+const {disableAdminUserAction} = require('../utils');
 const validation = {
   mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/jpg'],
 }
@@ -25,7 +29,7 @@ class MyProvider extends uploadFeature.BaseProvider {
 
   async upload(file, key, context) {
     const filePath = this.path(key, publicDir)
-    await fs.promises.mkdir(path.dirname(filePath), { recursive: true })
+    await fs.promises.mkdir(path.dirname(filePath), {recursive: true})
     await fs.promises.rename(file.path, filePath)
   }
 }
@@ -39,17 +43,17 @@ module.exports = [
       properties: {
         _id: {
           type: 'string',
-          isVisible: { list: false, edit: false, filter: false, show: true },
+          isVisible: {list: false, edit: false, filter: false, show: true},
         },
         password: {
           type: 'string',
-          isVisible: { list: false, edit: true, filter: false, show: false },
+          isVisible: {list: false, edit: true, filter: false, show: false},
         },
       },
       actions: {
         new: {
           before: async (request) => {
-            if(request.payload.password) {
+            if (request.payload.password) {
               request.payload = {
                 ...request.payload,
                 password: await User.generatePassword(request.payload.password),
@@ -58,8 +62,8 @@ module.exports = [
             return request
           },
         },
-        edit: { isAccessible: disableAdminUserAction },
-        delete: { isAccessible: disableAdminUserAction },
+        edit: {isAccessible: disableAdminUserAction},
+        delete: {isAccessible: disableAdminUserAction},
       }
     }
   },
@@ -69,30 +73,30 @@ module.exports = [
       listProperties: ['title', 'price', 'servingWeight', 'category', 'proteinType', 'isActive'],
       properties: {
         _id: {
-          isVisible: { list: false, edit: false, filter: false, show: true },
+          isVisible: {list: false, edit: false, filter: false, show: true},
         },
         instructions: {
           type: 'richtext',
-          isVisible: { list: false, edit: true, filter: false, show: true },
+          isVisible: {list: false, edit: true, filter: false, show: true},
         },
         image: {
-          isVisible: { list: false, edit: true, filter: false, show: true },
+          isVisible: {list: false, edit: true, filter: false, show: true},
         },
         images: {
-          isVisible: { list: false, edit: false, filter: false, show: false },
+          isVisible: {list: false, edit: false, filter: false, show: false},
         },
         imageMimeType: {
-          isVisible: { list: false, edit: false, filter: false, show: false },
+          isVisible: {list: false, edit: false, filter: false, show: false},
         },
         createdAt: {
-          isVisible: { list: true, edit: false, filter: true, show: true },
+          isVisible: {list: true, edit: false, filter: true, show: true},
         },
         updatedAt: {
-          isVisible: { list: true, edit: false, filter: true, show: true },
+          isVisible: {list: true, edit: false, filter: true, show: true},
         }
       },
       actions: {
-        delete: { isAccessible: false },
+        delete: {isAccessible: false},
       }
     },
     features: [uploadFeature({
@@ -106,5 +110,50 @@ module.exports = [
       multiple: true,
       validation,
     })],
+  },
+  {
+    resource: Order,
+    options: {
+      properties: {
+        individualMeals: {
+          components: {
+            show: AdminBro.bundle('./components/IndividualMeals.tsx'),
+          },
+        },
+        mealPlans: {
+          components: {
+            show: AdminBro.bundle('./components/MealPlans.tsx'),
+          },
+        },
+      },
+      listProperties: ['_id', 'totalAmount', 'customer', 'address', 'createdAt'],
+      editProperties: ['isCanceled'],
+      actions: {
+        new: {isAccessible: false},
+        delete: {isAccessible: false},
+      }
+    },
+  },
+  {
+    resource: Address,
+    options: {
+      actions: {
+        new: {isAccessible: false},
+        edit: {isAccessible: false},
+        delete: {isAccessible: false},
+      }
+    },
+  },
+  {
+    resource: Support,
+    options: {
+      listProperties: ['subject', 'name', 'customer', 'order', 'createdAt'],
+      editProperties: ['isResolved'],
+      actions: {
+        new: {isAccessible: false},
+        delete: {isAccessible: false},
+      }
+    },
+
   },
 ]

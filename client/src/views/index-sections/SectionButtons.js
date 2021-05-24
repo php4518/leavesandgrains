@@ -27,7 +27,7 @@ function SectionButtons() {
         start: [37.5],
         connect: [true, false],
         step: 0.5,
-        range: { min: 0, max: 100 },
+        range: {min: 0, max: 100},
       });
     }
     if (
@@ -37,7 +37,7 @@ function SectionButtons() {
         start: [20, 80],
         connect: [false, true, false],
         step: 1,
-        range: { min: 0, max: 100 },
+        range: {min: 0, max: 100},
       });
     }
   });
@@ -51,7 +51,7 @@ function SectionButtons() {
           <div id="buttons">
             <div className="title">
               <h3>
-                Buttons <br />
+                Buttons <br/>
                 <small>Pick your style</small>
               </h3>
             </div>
@@ -64,7 +64,7 @@ function SectionButtons() {
                   Round
                 </Button>
                 <Button className="btn-round ml-1" color="info" type="button">
-                  <i className="fa fa-heart mr-1" />
+                  <i className="fa fa-heart mr-1"/>
                   With Icon
                 </Button>
                 <Button
@@ -72,7 +72,7 @@ function SectionButtons() {
                   color="info"
                   type="button"
                 >
-                  <i className="fa fa-heart" />
+                  <i className="fa fa-heart"/>
                 </Button>
                 <Button className="btn-link ml-1" color="info" type="button">
                   Simple
@@ -168,7 +168,7 @@ function SectionButtons() {
                 </Button>
               </Col>
             </Row>
-            <br />
+            <br/>
             <Row>
               <Col md="8">
                 <Button
@@ -280,7 +280,7 @@ function SectionButtons() {
           <Row>
             <Col sm="3">
               <FormGroup>
-                <Input placeholder="Default" type="text" />
+                <Input placeholder="Default" type="text"/>
               </FormGroup>
             </Col>
             <Col sm="3">
@@ -308,16 +308,16 @@ function SectionButtons() {
             </Col>
             <Col sm="3">
               <InputGroup>
-                <Input placeholder="Username" type="text" />
+                <Input placeholder="Username" type="text"/>
                 <InputGroupAddon addonType="append">
                   <InputGroupText>
-                    <i aria-hidden={true} className="fa fa-group" />
+                    <i aria-hidden={true} className="fa fa-group"/>
                   </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
             </Col>
           </Row>
-          <br />
+          <br/>
           <Row>
             <Col lg="3" sm="6">
               <div className="title">
@@ -325,20 +325,20 @@ function SectionButtons() {
               </div>
               <FormGroup check>
                 <Label check>
-                  <Input defaultValue="" type="checkbox" />
-                  Unchecked <span className="form-check-sign" />
+                  <Input defaultValue="" type="checkbox"/>
+                  Unchecked <span className="form-check-sign"/>
                 </Label>
               </FormGroup>
               <FormGroup check>
                 <Label check>
-                  <Input defaultChecked defaultValue="" type="checkbox" />
-                  Checked <span className="form-check-sign" />
+                  <Input defaultChecked defaultValue="" type="checkbox"/>
+                  Checked <span className="form-check-sign"/>
                 </Label>
               </FormGroup>
               <FormGroup check disabled>
                 <Label check>
-                  <Input defaultValue="" disabled type="checkbox" />
-                  Disabled unchecked <span className="form-check-sign" />
+                  <Input defaultValue="" disabled type="checkbox"/>
+                  Disabled unchecked <span className="form-check-sign"/>
                 </Label>
               </FormGroup>
               <FormGroup check disabled>
@@ -349,7 +349,7 @@ function SectionButtons() {
                     disabled
                     type="checkbox"
                   />
-                  Disabled checked <span className="form-check-sign" />
+                  Disabled checked <span className="form-check-sign"/>
                 </Label>
               </FormGroup>
             </Col>
@@ -365,7 +365,7 @@ function SectionButtons() {
                     name="exampleRadios"
                     type="radio"
                   />
-                  Radio is off <span className="form-check-sign" />
+                  Radio is off <span className="form-check-sign"/>
                 </Label>
               </div>
               <div className="form-check-radio">
@@ -377,7 +377,7 @@ function SectionButtons() {
                     name="exampleRadios"
                     type="radio"
                   />
-                  Radio is on <span className="form-check-sign" />
+                  Radio is on <span className="form-check-sign"/>
                 </Label>
               </div>
               <div className="form-check-radio disabled">
@@ -389,7 +389,7 @@ function SectionButtons() {
                     name="exampleRadios"
                     type="radio"
                   />
-                  Disabled radio is off <span className="form-check-sign" />
+                  Disabled radio is off <span className="form-check-sign"/>
                 </Label>
               </div>
               <div className="form-check-radio disabled">
@@ -402,7 +402,7 @@ function SectionButtons() {
                     name="exampleRadioz"
                     type="radio"
                   />
-                  Disabled radio is on <span className="form-check-sign" />
+                  Disabled radio is on <span className="form-check-sign"/>
                 </Label>
               </div>
             </Col>
@@ -418,7 +418,7 @@ function SectionButtons() {
                   defaultChecked
                   label="Default On"
                 />
-                <br />
+                <br/>
                 <CustomInput
                   type="switch"
                   id="exampleCustomSwitch2"
@@ -431,9 +431,9 @@ function SectionButtons() {
               <div className="title">
                 <h3>Sliders</h3>
               </div>
-              <div className="slider" id="sliderRegular" />
-              <br />
-              <div className="slider slider-primary" id="sliderDouble" />
+              <div className="slider" id="sliderRegular"/>
+              <br/>
+              <div className="slider slider-primary" id="sliderDouble"/>
             </Col>
           </Row>
         </Container>

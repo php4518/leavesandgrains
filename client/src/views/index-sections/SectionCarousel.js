@@ -68,7 +68,7 @@ function SectionCarousel() {
                         onExited={onExited}
                         key={item.src}
                       >
-                        <img src={item.src} alt={item.altText} />
+                        <img src={item.src} alt={item.altText}/>
                         <CarouselCaption
                           captionText={item.caption}
                           captionHeader=""
@@ -86,7 +86,7 @@ function SectionCarousel() {
                     }}
                     role="button"
                   >
-                    <span className="fa fa-angle-left" />
+                    <span className="fa fa-angle-left"/>
                     <span className="sr-only">Previous</span>
                   </a>
                   <a
@@ -99,7 +99,7 @@ function SectionCarousel() {
                     }}
                     role="button"
                   >
-                    <span className="fa fa-angle-right" />
+                    <span className="fa fa-angle-right"/>
                     <span className="sr-only">Next</span>
                   </a>
                 </Carousel>
@@ -107,7 +107,8 @@ function SectionCarousel() {
             </Col>
           </Row>
         </Container>
-      </div>{" "}
+      </div>
+      {" "}
     </>
   );
 }

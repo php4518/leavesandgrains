@@ -10,7 +10,7 @@ const Header = () => {
           "url(" + require("assets/img/antoine-barres.jpg").default + ")",
       }}
     >
-      <div className="filter" />
+      <div className="filter"/>
       <div className="content-center">
         <Container>
           <div className="title-brand">

@@ -25,7 +25,7 @@ function SectionLogin() {
                     href="#pablo"
                     onClick={(e) => e.preventDefault()}
                   >
-                    <i className="fa fa-facebook-square" />
+                    <i className="fa fa-facebook-square"/>
                   </Button>
                   <Button
                     className="btn-neutral btn-just-icon mt-0 ml-1"
@@ -33,7 +33,7 @@ function SectionLogin() {
                     href="#pablo"
                     onClick={(e) => e.preventDefault()}
                   >
-                    <i className="fa fa-google-plus" />
+                    <i className="fa fa-google-plus"/>
                   </Button>
                   <Button
                     className="btn-neutral btn-just-icon mt-0 ml-1"
@@ -41,7 +41,7 @@ function SectionLogin() {
                     href="#pablo"
                     onClick={(e) => e.preventDefault()}
                   >
-                    <i className="fa fa-twitter" />
+                    <i className="fa fa-twitter"/>
                   </Button>
                 </div>
                 <Form className="register-form">
@@ -49,19 +49,19 @@ function SectionLogin() {
                   <InputGroup className="form-group-no-border">
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText>
-                        <i className="nc-icon nc-email-85" />
+                        <i className="nc-icon nc-email-85"/>
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" />
+                    <Input placeholder="Email" type="email"/>
                   </InputGroup>
                   <label>Password</label>
                   <InputGroup className="form-group-no-border">
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText>
-                        <i className="nc-icon nc-key-25" />
+                        <i className="nc-icon nc-key-25"/>
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" />
+                    <Input placeholder="Password" type="password"/>
                   </InputGroup>
                   <Button
                     block
@@ -99,7 +99,8 @@ function SectionLogin() {
             </Col>
           </Row>
         </Container>
-      </div>{" "}
+      </div>
+      {" "}
     </>
   );
 }

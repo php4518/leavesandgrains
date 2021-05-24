@@ -23,7 +23,7 @@ function SectionNavbars() {
           <div className="title">
             <h3>Menu</h3>
           </div>
-          <br />
+          <br/>
           <Row>
             <Col md="6">
               <Navbar className="bg-primary" expand="lg">
@@ -40,9 +40,9 @@ function SectionNavbars() {
                   id="navbar-menu"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse navbar toggler="#navbar-menu">
                   <Nav className="mr-auto" navbar>
@@ -102,14 +102,14 @@ function SectionNavbars() {
                         >
                           Something else here
                         </DropdownItem>
-                        <DropdownItem divider />
+                        <DropdownItem divider/>
                         <DropdownItem
                           href="#pablo"
                           onClick={(e) => e.preventDefault()}
                         >
                           Separated link
                         </DropdownItem>
-                        <DropdownItem divider />
+                        <DropdownItem divider/>
                         <DropdownItem
                           href="#pablo"
                           onClick={(e) => e.preventDefault()}
@@ -137,9 +137,9 @@ function SectionNavbars() {
                   id="navbar-menu-icon"
                   type="button"
                 >
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
-                  <span className="navbar-toggler-bar" />
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
+                  <span className="navbar-toggler-bar"/>
                 </button>
                 <UncontrolledCollapse navbar toggler="#navbar-menu-icon">
                   <Nav className="ml-auto" navbar>
@@ -148,7 +148,7 @@ function SectionNavbars() {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i aria-hidden={true} className="nc-icon nc-email-85" />
+                        <i aria-hidden={true} className="nc-icon nc-email-85"/>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -195,7 +195,7 @@ function SectionNavbars() {
                         >
                           Something else here
                         </DropdownItem>
-                        <DropdownItem divider />
+                        <DropdownItem divider/>
                         <DropdownItem
                           href="#pablo"
                           onClick={(e) => e.preventDefault()}

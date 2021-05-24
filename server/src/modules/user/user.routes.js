@@ -1,21 +1,26 @@
 const express = require('express');
-const { Joi } = require('express-validation');
+const {Joi} = require('express-validation');
 const userCtrl = require('./user.controller');
-const { validate } = require('../../helpers');
+const {validate} = require('../../helpers');
 
 const router = express.Router();
 
 const paramValidation = {
   updateUser: {
     body: Joi.object({
-      email: Joi.string().required(),
-      firstName: Joi.string(),
-      lastName: Joi.string(),
+      email: Joi.string(),
+      name: Joi.string(),
     }),
     params: Joi.object({
       userId: Joi.string().hex().required(),
     }),
   },
+  makePayment: {
+    body: Joi.object(({
+      amount: Joi.number().required(),
+      customer: Joi.string().hex().required()
+    }))
+  }
 };
 
 router.route('/')
@@ -37,6 +42,10 @@ router.route('/:userId')
   .delete(userCtrl.remove);
 
 /** Load user when API with userId route parameter is hit */
+
+router.route('/make-payment')
+  .post(validate(paramValidation.makePayment), userCtrl.makePayment)
+
 router.param('userId', userCtrl.load);
 
 module.exports = router;

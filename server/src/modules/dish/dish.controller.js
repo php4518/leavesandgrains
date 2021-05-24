@@ -19,6 +19,7 @@ async function load(req, res, next, id) {
 function get(req, res) {
   return res.json(req.dish);
 }
+
 /**
  * Get dishes list.
  * @property {number} req.query.skip - Number of dishes to be skipped.
@@ -26,8 +27,9 @@ function get(req, res) {
  * @returns {Dish[]}
  */
 async function getAll(req, res, next) {
-  const { filters = {} } = req.query;
+  let {filters = {}} = req.query;
   try {
+    filters = {isActive: true, ...filters};
     const dishes = await Dish.getAll(filters);
     return res.json(dishes);
   } catch (error) {
@@ -36,9 +38,9 @@ async function getAll(req, res, next) {
 }
 
 async function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
+  const {limit = 50, skip = 0} = req.query;
   try {
-    const dishes = await Dish.list({ limit, skip });
+    const dishes = await Dish.list({limit, skip});
     return res.json(dishes);
   } catch (error) {
     return next(error);
@@ -50,7 +52,7 @@ async function list(req, res, next) {
  * @returns {Dish}
  */
 async function remove(req, res, next) {
-  const { dish } = req;
+  const {dish} = req;
   try {
     const deletedDish = await dish.remove();
     return res.json(deletedDish);

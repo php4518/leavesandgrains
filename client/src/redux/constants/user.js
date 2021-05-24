@@ -1,0 +1,24 @@
+export const REGISTER_USER = 'REGISTER_USER';
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
+export const SET_USER = 'SET_USER';
+export const UPDATE_USER = 'UPDATE_USER';
+
+export const USER_STATUS = 'USER_STATUS';
+
+export const VERIFY_OTP = 'VERIFY_OTP';
+export const SET_VERIFY_OTP = 'SET_VERIFY_OTP';
+export const OTP_STATUS = 'OTP_STATUS';
+
+export const ADD_USER_ADDRESS = 'ADD_USER_ADDRESS';
+export const GET_USER_ADDRESSES = 'GET_USER_ADDRESSES';
+export const SET_NEW_USER_ADDRESS = 'SET_NEW_USER_ADDRESS';
+export const EDIT_USER_ADDRESS = 'EDIT_USER_ADDRESS';
+export const DELETE_USER_ADDRESS = 'DELETE_USER_ADDRESS';
+
+export const PLACE_ORDER = 'PLACE_ORDER';
+export const ORDER_STATUS = 'ORDER_STATUS';
+export const GET_MY_ORDERS = 'GET_MY_ORDERS';
+export const SET_MY_ORDERS = 'SET_MY_ORDERS';
+
+export const CONTACT_SUPPORT = 'CONTACT_SUPPORT';

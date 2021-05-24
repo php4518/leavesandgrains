@@ -32,7 +32,7 @@ function ProfilePageHeader() {
         data-parallax={true}
         ref={pageHeader}
       >
-        <div className="filter" />
+        <div className="filter"/>
       </div>
     </>
   );

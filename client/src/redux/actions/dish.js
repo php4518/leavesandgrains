@@ -1,17 +1,27 @@
-import {GET_DISHES, SET_DISHES, SHOW_DISHES_LOADING, SHOW_DISHES_MESSAGE,} from '../constants/dish';
+import {
+  GET_DISHES,
+  GET_MEALS,
+  SET_DISHES,
+  SET_MEALS,
+  DISH_STATUS
+} from '../constants/dish';
 
 export const getDishes = (params = null) => {
-  return { type: GET_DISHES, params };
+  return {type: GET_DISHES, params};
+};
+
+export const getMeals = (params = null) => {
+  return {type: GET_MEALS, params};
+};
+
+export const setMeals = (meals = []) => {
+  return {type: SET_MEALS, meals};
 };
 
 export const setDishes = (dishes = []) => {
-  return { type: SET_DISHES, dishes };
+  return {type: SET_DISHES, dishes};
 };
 
-export const showDishesLoading = (loading = false) => {
-  return { type: SHOW_DISHES_LOADING, loading };
-};
-
-export const showDishesMessage = (message = '') => {
-  return { type: SHOW_DISHES_MESSAGE, message };
+export const setDishesStatus = (payload) => {
+  return {type: DISH_STATUS, payload};
 };

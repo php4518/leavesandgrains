@@ -61,7 +61,7 @@ describe('## Book APIs', () => {
       request(server)
         .post('/api/books')
         .send(book)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.owner).to.equal(user._id);
@@ -82,7 +82,7 @@ describe('## Book APIs', () => {
       request(server)
         .post('/api/books')
         .send(payloadBook)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.CONFLICT)
         .then((res) => {
           expect(res.body.message).to.equal('Book name must be unique');
@@ -96,7 +96,7 @@ describe('## Book APIs', () => {
     it('should get book details', (done) => {
       request(server)
         .get(`/api/books/${book._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.owner._id).to.equal(user._id);
@@ -111,7 +111,7 @@ describe('## Book APIs', () => {
     it('should report error with message - Not found, when book does not exists', (done) => {
       request(server)
         .get('/api/books/56c787ccc67fc16ccc1a5e92')
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.equal('No such book exists!');
@@ -127,7 +127,7 @@ describe('## Book APIs', () => {
       const payload = _.pick(book, ['bookName', 'isbn', 'author']);
       request(server)
         .put(`/api/books/${book._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .send(payload)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -145,7 +145,7 @@ describe('## Book APIs', () => {
     it('should get all books', (done) => {
       request(server)
         .get('/api/books')
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body).to.be.an('array');
@@ -159,7 +159,7 @@ describe('## Book APIs', () => {
     it('should delete book', (done) => {
       request(server)
         .delete(`/api/books/${book._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.owner._id).to.equal(user._id);
@@ -173,7 +173,7 @@ describe('## Book APIs', () => {
     it('should throw error for deleting the book which was deleted already', (done) => {
       request(server)
         .delete(`/api/books/${book._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.equal('No such book exists!');
@@ -191,7 +191,7 @@ describe('## Book APIs', () => {
           bookName: faker.name.findName(),
           author: faker.name.findName(),
         })
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.BAD_REQUEST)
         .then((res) => {
           expect(res.body.message).to.equal('"isbn" is required');
@@ -205,7 +205,7 @@ describe('## Book APIs', () => {
     it('should delete user after done with books testing', (done) => {
       request(server)
         .delete(`/api/users/${user._id}`)
-        .set({ Authorization: `Bearer ${user.token}` })
+        .set({Authorization: `Bearer ${user.token}`})
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.email).to.equal(user.email);

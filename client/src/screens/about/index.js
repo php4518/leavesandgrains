@@ -26,12 +26,12 @@ const About = () => {
         className="page-header"
         data-parallax={true}
       >
-        <div className="filter" />
+        <div className="filter"/>
         <Container>
           <div className="motto text-center">
             <h1>Example page</h1>
             <h3>Start designing your landing page here.</h3>
-            <br />
+            <br/>
             <Button
               href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               className="btn-round mr-1"
@@ -40,7 +40,7 @@ const About = () => {
               rel="noreferrer"
               outline
             >
-              <i className="fa fa-play" />
+              <i className="fa fa-play"/>
               Watch video
             </Button>
             <Button className="btn-round" color="neutral" type="button" outline>
@@ -62,7 +62,7 @@ const About = () => {
                   otherwise he wouldn't scroll to get here. Add a button if you
                   want the user to see more.
                 </h5>
-                <br />
+                <br/>
                 <Button
                   className="btn-round"
                   color="info"
@@ -73,13 +73,13 @@ const About = () => {
                 </Button>
               </Col>
             </Row>
-            <br />
-            <br />
+            <br/>
+            <br/>
             <Row>
               <Col md="3">
                 <div className="info">
                   <div className="icon icon-info">
-                    <i className="nc-icon nc-album-2" />
+                    <i className="nc-icon nc-album-2"/>
                   </div>
                   <div className="description">
                     <h4 className="info-title">Beautiful Gallery</h4>
@@ -96,7 +96,7 @@ const About = () => {
               <Col md="3">
                 <div className="info">
                   <div className="icon icon-info">
-                    <i className="nc-icon nc-bulb-63" />
+                    <i className="nc-icon nc-bulb-63"/>
                   </div>
                   <div className="description">
                     <h4 className="info-title">New Ideas</h4>
@@ -113,7 +113,7 @@ const About = () => {
               <Col md="3">
                 <div className="info">
                   <div className="icon icon-info">
-                    <i className="nc-icon nc-chart-bar-32" />
+                    <i className="nc-icon nc-chart-bar-32"/>
                   </div>
                   <div className="description">
                     <h4 className="info-title">Statistics</h4>
@@ -130,7 +130,7 @@ const About = () => {
               <Col md="3">
                 <div className="info">
                   <div className="icon icon-info">
-                    <i className="nc-icon nc-sun-fog-29" />
+                    <i className="nc-icon nc-sun-fog-29"/>
                   </div>
                   <div className="description">
                     <h4 className="info-title">Delightful design</h4>
@@ -184,7 +184,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-twitter" />
+                      <i className="fa fa-twitter"/>
                     </Button>
                     <Button
                       className="btn-just-icon btn-neutral ml-1"
@@ -192,7 +192,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-google-plus" />
+                      <i className="fa fa-google-plus"/>
                     </Button>
                     <Button
                       className="btn-just-icon btn-neutral ml-1"
@@ -200,7 +200,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-linkedin" />
+                      <i className="fa fa-linkedin"/>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -238,7 +238,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-twitter" />
+                      <i className="fa fa-twitter"/>
                     </Button>
                     <Button
                       className="btn-just-icon btn-neutral ml-1"
@@ -246,7 +246,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-google-plus" />
+                      <i className="fa fa-google-plus"/>
                     </Button>
                     <Button
                       className="btn-just-icon btn-neutral ml-1"
@@ -254,7 +254,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-linkedin" />
+                      <i className="fa fa-linkedin"/>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -293,7 +293,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-twitter" />
+                      <i className="fa fa-twitter"/>
                     </Button>
                     <Button
                       className="btn-just-icon btn-neutral ml-1"
@@ -301,7 +301,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-google-plus" />
+                      <i className="fa fa-google-plus"/>
                     </Button>
                     <Button
                       className="btn-just-icon btn-neutral ml-1"
@@ -309,7 +309,7 @@ const About = () => {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <i className="fa fa-linkedin" />
+                      <i className="fa fa-linkedin"/>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -329,10 +329,10 @@ const About = () => {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="nc-icon nc-single-02" />
+                            <i className="nc-icon nc-single-02"/>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input placeholder="Name" type="text" />
+                        <Input placeholder="Name" type="text"/>
                       </InputGroup>
                     </Col>
                     <Col md="6">
@@ -340,10 +340,10 @@ const About = () => {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="nc-icon nc-email-85" />
+                            <i className="nc-icon nc-email-85"/>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input placeholder="Email" type="text" />
+                        <Input placeholder="Email" type="text"/>
                       </InputGroup>
                     </Col>
                   </Row>
