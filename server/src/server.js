@@ -29,15 +29,15 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
+// admin panel
+app.use('/admin', adminRouter);
+
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // mount all routes on /api path
 app.use('/api', routes);
-
-// admin panel
-app.use('/admin', adminRouter);
 
 app.use('/public', express.static('public'));
 
@@ -67,7 +67,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
   res.status(err.status).json({ // eslint-disable-line implicit-arrow-linebreak
     message: err.isPublic ? err.message : httpStatus[err.status],
-    stack: config.env === 'development' ? err.stack : {},
+    stack: err.stack,
   }));
 
 module.exports = app;
