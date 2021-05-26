@@ -52,6 +52,7 @@ export function* verifyOTPAsync() {
   yield takeLatest(VERIFY_OTP, function* ({params} = {}) {
     try {
       yield put(setOtpStatus({ status: STATUS.LOADING }));
+      console.log('OTP HASH: ', params);
       const response = yield call(authService.verifyOTP, params);
       if (response.user) {
         yield put(setVerifyOtp({show: false, otpHash: null}));

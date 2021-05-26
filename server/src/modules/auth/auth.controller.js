@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const httpStatus = require('http-status');
 const User = require('../user/user.model');
 const APIError = require('../../helpers/APIError');
+const { sendSms } = require('../../helpers/SMS');
 const config = require('../../config');
 
 /**
@@ -154,11 +155,6 @@ async function resendEmailToken(req, res, next) {
   }
 }
 
-function sendSMS(phone, message) {
-  console.log('phone: ' + phone);
-  console.log('message: ' + message);
-};
-
 function createNewOTP(phone) {
   // Generate a 6 digit numeric OTP
   const otp = otpGenerator.generate(6, {alphabets: false, upperCase: false, specialChars: false});
@@ -168,7 +164,8 @@ function createNewOTP(phone) {
   const hash = crypto.createHmac("sha256", config.otpSecret).update(data).digest("hex"); // creating SHA256 hash of the data
   const otpHash = `${hash}.${expires}`; // Hash.expires, format to send to the user
   // you have to implement the function to send SMS yourself. For demo purpose. let's assume it's called sendSMS
-  sendSMS(phone, `Your OTP is ${otp}. it will expire in 2 minutes`);
+  sendSms(phone, `Your OTP is ${otp}. it will expire in 2 minutes`);
+
   return otpHash;
 }
 

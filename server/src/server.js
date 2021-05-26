@@ -1,6 +1,6 @@
 const express = require('express');
-const logger = require('morgan');
 const path = require('path');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const compress = require('compression');

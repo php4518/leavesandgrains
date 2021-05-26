@@ -328,7 +328,7 @@ class OtpInput extends Component {
   };
 
   render() {
-    const {open, onSubmit, status} = this.props;
+    const {open, onSubmit, status, onResend} = this.props;
     const {isDisabled} = this.state;
 
     return (
@@ -338,6 +338,9 @@ class OtpInput extends Component {
         </div>
         <AppAlert alert={status} />
         <div className="modal-footer">
+          <Button onClick={onResend} color="info">
+            Resend OTP
+          </Button>
           <Button disabled={isDisabled} onClick={onSubmit}>
             Submit
           </Button>

@@ -44,6 +44,10 @@ const envVarsSchema = Joi.object({
   API_URL: Joi.string().default('http://localhost:4040/api'),
   RAZORPAY_ID: Joi.string().default(''),
   RAZORPAY_SECRET: Joi.string().default(''),
+  SMS_USERNAME: Joi.string().default(''),
+  SMS_PASSWORD: Joi.string().default(''),
+  SMS_SENDER_ID: Joi.string().default(''),
+
 }).unknown()
   .required();
 
@@ -80,6 +84,9 @@ const config = {
   apiUrl: envVars.API_URL,
   razorpayId: envVars.RAZORPAY_ID,
   razorpaySecret: envVars.RAZORPAY_SECRET,
+  smsUserName: envVars.SMS_USERNAME,
+  smsPassword: envVars.SMS_PASSWORD,
+  smsSenderId: envVars.SMS_SENDER_ID,
 };
 
 module.exports = config;

@@ -100,6 +100,7 @@ const SignIn = (props) => {
           separator={<span>-</span>}
           open={showVerifyOtp}
           onSubmit={handleOtpVerification}
+          onResend={handleSubmit}
           status={otpStatus}
         />
       </Container>
