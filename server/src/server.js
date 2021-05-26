@@ -10,7 +10,6 @@ const {ValidationError} = require('express-validation');
 const helmet = require('helmet');
 const routes = require('./routes');
 const config = require('./config');
-const adminRouter = require('./admin');
 const APIError = require('./helpers/APIError');
 
 const app = express();
@@ -28,9 +27,6 @@ app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
-
-// admin panel
-app.use('/admin', adminRouter);
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());

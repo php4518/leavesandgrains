@@ -10,7 +10,7 @@ export const validatePassword = (password) => !password.match(passwordRegex);
 
 export const getImageUrl = (image) => {
   if (image) {
-    return `${IMAGE_BASE_URL}${image}`
+    return `${IMAGE_BASE_URL}/${image}`
   }
   return require("assets/img/no-image.png").default
 }
