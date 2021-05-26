@@ -17,7 +17,7 @@ const router = express.Router();
 router.get('/health-check', (req, res) => res.send('OK'));
 
 // admin panel
-app.use('/admin', adminRouter);
+router.use('/admin', adminRouter);
 
 // mount auth routes at /auth
 router.use('/auth', authRoutes);
