@@ -25,7 +25,8 @@ mongoose.connect(mongoUri, {
 
 mongoose.connection.on('connected', seedDB);
 
-mongoose.connection.on('error', () => {
+mongoose.connection.on('error', (err) => {
+	console.log('Monogo === ', err)
   throw new Error(`unable to connect to database: ${mongoUri}`);
 });
 

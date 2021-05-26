@@ -9,6 +9,7 @@ const addAdminUser = async () => {
       password: User.generatePassword(config.adminPassword),
       role: 'ADMIN',
       name: 'Admin',
+      phoneNumber: '9913267678'
     });
     await adminUser.save();
   } else {

@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const compress = require('compression');
@@ -69,5 +70,14 @@ app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
     message: err.isPublic ? err.message : httpStatus[err.status],
     stack: config.env === 'development' ? err.stack : {},
   }));
+
+if (['staging', 'production', 'test'].includes(config.env)) {
+  const clientBuildPath = path.join(__dirname, '..', '..', 'client', 'build');
+  app.use(express.static(clientBuildPath));
+  console.log('sending file');
+  app.get('*', (req, res) => {
+    res.status(404).sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+}
 
 module.exports = app;
