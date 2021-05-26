@@ -2,21 +2,22 @@ function unflatten(data) {
   let result = {}
   for (let i in data) {
     let keys = i.split('.')
-    keys.reduce(function(r, e, j) {
+    keys.reduce(function (r, e, j) {
       return r[e] || (r[e] = isNaN(Number(keys[j + 1])) ? (keys.length - 1 == j ? data[i] : {}) : [])
     }, result)
   }
   return result
 }
+
 function objectToFormData(obj, form, namespace) {
 
   var fd = form || new FormData();
   var formKey;
 
-  for(var property in obj) {
-    if(obj.hasOwnProperty(property)) {
+  for (var property in obj) {
+    if (obj.hasOwnProperty(property)) {
 
-      if(namespace) {
+      if (namespace) {
         formKey = namespace + '[' + property + ']';
       } else {
         formKey = property;
@@ -24,7 +25,7 @@ function objectToFormData(obj, form, namespace) {
 
       // if the property is an object, but not a File,
       // use recursivity.
-      if(typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+      if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
 
         objectToFormData(obj[property], fd, property);
 

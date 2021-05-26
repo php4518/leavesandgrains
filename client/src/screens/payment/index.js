@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, Button, Spinner, Card, CardBody} from "reactstrap";
+import {Button, Card, CardBody, Container, Spinner} from "reactstrap";
 import {useHistory, useLocation} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {placeOrder} from 'redux/actions/user';
@@ -17,7 +17,7 @@ const Payment = () => {
   }
 
   const dispatch = useDispatch();
-  const {orderStatus, currentUser} = useSelector(({ user }) => {
+  const {orderStatus, currentUser} = useSelector(({user}) => {
     const {orderStatus, currentUser} = user;
     return {orderStatus, currentUser};
   });
@@ -27,9 +27,10 @@ const Payment = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if(orderStatus && orderStatus.status) {
+    /* eslint-disable react-hooks/exhaustive-deps */
+    if (orderStatus && orderStatus.status) {
       if (orderStatus.status === STATUS.SUCCESS) {
-        history.push('/profile', { orderStatus });
+        history.push('/profile', {orderStatus});
       } else if (orderStatus.status === STATUS.ERROR) {
         // TODO: display error
         setError(orderStatus.message || 'Error placing order');
@@ -49,19 +50,20 @@ const Payment = () => {
   const displayPaymentModule = async (response) => {
     if (response) {
       try {
-        const details = await userService.getPaymentDetails({ amount, customer: currentUser._id });
+        const details = await userService.getPaymentDetails({amount, customer: currentUser._id});
         setLoading(false);
         setOrderDetails(details);
         initializePaymentSDK(details);
       } catch (e) {
         onError(e);
       }
+    } else {
+      onError(response)
     }
-    else { onError(response) }
   }
 
   const initializePaymentSDK = (details) => {
-    if(details) {
+    if (details) {
       const options = {
         key: RAZORPAY_ID,
         currency: details.currency,
@@ -70,8 +72,8 @@ const Payment = () => {
         name: 'Leaves and grains',
         description: 'Order Payment',
         handler: function (response) {
-          if(response.razorpay_payment_id) {
-            dispatch(placeOrder({ address: address._id, amount, paymentDetails: response }));
+          if (response.razorpay_payment_id) {
+            dispatch(placeOrder({address: address._id, amount, paymentDetails: response}));
           }
         },
         prefill: {
@@ -84,7 +86,7 @@ const Payment = () => {
         }
       }
       const paymentObject = new window.Razorpay(options);
-      paymentObject.on('payment.failed', function (response){
+      paymentObject.on('payment.failed', function (response) {
         setError(response.error.description);
       });
       paymentObject.open()
@@ -122,7 +124,7 @@ const Payment = () => {
         {
           loading ?
             <div className="app-loader mt-3">
-              <Spinner color="danger" />
+              <Spinner color="danger"/>
             </div>
             :
             error ?

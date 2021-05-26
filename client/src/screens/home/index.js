@@ -9,7 +9,7 @@ import AppAlert from "../../components/alert";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {dishes, dishStatus} = useSelector(({ dish: { dishes, dishStatus } }) => ({dishes, dishStatus}));
+  const {dishes, dishStatus} = useSelector(({dish: {dishes, dishStatus}}) => ({dishes, dishStatus}));
 
   useEffect(() => dispatch(getDishes()), []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -22,7 +22,7 @@ const Home = () => {
       <div className="title text-center">
         <h2 className="font-weight-bold mb-5">Our Meals</h2>
         <Container>
-          <AppAlert alert={dishStatus} />
+          <AppAlert alert={dishStatus}/>
           <Row className="justify-content-center">
             {
               dishes.slice(0, 4).map(item =>

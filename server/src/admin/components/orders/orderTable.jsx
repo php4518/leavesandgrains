@@ -16,7 +16,7 @@ import {
   TableHead,
   TableRow
 } from '@admin-bro/design-system'
-import { deliveryStatusType } from '../../helper'
+import {deliveryStatusType} from '../../helper'
 
 export const IndividualMealsTable = ({sort, onSorting, meals, handleDelivered}) => {
   return (
@@ -68,10 +68,12 @@ export const IndividualMealsTable = ({sort, onSorting, meals, handleDelivered}) 
                   </DropDown>
                 </TableCell>
                 <TableCell>
-                  <Link className="tCNec" href={`/admin/resources/Address/records/${m.address._id}/show`}>{m.address.name}</Link>
+                  <Link className="tCNec"
+                        href={`/admin/resources/Address/records/${m.address._id}/show`}>{m.address.name}</Link>
                 </TableCell>
                 <TableCell>
-                  <Link className="tCNec" href={`/admin/resources/User/records/${m.customer._id}/show`}>{m.customer.name}</Link>
+                  <Link className="tCNec"
+                        href={`/admin/resources/User/records/${m.customer._id}/show`}>{m.customer.name}</Link>
                 </TableCell>
                 <TableCell>{moment(m.deliveryDate).format('DD MMM YYYY')}</TableCell>
               </TableRow>
@@ -106,7 +108,7 @@ export const MealPlansTable = ({sort, onSorting, meals, handleDelivered}) => {
       <TableBody>
         {
           meals.map((meal, i) => {
-            const { plan: { items, dayLabel, deliveryDate } } = meal.mealPlans;
+            const {plan: {items, dayLabel, deliveryDate}} = meal.mealPlans;
             return (
               <TableRow key={i}>
                 <TableCell>
@@ -134,10 +136,12 @@ export const MealPlansTable = ({sort, onSorting, meals, handleDelivered}) => {
                   </DropDown>
                 </TableCell>
                 <TableCell>
-                  <Link className="tCNec" href={`/admin/resources/Address/records/${meal.address._id}/show`}>{meal.address.name}</Link>
+                  <Link className="tCNec"
+                        href={`/admin/resources/Address/records/${meal.address._id}/show`}>{meal.address.name}</Link>
                 </TableCell>
                 <TableCell>
-                  <Link className="tCNec" href={`/admin/resources/User/records/${meal.customer._id}/show`}>{meal.customer.name}</Link>
+                  <Link className="tCNec"
+                        href={`/admin/resources/User/records/${meal.customer._id}/show`}>{meal.customer.name}</Link>
                 </TableCell>
                 <TableCell>{moment(deliveryDate).format('DD MMM YYYY')}</TableCell>
               </TableRow>
@@ -150,5 +154,5 @@ export const MealPlansTable = ({sort, onSorting, meals, handleDelivered}) => {
 }
 
 const styles = {
-  table: { marginTop: 50 }
+  table: {marginTop: 50}
 };

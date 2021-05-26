@@ -21,7 +21,7 @@ const defaultFilters = {
 
 const Menu = (props) => {
   const dispatch = useDispatch();
-  const { allDishes, dishStatus, individualMeals } = useSelector(({ dish, cart }) => ({
+  const {allDishes, dishStatus, individualMeals} = useSelector(({dish, cart}) => ({
     allDishes: dish.dishes,
     dishStatus: dish.dishStatus,
     individualMeals: cart.individualMeals
@@ -303,7 +303,7 @@ const Menu = (props) => {
               Nutritionist. Nourishing and packed with flavour.
             </div>
           </div>
-          <AppAlert alert={dishStatus} />
+          <AppAlert alert={dishStatus}/>
           <Row>
             {
               (!dishes.length) ? <Col className="no-data-available">No meals available</Col> :

@@ -40,10 +40,10 @@ const Profile = () => {
           <Col md={10}>
             <TabContent activeTab={activeTab} className="text-center">
               <TabPane tabId={tabs[0]}>
-                <UserProfile />
+                <UserProfile/>
               </TabPane>
               <TabPane tabId={tabs[1]}>
-                <UserOrders />
+                <UserOrders/>
               </TabPane>
             </TabContent>
           </Col>

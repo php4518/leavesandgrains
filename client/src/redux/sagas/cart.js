@@ -7,7 +7,7 @@ import {getMealPlanTotal} from "../../helpers/utils";
 export function* addIndividualToCartAsync() {
   yield takeLatest(ADD_INDIVIDUAL_MEAL_TO_CART, function* ({item} = {}) {
     try {
-      const { cart: { individualMeals } } = yield select();
+      const {cart: {individualMeals}} = yield select();
       if (item.quantity === 0) {
         delete individualMeals[item._id];
       } else {
@@ -21,14 +21,14 @@ export function* addIndividualToCartAsync() {
 }
 
 export function* addMealPlansToCartAsync() {
-  yield takeLatest(ADD_MEAL_PLAN_TO_CART, function* ({ plan } = {}) {
+  yield takeLatest(ADD_MEAL_PLAN_TO_CART, function* ({plan} = {}) {
     try {
-      const {cart: { mealPlans }} = yield select();
-      if(plan) {
+      const {cart: {mealPlans}} = yield select();
+      if (plan) {
         Object.keys(plan).forEach(key => {
           plan[key] = plan[key].filter(m => m.mealObj);
         });
-        mealPlans.push({ total: getMealPlanTotal(plan), plan });
+        mealPlans.push({total: getMealPlanTotal(plan), plan});
         yield put(setMealPlans(mealPlans));
         history.push('/cart');
       }

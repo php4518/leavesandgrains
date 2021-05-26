@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Col, Row, UncontrolledCollapse} from "reactstrap";
 import moment from "moment";
 import ReactDatetime from "react-datetime";
-import {dateFormat, getImageUrl, getMealPlanTotal, getPrice} from "../../helpers/utils";
+import {dateFormat, getImageUrl, getPrice} from "../../helpers/utils";
 
 export const MealPlanCard = ({plan, index, onItemRemove, onDateChange}) => {
   return (

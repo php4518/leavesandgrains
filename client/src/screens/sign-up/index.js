@@ -9,9 +9,9 @@ import AppAlert from "../../components/alert";
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { otpStatus, showVerifyOtp, userStatus, otpHash } = useSelector(({ user }) => {
-    const { otpStatus, showVerifyOtp, userStatus, otpHash } = user;
-    return { otpStatus, showVerifyOtp, userStatus, otpHash }
+  const {otpStatus, showVerifyOtp, userStatus, otpHash} = useSelector(({user}) => {
+    const {otpStatus, showVerifyOtp, userStatus, otpHash} = user;
+    return {otpStatus, showVerifyOtp, userStatus, otpHash}
   });
 
   const [registerFields, setRegisterFields] = useState({

@@ -1,18 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {
-  Button,
-  Col,
-  Container, Form,
-  FormGroup,
-  Input,
-  Label,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  TabContent,
-  TabPane,
-} from "reactstrap";
+import React, {useState} from "react";
+import {Button, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row,} from "reactstrap";
 import MenuHeader from "../../components/header/menuHeader";
 import AppAlert from "../../components/alert";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,13 +7,13 @@ import {useLocation} from "react-router";
 import {contactSupport} from "../../redux/actions/user";
 
 const Contact = () => {
-  const {state: { order } = {}} = useLocation();
+  const {state: {order} = {}} = useLocation();
   const dispatch = useDispatch();
-  const { userStatus, currentUser } = useSelector(({ user }) => {
-    const { userStatus , currentUser } = user;
-    return { userStatus , currentUser };
+  const {userStatus, currentUser = {}} = useSelector(({user}) => {
+    const {userStatus, currentUser} = user;
+    return {userStatus, currentUser};
   });
-  const { _id: customer, email = '', name = '' } = currentUser;
+  const {_id: customer, email = '', name = ''} = currentUser;
 
   const [contactFields, setContactFields] = useState({
     customer,
@@ -47,70 +34,88 @@ const Contact = () => {
 
   return (
     <>
-      <MenuHeader/>
-      <div className="section profile-content contact-page">
-        <Container>
-          <div className="owner">
-            <div className="avatar">
-              <img
-                alt="..."
-                className="img-circle img-no-padding img-responsive"
-                src={require("assets/img/faces/joe-gardner-2.jpg").default}
-              />
-            </div>
-            <h2 className="title">Contact Us</h2>
-          </div>
-          <Row>
-            <Col className="ml-auto mr-auto" md="6">
-              <Form onSubmit={handleSupportQuery}>
-                <label>Name</label>
-                <Input
-                  name="name"
-                  value={currentUser.name}
-                  placeholder="Name"
-                  type="text"
-                  required
-                  onChange={handleInputChange}
-                />
-                <label>Email</label>
-                <Input
-                  name="email"
-                  value={currentUser.email}
-                  placeholder="Email"
-                  type="email"
-                  required
-                  onChange={handleInputChange}
-                />
-                <label>Subject</label>
-                <Input
-                  name="subject"
-                  value={contactFields.subject}
-                  placeholder="Subject"
-                  required
-                  onChange={handleInputChange}
-                />
-                <label>Description</label>
-                <Input
-                  name="description"
-                  value={contactFields.description}
-                  placeholder="Description"
-                  type="textarea"
-                  required
-                  onChange={handleInputChange}
-                />
-                <center>
-                  <Button className="btn-round mt-4 mx-auto w-25" color="info"> submit </Button>
-                </center>
-                <AppAlert alert={userStatus}/>
-              </Form>
-
-            </Col>
-          </Row>
-          <br/>
-        </Container>
+      <MenuHeader />
+      <div className="main">
+        <div className="section landing-section">
+          <Container>
+            <Row>
+              <Col className="ml-auto mr-auto" md="8">
+                <h2 className="text-center">Contact US</h2>
+                <Form className="contact-form" onSubmit={handleSupportQuery}>
+                  <Row>
+                    <Col md="6">
+                      <label>Name</label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="nc-icon nc-single-02"/>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          name="name"
+                          value={currentUser.name}
+                          placeholder="Name"
+                          type="text"
+                          required
+                          onChange={handleInputChange}
+                        />
+                      </InputGroup>
+                    </Col>
+                    <Col md="6">
+                      <label>Email</label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="nc-icon nc-email-85"/>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          name="email"
+                          value={currentUser.email}
+                          placeholder="Email"
+                          type="email"
+                          required
+                          onChange={handleInputChange}
+                        />
+                      </InputGroup>
+                    </Col>
+                  </Row>
+                  <label>Subject</label>
+                  <Input
+                    name="subject"
+                    value={contactFields.subject}
+                    placeholder="Subject"
+                    required
+                    onChange={handleInputChange}
+                  />
+                  <label>Description</label>
+                  <Input
+                    name="description"
+                    value={contactFields.description}
+                    placeholder="Tell us your queries..."
+                    type="textarea"
+                    rows="4"
+                    required
+                    onChange={handleInputChange}
+                  />
+                  <Row>
+                    <Col className="ml-auto mr-auto" md="4">
+                      <Button className="btn-fill" color="danger" size="lg">
+                        Send Email
+                      </Button>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <AppAlert alert={userStatus}/>
+                  </Row>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
+        </div>
       </div>
     </>
-  );
+  )
 }
 
 export default Contact;

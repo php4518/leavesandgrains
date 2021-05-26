@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const httpStatus = require('http-status');
 const User = require('../user/user.model');
 const APIError = require('../../helpers/APIError');
-const { sendSms } = require('../../helpers/SMS');
+const {sendSms} = require('../../helpers/SMS');
 const config = require('../../config');
 
 /**

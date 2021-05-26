@@ -15,7 +15,7 @@ import ProfileHome from "./screens/profile";
 
 const AppRoutes = (props) => {
   const {location} = props;
-  const currentUser = useSelector(({ user: { currentUser } }) => currentUser);
+  const currentUser = useSelector(({user: {currentUser}}) => currentUser);
 
   const PrivateRoute = ({component: Component, ...rest}) =>
     <Route {...rest} render={props => (

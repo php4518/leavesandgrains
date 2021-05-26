@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -11,6 +10,7 @@ const {ValidationError} = require('express-validation');
 const helmet = require('helmet');
 const routes = require('./routes');
 const config = require('./config');
+const adminRouter = require('./admin');
 const APIError = require('./helpers/APIError');
 
 const app = express();
@@ -35,6 +35,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // mount all routes on /api path
 app.use('/api', routes);
+
+// admin panel
+app.use('/admin', adminRouter);
 
 app.use('/public', express.static('public'));
 
@@ -66,14 +69,5 @@ app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
     message: err.isPublic ? err.message : httpStatus[err.status],
     stack: config.env === 'development' ? err.stack : {},
   }));
-
-if (['staging', 'production', 'test'].includes(config.env)) {
-  const clientBuildPath = path.join(__dirname, '..', '..', 'client', 'build');
-  app.use(express.static(clientBuildPath));
-  console.log('sending file');
-  app.get('*', (req, res) => {
-    res.status(404).sendFile(path.join(clientBuildPath, 'index.html'));
-  });
-}
 
 module.exports = app;

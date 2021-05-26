@@ -1,9 +1,9 @@
 import {
-  SET_INDIVIDUAL_MEALS,
-  SET_MEAL_PLANS,
-  RESET_CART,
   REMOVE_INDIVIDUAL_MEAL_FROM_CART,
-  REMOVE_MEAL_PLAN_FROM_CART
+  REMOVE_MEAL_PLAN_FROM_CART,
+  RESET_CART,
+  SET_INDIVIDUAL_MEALS,
+  SET_MEAL_PLANS
 } from '../constants/cart';
 import initialState from "./initialState";
 
@@ -24,12 +24,12 @@ const cart = (state = initialState.cart, action) => {
 
     case REMOVE_INDIVIDUAL_MEAL_FROM_CART: {
       delete state.individualMeals[action.id];
-      return { ...state }
+      return {...state}
     }
 
     case REMOVE_MEAL_PLAN_FROM_CART: {
       state.mealPlans.splice(action.index, 1);
-      return { ...state }
+      return {...state}
     }
 
     case RESET_CART: {

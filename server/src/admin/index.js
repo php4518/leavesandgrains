@@ -5,7 +5,7 @@ const resources = require('./resources')
 const User = require('../modules/user/user.model')
 const config = require('../config')
 const {isAdminUser} = require('../utils')
-const { orderType } = require('./helper')
+const {orderType} = require('./helper')
 // Admin setup
 
 AdminBro.registerAdapter(AdminBroMongoose)
@@ -13,10 +13,10 @@ AdminBro.registerAdapter(AdminBroMongoose)
 const adminBro = new AdminBro({
   resources,
   pages: {
-    [orderType.INDIVIDUAL_MEAL] : {
+    [orderType.INDIVIDUAL_MEAL]: {
       component: AdminBro.bundle('./components/orders/im.orders.jsx'),
     },
-    [orderType.MEAL_PLAN] : {
+    [orderType.MEAL_PLAN]: {
       component: AdminBro.bundle('./components/orders/mp.orders.jsx'),
     },
   },

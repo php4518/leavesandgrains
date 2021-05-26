@@ -12,10 +12,11 @@ const userPersistConfig = {
   storage: storage,
   whitelist: ['currentUser']
 }
-const reducers = combineReducers({
+const combinedReducer = combineReducers({
   dish,
   cart,
   user: persistReducer(userPersistConfig, user),
 });
 
-export default (state, action) => reducers(action.type === LOGOUT_USER ? initialState : state, action);
+const reducers = (state, action) => combinedReducer(action.type === LOGOUT_USER ? initialState : state, action);
+export default reducers;

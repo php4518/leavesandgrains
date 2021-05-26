@@ -8,18 +8,18 @@ function validate(schema) {
   return expressValidate(schema, {keyByField: true}, {abortEarly: false});
 }
 
-function isBuffer (obj) {
+function isBuffer(obj) {
   return obj &&
     obj.constructor &&
     (typeof obj.constructor.isBuffer === 'function') &&
     obj.constructor.isBuffer(obj)
 }
 
-function keyIdentity (key) {
+function keyIdentity(key) {
   return key
 }
 
-function flatten (target, opts) {
+function flatten(target, opts) {
   opts = opts || {}
 
   const delimiter = opts.delimiter || '.'
@@ -27,7 +27,7 @@ function flatten (target, opts) {
   const transformKey = opts.transformKey || keyIdentity
   const output = {}
 
-  function step (object, prev, currentDepth) {
+  function step(object, prev, currentDepth) {
     currentDepth = currentDepth || 1
     Object.keys(object).forEach(function (key) {
       const value = object[key]
@@ -57,7 +57,7 @@ function flatten (target, opts) {
   return output
 }
 
-function unflatten (target, opts) {
+function unflatten(target, opts) {
   opts = opts || {}
 
   const delimiter = opts.delimiter || '.'
@@ -72,7 +72,7 @@ function unflatten (target, opts) {
 
   // safely ensure that the key is
   // an integer.
-  function getkey (key) {
+  function getkey(key) {
     const parsedKey = Number(key)
 
     return (
@@ -83,7 +83,7 @@ function unflatten (target, opts) {
       : parsedKey
   }
 
-  function addKeys (keyPrefix, recipient, target) {
+  function addKeys(keyPrefix, recipient, target) {
     return Object.keys(target).reduce(function (result, key) {
       result[keyPrefix + delimiter + key] = target[key]
 
@@ -91,7 +91,7 @@ function unflatten (target, opts) {
     }, recipient)
   }
 
-  function isEmpty (val) {
+  function isEmpty(val) {
     const type = Object.prototype.toString.call(val)
     const isArray = type === '[object Array]'
     const isObject = type === '[object Object]'

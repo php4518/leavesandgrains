@@ -1,18 +1,18 @@
 import React from 'react'
 import moment from 'moment';
-import { Box, Table, TableCaption, Text, TableHead, TableRow, TableCell, TableBody, Link } from '@admin-bro/design-system'
-import { unflatten, getDeliveryStatusColor } from '../helper'
+import {Box, Link, Table, TableBody, TableCaption, TableCell, TableHead, TableRow, Text} from '@admin-bro/design-system'
+import {getDeliveryStatusColor, unflatten} from '../helper'
 
 const MealPlans = (props) => {
-  let { record: { params } } = props
-  const { mealPlans = [] } = unflatten(params);
+  let {record: {params}} = props
+  const {mealPlans = []} = unflatten(params);
 
-  if(!mealPlans.length) return null;
+  if (!mealPlans.length) return null;
 
   return (
     <Box marginBottom="xl" letiant="grey">
       {
-        mealPlans.map(({ plan }, i) =>
+        mealPlans.map(({plan}, i) =>
           <Table style={{marginTop: 50}}>
             <TableCaption>
               <Text as="span">Meal Plans {i + 1}</Text>
@@ -37,7 +37,8 @@ const MealPlans = (props) => {
                         <Link className="tCNec" href={`/admin/resources/Dish/records/${a._id}/show`}>{a.title}</Link>
                       </TableCell>
                       <TableCell>{moment(m.deliveryDate).format('DD MMM YYYY')}</TableCell>
-                      <TableCell style={{color: getDeliveryStatusColor(a.deliveryStatus)}}>{a.deliveryStatus || 'Not Delivered'}</TableCell>
+                      <TableCell
+                        style={{color: getDeliveryStatusColor(a.deliveryStatus)}}>{a.deliveryStatus || 'Not Delivered'}</TableCell>
                     </TableRow>
                   )
                 })

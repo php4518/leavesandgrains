@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Col, Container, Table, Row, UncontrolledCollapse, Button} from "reactstrap";
+import {Button, Col, Container, Row, Table, UncontrolledCollapse} from "reactstrap";
 import moment from "moment";
 import AppAlert from "../alert";
 import {getMyOrders} from "../../redux/actions/user";
@@ -10,15 +10,15 @@ import {useHistory} from "react-router";
 const UserOrders = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { userStatus, orders, currentUser } = useSelector(({ user }) => {
-    const { userStatus, orders, currentUser } = user;
-    return { userStatus, orders, currentUser };
+  const {userStatus, orders, currentUser} = useSelector(({user}) => {
+    const {userStatus, orders, currentUser} = user;
+    return {userStatus, orders, currentUser};
   });
 
   useEffect(() => dispatch(getMyOrders(currentUser._id)), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSupport = (order) => {
-    history.push('/contact', { order });
+    history.push('/contact', {order});
   };
 
   const renderDeliveryStatus = (status) => {
@@ -40,7 +40,7 @@ const UserOrders = () => {
 
   return (
     <Container className="orders">
-      <AppAlert alert={userStatus} />
+      <AppAlert alert={userStatus}/>
       <Row>
         <Col>
           <Table responsive bordered>
@@ -79,7 +79,8 @@ const UserOrders = () => {
                                       <div>{im.quantity} X {im.title}</div>
                                       {renderDeliveryStatus(im.deliveryStatus)}
                                     </div>
-                                    <div className="text-muted small">( {moment(im.deliveryDate).format(dateFormat)} )</div>
+                                    <div className="text-muted small">( {moment(im.deliveryDate).format(dateFormat)} )
+                                    </div>
                                   </div>
                                 )
                               }
@@ -94,7 +95,7 @@ const UserOrders = () => {
                               {
                                 order.mealPlans.map((mp, i) =>
                                   <>
-                                    <b className="text-danger"># {i+1} From {moment(mp.start).format(dateFormat)}</b>
+                                    <b className="text-danger"># {i + 1} From {moment(mp.start).format(dateFormat)}</b>
                                     {
                                       mp.plan.map(plan =>
                                         <div className="mb-2">
@@ -127,13 +128,14 @@ const UserOrders = () => {
                           Cancelled
                           <div className="my-2 font-weight-bold text-danger">{order.cancellationReason}</div>
                           <div className="text-muted">If you have any query,
-                            <Button className="btn-link text-left" color="danger" onClick={() => handleSupport(order._id)}>
+                            <Button className="btn-link text-left" color="danger"
+                                    onClick={() => handleSupport(order._id)}>
                               <i className="fa fa-envelope" aria-hidden="true"/> contact our support.
                             </Button>
                           </div>
                         </div>
-                      :
-                      'Ordered'
+                        :
+                        'Ordered'
                     }
                   </td>
                 </tr>

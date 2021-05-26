@@ -13,9 +13,9 @@ import AppAlert from "../../components/alert";
 
 const OrderHome = () => {
   const dispatch = useDispatch();
-  const { dishStatus, meals } = useSelector(({ dish }) => {
-    const { dishStatus, meals } = dish;
-    return { dishStatus, meals };
+  const {dishStatus, meals} = useSelector(({dish}) => {
+    const {dishStatus, meals} = dish;
+    return {dishStatus, meals};
   });
 
   const [showContent, setShowContent] = useState(false);
@@ -132,7 +132,7 @@ const OrderHome = () => {
 }
 
 const MealsByDays = ({dishStatus, mealPlans, showDetails, removeMeal, updateMeal}) => {
-  if (!mealPlans) return <AppAlert alert={dishStatus} />
+  if (!mealPlans) return <AppAlert alert={dishStatus}/>
   return (
     Object.keys(mealPlans).map((key, index) => {
       return (

@@ -1,15 +1,15 @@
 import React from 'react'
 import moment from 'moment';
-import { sortBy } from 'lodash';
-import { Box, Table, TableCaption, Text, TableHead, TableRow, TableCell, TableBody, Link } from '@admin-bro/design-system'
+import {sortBy} from 'lodash';
+import {Box, Link, Table, TableBody, TableCaption, TableCell, TableHead, TableRow, Text} from '@admin-bro/design-system'
 import {getDeliveryStatusColor, unflatten} from '../helper'
 
 const IndividualMeals = (props) => {
 
-  let { record: { params } } = props
-  let { individualMeals = [] } = unflatten(params);
+  let {record: {params}} = props
+  let {individualMeals = []} = unflatten(params);
 
-  if(!individualMeals.length) return null;
+  if (!individualMeals.length) return null;
 
   individualMeals = sortBy(individualMeals, ['deliveryDate']);
 
@@ -36,7 +36,8 @@ const IndividualMeals = (props) => {
                 </TableCell>
                 <TableCell>{m.quantity}</TableCell>
                 <TableCell>{moment(m.deliveryDate).format('DD MMM YYYY')}</TableCell>
-                <TableCell style={{color: getDeliveryStatusColor(m.deliveryStatus)}}>{m.deliveryStatus || 'Not Delivered'}</TableCell>
+                <TableCell
+                  style={{color: getDeliveryStatusColor(m.deliveryStatus)}}>{m.deliveryStatus || 'Not Delivered'}</TableCell>
               </TableRow>
             )
           }

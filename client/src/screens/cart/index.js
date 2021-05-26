@@ -3,7 +3,12 @@ import moment from 'moment'
 import {Button, Col, Container, Row} from "reactstrap";
 import MenuHeader from "../../components/header/menuHeader";
 import AddressModule from "../../components/address-module";
-import {setMealPlans, setIndividualMeals, removeIndividualMealFromCart, removeMealPlanFromCart} from "../../redux/actions/cart";
+import {
+  removeIndividualMealFromCart,
+  removeMealPlanFromCart,
+  setIndividualMeals,
+  setMealPlans
+} from "../../redux/actions/cart";
 import {IndividualMealCard, MealPlanCard} from "../../components/cart-items";
 import {formatAddress, getCartTotal, getPrice} from "../../helpers/utils";
 import {useHistory} from "react-router";
@@ -11,18 +16,19 @@ import {useDispatch, useSelector} from "react-redux";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { currentUser, mealPlans, individualMeals } = useSelector(({ user, cart }) => {
-    let { currentUser } = user;
-    let { mealPlans, individualMeals } = cart;
-    return { currentUser, mealPlans, individualMeals }
+  const {currentUser, mealPlans, individualMeals} = useSelector(({user, cart}) => {
+    let {currentUser} = user;
+    let {mealPlans, individualMeals} = cart;
+    return {currentUser, mealPlans, individualMeals}
   });
 
   const [addressModule, showAddressModule] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const history = useHistory();
-  const cartTotal = getCartTotal({ mealPlans, individualMeals });
+  const cartTotal = getCartTotal({mealPlans, individualMeals});
 
   useEffect(() => {
+    /* eslint-disable react-hooks/exhaustive-deps */
     mealPlans.forEach((_, index) => handleMealPlanDateChange(index));
     Object.keys(individualMeals).forEach(k => handleIndividualMealDateChange(k));
   }, []);
@@ -30,7 +36,7 @@ const Cart = () => {
   const confirmOrder = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    history.push('/payment', { address: selectedAddress, amount: cartTotal });
+    history.push('/payment', {address: selectedAddress, amount: cartTotal});
   };
 
   const handleMealPlanDateChange = (index, date = moment().add(1, 'day')) => {
@@ -110,32 +116,33 @@ const Cart = () => {
                 </div>
 
                 {currentUser ?
-                <Button
-                  className="btn-round my-3"
-                  color="success"
-                  type="button"
-                  onClick={(e) => selectedAddress ? confirmOrder(e) : showAddressModule(true)}
-                >
-                  {selectedAddress ? 'Confirm order' : 'Checkout'}
-                </Button> :
-                <Button
-                  className="btn-round my-3"
-                  color="success"
-                  type="button"
-                  href="/sign-in"
-                >
-                  Sign in to order
-                </Button>
+                  <Button
+                    className="btn-round my-3"
+                    color="success"
+                    type="button"
+                    onClick={(e) => selectedAddress ? confirmOrder(e) : showAddressModule(true)}
+                  >
+                    {selectedAddress ? 'Confirm order' : 'Checkout'}
+                  </Button> :
+                  <Button
+                    className="btn-round my-3"
+                    color="success"
+                    type="button"
+                    href="/sign-in"
+                  >
+                    Sign in to order
+                  </Button>
                 }
                 {
                   selectedAddress ?
-                  <>
-                    <h5 className="font-weight-bold">
-                      Delivery Location: <span className="change" onClick={() => showAddressModule(true)}>Change</span>
-                    </h5>
-                    <div className="font-weight-bold">{selectedAddress.name}</div>
-                    <div>{formatAddress(selectedAddress)}</div>
-                  </> : null
+                    <>
+                      <h5 className="font-weight-bold">
+                        Delivery Location: <span className="change"
+                                                 onClick={() => showAddressModule(true)}>Change</span>
+                      </h5>
+                      <div className="font-weight-bold">{selectedAddress.name}</div>
+                      <div>{formatAddress(selectedAddress)}</div>
+                    </> : null
                 }
               </div>
             </Col>}

@@ -2,7 +2,7 @@ import {IMAGE_BASE_URL} from "./config";
 import React from "react";
 
 export const dateFormat = 'DD MMMM YYYY';
-const phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
+const phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\\-]\s*)?|[0]?)?[6789]\d{9}$/;
 const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%,.}{)(^<>&*])[a-zA-Z0-9!@#,.}{)($<>%^&*]{6,}$/;
 
 export const validatePhoneNumber = (phone) => !phone.match(phoneRegex);
@@ -25,7 +25,7 @@ export const getMealPlanTotal = (mealPlans) => {
   }, 0);
 };
 
-export const getCartTotal = ({ mealPlans = [], individualMeals = {} }) => {
+export const getCartTotal = ({mealPlans = [], individualMeals = {}}) => {
   const customMealTotal = mealPlans.reduce((total, meal) => total + meal.total, 0);
   const individualMealTotal = Object.values(individualMeals).reduce((total, meal) => total + meal.price * meal.quantity, 0);
   return customMealTotal + individualMealTotal;

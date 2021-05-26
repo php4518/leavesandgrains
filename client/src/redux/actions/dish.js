@@ -1,10 +1,4 @@
-import {
-  GET_DISHES,
-  GET_MEALS,
-  SET_DISHES,
-  SET_MEALS,
-  DISH_STATUS
-} from '../constants/dish';
+import {DISH_STATUS, GET_DISHES, GET_MEALS, SET_DISHES, SET_MEALS} from '../constants/dish';
 
 export const getDishes = (params = null) => {
   return {type: GET_DISHES, params};

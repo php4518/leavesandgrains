@@ -336,7 +336,7 @@ class OtpInput extends Component {
         <div className="modal-body">
           {this.renderInputs()}
         </div>
-        <AppAlert alert={status} />
+        <AppAlert alert={status}/>
         <div className="modal-footer">
           <Button onClick={onResend} color="info">
             Resend OTP

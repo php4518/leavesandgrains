@@ -6,13 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { userStatus, currentUser } = useSelector(({ user }) => {
-    const { userStatus , currentUser } = user;
-    return { userStatus , currentUser };
+  const {userStatus, currentUser} = useSelector(({user}) => {
+    const {userStatus, currentUser} = user;
+    return {userStatus, currentUser};
   });
-  const { _id, email, name, phoneNumber } = currentUser;
+  const {_id, email, name, phoneNumber} = currentUser;
 
-  const [registerFields, setRegisterFields] = useState({ email, name });
+  const [registerFields, setRegisterFields] = useState({email, name});
 
   const handleInputChange = (e) => setRegisterFields({...registerFields, [e.target.name]: e.target.value});
 

@@ -21,10 +21,10 @@ const SCROLL_OFFSET = 200;
 
 const NavigationBar = () => {
   const dispatch = useDispatch();
-  const { currentUser, mealPlans, individualMeals } = useSelector(({ user, cart }) => {
-    let { currentUser } = user;
-    let { mealPlans, individualMeals } = cart;
-    return { currentUser, mealPlans, individualMeals }
+  const {currentUser, mealPlans, individualMeals} = useSelector(({user, cart}) => {
+    let {currentUser} = user;
+    let {mealPlans, individualMeals} = cart;
+    return {currentUser, mealPlans, individualMeals}
   });
 
   const [navbarColor, setNavbarColor] = useState("navbar-transparent");

@@ -53,12 +53,13 @@ async function getProfile(req, res, next) {
 async function update(req, res, next) {
   const {user} = req;
   try {
-    if(user.email !== req.body.email) {
+    if (user.email !== req.body.email) {
       const foundUser = await User.findOne({email: req.body.email}).exec();
       if (foundUser) {
         throw new APIError('Email Address is already registered, try with other email address.', httpStatus.CONFLICT);
       }
-    };
+    }
+    ;
     user.email = req.body.email;
     user.name = req.body.name;
 
@@ -100,14 +101,14 @@ async function remove(req, res, next) {
 }
 
 async function makePayment(req, res, next) {
-  const { amount, customer } = req.body;
-  const receipt = otpGenerator.generate(12, { digits: false, upperCase: false, specialChars: false });
+  const {amount, customer} = req.body;
+  const receipt = otpGenerator.generate(12, {digits: false, upperCase: false, specialChars: false});
   const options = {
     amount: parseInt(amount * 100),
     currency: 'INR',
     receipt,
     payment_capture: 1,
-    notes: { customer }
+    notes: {customer}
   }
   console.log(options.amount);
   try {

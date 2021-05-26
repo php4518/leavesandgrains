@@ -579,12 +579,15 @@
 .profile-page {
   .nav-tabs {
     padding: 25px 0;
+
     .nav-item {
       width: 100%;
       height: 50px;
+
       .nav-link {
         font-size: 18px;
         color: $font-color;
+
         &.active {
           border-right: 5px solid $danger-color;
           border-radius: 0;
@@ -593,6 +596,7 @@
           -webkit-transition: all .1s ease;
           -moz-transition: all .1s ease;
           transition: all .1s ease;
+
           &:focus, &:hover {
             &:before,
             &:after {
@@ -600,6 +604,7 @@
             }
           }
         }
+
         &:before,
         &:after {
           display: none;
@@ -611,49 +616,60 @@
   .update-form {
     margin: 50px 0;
     text-align: left;
+
     .form-control {
       margin-bottom: 10px;
       background-color: #e9ecef !important;
       border: none;
     }
+
     button {
       width: 50%;
       margin: 20px auto;
     }
   }
+
   .orders {
     margin: 50px 0;
     text-align: left;
+
     .table {
-     td {
-       font-weight: 500;
-       .order-title {
-         font-size: 19px;
-         font-weight: bold;
-       }
-       .order-details {
-         background: $light-gray-bg;
-         padding: 10px;
-         border-radius: 5px;
-         .plan-title {
-           color: $info-color;
-           font-size: 17px;
-           font-weight: bold;
-         }
-         .date {
-           font-size: 12px;
-         }
-       }
-       button {
-         padding: 0;
-       }
-       &:first-child {
-         width: 70%;
-       }
-       &:nth-child(2) {
-         white-space: pre;
-       }
-     }
+      td {
+        font-weight: 500;
+
+        .order-title {
+          font-size: 19px;
+          font-weight: bold;
+        }
+
+        .order-details {
+          background: $light-gray-bg;
+          padding: 10px;
+          border-radius: 5px;
+
+          .plan-title {
+            color: $info-color;
+            font-size: 17px;
+            font-weight: bold;
+          }
+
+          .date {
+            font-size: 12px;
+          }
+        }
+
+        button {
+          padding: 0;
+        }
+
+        &:first-child {
+          width: 70%;
+        }
+
+        &:nth-child(2) {
+          white-space: pre;
+        }
+      }
     }
   }
 }
@@ -892,6 +908,7 @@ form {
     width: 50%;
     margin: 0 auto 10px;
   }
+
   .modal-body {
     display: flex;
     justify-content: space-evenly;

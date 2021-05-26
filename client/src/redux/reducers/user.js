@@ -1,9 +1,11 @@
 import {
+  ORDER_STATUS,
+  OTP_STATUS,
+  SET_MY_ORDERS,
   SET_NEW_USER_ADDRESS,
   SET_USER,
   SET_VERIFY_OTP,
-  ORDER_STATUS,
-  USER_STATUS, OTP_STATUS, SET_MY_ORDERS
+  USER_STATUS
 } from '../constants/user';
 import initialState from "./initialState";
 
