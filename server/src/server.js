@@ -11,7 +11,6 @@ const {ValidationError} = require('express-validation');
 const helmet = require('helmet');
 const routes = require('./routes');
 const config = require('./config');
-const adminRouter = require('./admin');
 const APIError = require('./helpers/APIError');
 
 const app = express();
@@ -36,9 +35,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // mount all routes on /api path
 app.use('/api', routes);
-
-// admin panel
-app.use('/admin', adminRouter);
 
 app.use('/public', express.static('public'));
 
