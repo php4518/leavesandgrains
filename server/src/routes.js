@@ -9,13 +9,11 @@ const authRoutes = require('./modules/auth/auth.routes');
 const dishRoutes = require('./modules/dish/dish.routes');
 const mealRoutes = require('./modules/meals/meals.routes');
 const supportRoutes = require('./modules/support/support.routes');
-const adminRouter = require('./admin');
 
 const router = express.Router();
 
 /** GET /health-check - Check service health */
 router.get('/health-check', (req, res) => res.send('OK'));
-router.use('/admin', adminRouter);
 
 // mount auth routes at /auth
 router.use('/auth', authRoutes);
