@@ -10,7 +10,6 @@ const {ValidationError} = require('express-validation');
 const helmet = require('helmet');
 const routes = require('./routes');
 const config = require('./config');
-const adminRoutes = require('./admin');
 const APIError = require('./helpers/APIError');
 
 const app = express();
@@ -31,7 +30,7 @@ app.use(cors());
 
 if(config.env === 'development') {
   // Admin Panel
-  app.use('/admin', adminRoutes);
+  app.use('/admin', require('./admin'));
 }
 
 // parse body params and attache them to req.body

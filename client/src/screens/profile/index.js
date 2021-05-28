@@ -1,27 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import {useLocation} from "react-router";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import MenuHeader from "../../components/header/menuHeader";
 import AppAlert from "../../components/alert";
 import UserProfile from "../../components/user-profile";
 import UserOrders from "../../components/user-orders";
-import {setOrderStatus} from "../../redux/actions/user";
 
 const tabs = ['Profile', 'Orders'];
 
 const Profile = () => {
   const {state: {orderStatus} = {}} = useLocation();
-  const dispatch = useDispatch();
   const currentUser = useSelector(({user: {currentUser}}) => currentUser);
   const [activeTab, setActiveTab] = useState(orderStatus ? tabs[1] : tabs[0]);
-
-  useEffect(() => {
-    /* eslint-disable react-hooks/exhaustive-deps */
-    if(orderStatus) {
-      dispatch(setOrderStatus(null));
-    }
-  }, []);
 
   return (
     <div className="profile-page">

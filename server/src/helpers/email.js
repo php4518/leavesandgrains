@@ -34,9 +34,10 @@ function sendEmail(data) {
     text
   };
 
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err) return console.log('Error sending email: ' ,err);
-    return console.log('email sent: ', info);
+  transporter.sendMail(mailOptions, function (err) {
+    if (err) {
+      console.log('Error sending email: ' ,err);
+    }
   });
 }
 
