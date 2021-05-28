@@ -26,7 +26,9 @@ const adminBro = new AdminBro({
   },
 });
 let router;
-
+if (config.env === 'development') {
+  router = AdminBroExpress.buildRouter(adminBro)
+} else {
   router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
     authenticate: async (email, password) => {
       const user = await User.findOne({email})
@@ -40,5 +42,6 @@ let router;
       return false
     },
     cookiePassword: config.cookiePassword,
-});
+  })
+}
 module.exports = router;

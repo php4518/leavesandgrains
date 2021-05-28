@@ -5,6 +5,7 @@ const httpStatus = require('http-status');
 const User = require('../user/user.model');
 const APIError = require('../../helpers/APIError');
 const {sendSms} = require('../../helpers/SMS');
+const {sendEmail} = require('../../helpers/email');
 const config = require('../../config');
 
 /**
@@ -19,7 +20,7 @@ async function login(req, res, next) {
     if (!foundUserWithPhone) {
       throw new APIError('This phone number is not registered with us. try create a new acount instead.', httpStatus.NOT_FOUND);
     }
-    const otpHash = createNewOTP(foundUserWithPhone.phoneNumber);
+    const otpHash = createNewOTP(foundUserWithPhone.phoneNumber, foundUserWithPhone.email);
     return res.json({otpHash});
     // const token = generateJWT(foundUser.safeModel());
     // return res.json({
@@ -51,7 +52,7 @@ async function register(req, res, next) {
     }
     user.password = user.generatePassword(req.body.password);
     await user.save();
-    const otpHash = createNewOTP(req.body.phoneNumber);
+    const otpHash = createNewOTP(user.phoneNumber, user.email);
     return res.json({otpHash});
     // const token = generateJWT({email: savedUser.email});
     // const emailVerificationLink = generateVerificationLink(token);
@@ -155,7 +156,7 @@ async function resendEmailToken(req, res, next) {
   }
 }
 
-function createNewOTP(phone) {
+function createNewOTP(phone, email) {
   // Generate a 6 digit numeric OTP
   const otp = otpGenerator.generate(6, {alphabets: false, upperCase: false, specialChars: false});
   const ttl = 2 * 60 * 1000; // 2 Minutes in miliseconds
@@ -164,8 +165,9 @@ function createNewOTP(phone) {
   const hash = crypto.createHmac("sha256", config.otpSecret).update(data).digest("hex"); // creating SHA256 hash of the data
   const otpHash = `${hash}.${expires}`; // Hash.expires, format to send to the user
   // you have to implement the function to send SMS yourself. For demo purpose. let's assume it's called sendSMS
-  sendSms(phone, `Your OTP is ${otp}. it will expire in 2 minutes`);
-
+  const text = `Your OTP is ${otp}. it will expire in 2 minutes`;
+  sendSms(phone, text);
+  sendEmail({ subject: 'Verification code', text, to: email });
   return otpHash;
 }
 

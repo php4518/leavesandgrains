@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {addUserAddress, deleteUserAddresses, editUserAddresses, getUserAddresses} from "../../redux/actions/user";
 import {useDispatch, useSelector} from "react-redux";
 import AppAlert from "../alert";
+import {STATUS} from "../../helpers/constants";
 
 const defaultFields = {
   city: 'Surat',
@@ -11,9 +12,9 @@ const defaultFields = {
 
 const AddressModule = (props) => {
   const dispatch = useDispatch();
-  const {successMessage, userAddresses, userStatus} = useSelector(({user}) => {
-    const {successMessage, userAddresses, userStatus} = user;
-    return {successMessage, userAddresses, userStatus}
+  const {userAddresses, userStatus} = useSelector(({user}) => {
+    const {userAddresses, userStatus} = user;
+    return {userAddresses, userStatus}
   });
 
   const [addAddress, showAddAddress] = useState(false);
@@ -25,11 +26,11 @@ const AddressModule = (props) => {
   }, []);
 
   useEffect(() => {
-    if (successMessage) {
+    if (userStatus && userStatus.status === STATUS.SUCCESS) {
       showAddAddress(false);
       setAddressFields(defaultFields);
     }
-  }, [successMessage]);
+  }, [userStatus]);
 
   const handleInputChange = (e) => setAddressFields({...addressFields, [e.target.name]: e.target.value});
 
@@ -164,23 +165,26 @@ const AddressModule = (props) => {
               :
               <div className="addresses-wrapper">
                 {
-                  userAddresses.map(address =>
-                    <div
-                      className={`address-card ${props.selectedAddress && address._id === props.selectedAddress._id ? 'selected' : ''}`}
-                      key={address._id} onClick={(e) => handleSelectAddress(e, address)}>
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="title mt-1 mb-0 font-weight-bold">{address.name}</div>
-                        <div>
-                          <span onClick={(e) => handleEditAddress(e, address)}>Edit</span> | <span
-                          onClick={(e) => handleDeleteAddress(e, address._id)}>Delete</span></div>
+                  !userAddresses.length ?
+                    <div>No address added yet</div>
+                    :
+                    userAddresses.map(address =>
+                      <div
+                        className={`address-card ${props.selectedAddress && address._id === props.selectedAddress._id ? 'selected' : ''}`}
+                        key={address._id} onClick={(e) => handleSelectAddress(e, address)}>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="title mt-1 mb-0 font-weight-bold">{address.name}</div>
+                          <div>
+                            <span onClick={(e) => handleEditAddress(e, address)}>Edit</span> | <span
+                            onClick={(e) => handleDeleteAddress(e, address._id)}>Delete</span></div>
+                        </div>
+                        <div className="description">{address.addressLine1}</div>
+                        <div className="description">{address.addressLine2}</div>
+                        <div className="description">{address.landmark}</div>
+                        <div className="description">{address.pincode}</div>
+                        <div className="description">{address.city}, {address.state}</div>
                       </div>
-                      <div className="description">{address.addressLine1}</div>
-                      <div className="description">{address.addressLine2}</div>
-                      <div className="description">{address.landmark}</div>
-                      <div className="description">{address.pincode}</div>
-                      <div className="description">{address.city}, {address.state}</div>
-                    </div>
-                  )
+                    )
                 }
               </div>
           }

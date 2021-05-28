@@ -13,24 +13,9 @@ const SignIn = (props) => {
     return {otpStatus, showVerifyOtp, userStatus, otpHash}
   });
 
-  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [inValidPhoneNumber, setInValidPhoneNumber] = useState(null);
   const [otp, setOtp] = useState(null);
-
-  // if(pathname === '/sign-in/verifyEmail') {
-  //   props.verifyAuthToken(search);
-  //   history.replace('/sign-in')
-  // }
-  //
-  // if(pathname === '/sign-in/resend-verification-email') {
-  //   props.resendVerificationEmail(search);
-  //   history.replace('/sign-in')
-  // }
-  //
-  // if(pathname === '/sign-in/forgot-password') {
-  //   props.resendVerificationEmail(search);
-  //   history.replace('/sign-in')
-  // }
 
   const handleSubmit = (e) => {
     e.stopPropagation();

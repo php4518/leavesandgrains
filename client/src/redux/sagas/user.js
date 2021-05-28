@@ -208,10 +208,12 @@ export function* placeOrderAsync() {
         paymentDetails
       }
       yield put(setOrderStatus({status: STATUS.LOADING}));
-      yield call(userService.placeOrder, order);
+      debugger
+      yield call(userService.placeOrder, customer, order);
       yield put(resetCart());
       yield put(setOrderStatus({status: STATUS.SUCCESS, message: 'Order Placed Successfully'}));
     } catch (err) {
+      debugger
       console.log(err)
       yield put(setOrderStatus({status: STATUS.ERROR, message: err.data.message}));
     }

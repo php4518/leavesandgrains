@@ -47,7 +47,9 @@ const envVarsSchema = Joi.object({
   SMS_USERNAME: Joi.string().default(''),
   SMS_PASSWORD: Joi.string().default(''),
   SMS_SENDER_ID: Joi.string().default(''),
-
+  EMAIL_SERVICE_USER: Joi.string().required(),
+  EMAIL_SERVICE_PASS: Joi.string().required(),
+  EMAIL_SERVICE_SENDER_EMAIL: Joi.string().default('team@leavesandgrains.com'),
 }).unknown()
   .required();
 
@@ -87,6 +89,10 @@ const config = {
   smsUserName: envVars.SMS_USERNAME,
   smsPassword: envVars.SMS_PASSWORD,
   smsSenderId: envVars.SMS_SENDER_ID,
+  emailServiceUser: envVars.EMAIL_SERVICE_USER,
+  emailServicePass: envVars.EMAIL_SERVICE_PASS,
+  emailService: 'Gmail',
+  emailServiceSender: `${envVars.EMAIL_SERVICE_SENDER_EMAIL}`
 };
 
 module.exports = config;

@@ -6,7 +6,7 @@ const getAddress = (id) => axios(`/address/owner/${id}`);
 const updateAddress = (params) => axios.put(`/address/${params._id}`, params);
 const deleteAddress = (id) => axios.delete(`/address/${id}`);
 const getPaymentDetails = (params) => axios.post(`/users/make-payment`, params);
-const placeOrder = (params) => axios.post('/order', params);
+const placeOrder = (userId, params) => axios.post(`/order/${userId}`, params);
 const myOrders = (id) => axios.get(`/order/${id}`);
 const contactSupport = (params) => axios.post('/support', params);
 

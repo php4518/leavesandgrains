@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import {Button, Card, Col, Container, Form, FormFeedback, Input, Row} from "reactstrap";
 import {validatePassword, validatePhoneNumber} from "../../helpers/utils";
-import {registerUser, verifyOTP} from "../../redux/actions/user";
+import {loginUser, registerUser, verifyOTP} from "../../redux/actions/user";
 import OtpInput from "../../components/otp-input";
 import {useDispatch, useSelector} from "react-redux";
 import AppAlert from "../../components/alert";
@@ -52,6 +52,12 @@ const SignUp = () => {
     e.stopPropagation();
     e.preventDefault();
     dispatch(verifyOTP({phoneNumber: registerFields.phoneNumber, otp, otpHash}));
+  };
+
+  const handleResendOtp = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    dispatch(loginUser(registerFields.phoneNumber));
   };
 
   return (
@@ -138,6 +144,7 @@ const SignUp = () => {
           separator={<span>-</span>}
           open={showVerifyOtp}
           onSubmit={handleOtpVerification}
+          onResend={handleResendOtp}
           status={otpStatus}
         />
       </Container>
