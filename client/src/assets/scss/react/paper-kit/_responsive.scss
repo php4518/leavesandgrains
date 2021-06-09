@@ -1,3 +1,17 @@
+.wrapper {
+  div {
+    display: flex;
+    align-items: center;
+
+  }
+  .num-column {
+    height: 25px;
+    min-width: 40px;
+    justify-content: center;
+    font-size: calc(10px - 0.1vw);
+  }
+}
+
 @media screen and (max-width: 320px) {
   .index {
     .presentation-subtitle {

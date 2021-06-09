@@ -110,17 +110,14 @@ async function makePayment(req, res, next) {
     payment_capture: 1,
     notes: {customer}
   }
-  console.log(options.amount);
   try {
     const response = await razorpay.orders.create(options)
-    console.log(response)
     res.json({
       id: response.id,
       currency: response.currency,
       amount: response.amount
     })
   } catch (error) {
-    console.log(error);
     return next(error);
   }
 }

@@ -96,7 +96,6 @@ const Payment = () => {
   }
 
   const onError = (error) => {
-    console.log(error);
     setLoading(false);
     setError('Razorpay SDK failed to load. Are you online?');
     return;

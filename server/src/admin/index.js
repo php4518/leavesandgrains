@@ -35,7 +35,6 @@ if (config.env === 'development') {
 
       if (user) {
         if (user.validPassword(password) && isAdminUser({currentAdmin: user})) {
-          console.log('login success')
           return user.safeModel();
         }
       }

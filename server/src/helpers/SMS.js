@@ -15,21 +15,7 @@ function sendSms(phone, message) {
 
   const url = `http://m.onlinebusinessbazaar.in/sendsms.jsp?user=${user}&password=${password}&senderid=${senderId}&mobiles=${phoneNumber}&sms=${message}&responsein=JSON`;
 
-  console.log('sending sms');
-  http.get(url, (resp) => {
-    let data = '';
-
-    // A chunk of data has been received.
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
-
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      console.log('SMS XML RESPONSE = ', data);
-    });
-
-  }).on("error", (err) => {
+  http.get(url).on("error", (err) => {
     console.log("SMS Error: " + err.message);
   });
 
