@@ -6,7 +6,7 @@ import Square9 from './screens/squares/square9';
 
 ReactDOM.render(
   <Router>
-    <Square9/>
+    <App />
   </Router>,
   document.getElementById("root")
 );

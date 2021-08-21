@@ -1,5 +1,5 @@
 import {persistReducer} from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import Asy from 'redux-persist/lib/storage' // defaults to localStorage for web
 import {combineReducers} from 'redux';
 import dish from './dish';
 import cart from './cart';
@@ -9,7 +9,7 @@ import initialState from "./initialState";
 
 const userPersistConfig = {
   key: 'user',
-  storage: storage,
+  storage: AsyncSto,
   whitelist: ['currentUser']
 }
 const combinedReducer = combineReducers({

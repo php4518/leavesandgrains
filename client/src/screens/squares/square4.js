@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import moment from 'moment';
 
-const initialDate = moment('4/9/2019', 'DD/MM/YYYY')
-const timeFactor = 9.4575;
-const N = 51;
+const initialDate = moment('18/03/2020', 'DD/MM/YYYY')
+const N = 21;
 const delta = 0;
-const highValues = [1487, 823, 986]; // 12/04/2021
-const lowValues = [511, 360, 430, 289]; // 23/3/2020
+const highValues = [1477];
+const lowValues = [510];
 const markedDates = [];
+// const markedValues = [510, 720, 986, 914, 1186, 1051, 1392, 1231, 1477, 1311];
+// const markedDates = ['19/03/20', '30/04/20', '31/07/20', '04/09/20', '15/10/20', '02/11/20', '13/01/21', '29/01/21', '12/04/21', '14/05/21'];
 
-const Square9 = () => {
+const Square4 = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -18,42 +19,47 @@ const Square9 = () => {
 
   const matrix = (n) => {
     const results = [];
-    for (let i = 0; i < n; i++) {
+    const totalCounts = n * 2;
+    for (let i = 0; i < totalCounts; i++) {
       results.push([]);
     }
-    let counter = n * n;
-    let startColumn = 0;
-    let endColumn = n - 1;
+    let counter = totalCounts * totalCounts;
+
     let startRow = 0;
-    let endRow = n - 1;
-    while (startColumn <= endColumn && startRow <= endRow) {
-      // Bottom row
-      for (let i = startColumn; i <= endColumn; i++) {
-        results[endRow][i] = counter;
-        counter--; // 25, 24, 23, 22, 21
-      }
-      endRow--;
+    let endRow = totalCounts - 1;
 
-      // Right column
-      for (let i = endRow; i >= startRow; i--) {
-        results[i][endColumn] = counter;
-        counter--; // 20, 19, 18, 17
-      }
-      endColumn--;
+    let startColumn = totalCounts - 1;
+    let endColumn = 0;
 
-      // top row
-      for (let i = endColumn; i >= startColumn; i--) {
-        results[startRow][i] = counter;
-        counter--; // 16, 15, 14, 13
-      }
-      startRow++;
-
-      // start row = 1
+    while (startColumn >= endColumn) {
       for (let i = startRow; i <= endRow; i++) {
-        results[i][startColumn] = counter;
+        if (i >= n) {
+          results[i][startColumn] = counter;
+          counter--;
+        }
+      }
+      startColumn--;
+      for (let i = startColumn; i >= endColumn; i--) {
+        results[endRow][i] = counter;
         counter--;
       }
-      startColumn++;
+      endRow--;
+      for (let i = endRow; i >= startRow; i--) {
+        results[i][endColumn] = counter;
+        counter--;
+      }
+      endColumn++;
+      for (let i = endColumn; i <= startColumn; i++) {
+        results[startRow][i] = counter;
+        counter--;
+      }
+      startRow++;
+      for (let i = startRow - 1; i <= endRow + 1; i++) {
+        if (i < n) {
+          results[i][startColumn + 1] = counter;
+          counter--;
+        }
+      }
     }
     return results;
   };
@@ -66,22 +72,17 @@ const Square9 = () => {
             {
               r.map((c, ci) => {
                 const value = c + delta;
-                const day = moment(initialDate).subtract(c*timeFactor, 'hours').format('DD/MM/YY');
+                const day = moment(initialDate).add(c, 'day').format('DD/MM/YY');
                 return <div className="num-column" style={{
                   flexDirection: 'column',
                   paddingHorizontal: 5,
-                  background:
-                    (ri - ci === 4) ? 'pink' :
-                    (ci === ri || ci - ri === N - 1) ? 'lightgray' :
-                    (ci === (N - 1) / 2 || ri === (N - 1) / 2) ? 'yellow' :
-                      'white'
+                  background: (ci === ri || ci + ri === 2*N - 1) ? 'lightgray' : 'white'
                 }}>
                   <div style={{
                     background: markedDates.includes(day) ? 'pink' : 'transparent'
                   }}>{day}</div>
-                  {/* ci + ' - ' + ri */}
                   <div style={{
-                    color: (highValues.includes(value) || lowValues.includes(value)) ? 'white' : 'black',
+                    color: 'white',
                     background: highValues.includes(value) ? 'green' : lowValues.includes(value) ? 'red' : 'transparent'
                   }}><b>{value}</b></div>
                 </div>
@@ -94,4 +95,4 @@ const Square9 = () => {
   )
 }
 
-export default Square9;
+export default Square4;
