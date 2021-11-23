@@ -33,7 +33,7 @@ const paramValidation = {
     body: Joi.object({
       phoneNumber: Joi.string().required(),
       otp: Joi.string().required(),
-      otpHash: Joi.string().required(),
+      // otpHash: Joi.string().required(),
     }),
   }
 };

@@ -9,7 +9,7 @@ import initialState from "./initialState";
 
 const userPersistConfig = {
   key: 'user',
-  storage: AsyncSto,
+  storage: Asy,
   whitelist: ['currentUser']
 }
 const combinedReducer = combineReducers({

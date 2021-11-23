@@ -35,12 +35,14 @@ if(config.env === 'development') {
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true, limit:'50mb', parameterLimit: 1000000}));
+app.use(bodyParser.json({limit:'50mb'})); 
 
 // mount all routes on /api path
 app.use('/api', routes);
 
 app.use('/public', express.static('public'));
+app.use("/uploadedDocuments/dishImg", express.static('uploadedDocuments/dishImg'));
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {

@@ -20,13 +20,14 @@ async function login(req, res, next) {
     if (!foundUserWithPhone) {
       throw new APIError('This phone number is not registered with us. try create a new acount instead.', httpStatus.NOT_FOUND);
     }
-    const otpHash = createNewOTP(foundUserWithPhone.phoneNumber, foundUserWithPhone.email);
-    return res.json({otpHash});
-    // const token = generateJWT(foundUser.safeModel());
-    // return res.json({
-    //   token,
-    //   user: foundUser.safeModel(),
-    // });
+    // const otpHash = createNewOTP(foundUserWithPhone.phoneNumber, foundUserWithPhone.email);
+    // console.log("otpHash",otpHash);
+    // return res.json({});
+    // const token = generateJWT({email: foundUserWithPhone.email});
+    return res.json({
+      // token,
+      user: foundUserWithPhone,
+    });
   } catch (error) {
     return next(error);
   }
@@ -81,13 +82,13 @@ async function verifyOTP(req, res, next) {
       throw new APIError('This phone number is not registered with us. try create a new acount instead.', httpStatus.NOT_FOUND);
     }
     const verify = verifyOTPHash(phoneNumber, otpHash, otp);
-    if (verify.success) {
+    // if (verify.success) {
       const token = generateJWT(foundUserWithPhone.safeModel());
       return res.json({
         token,
         user: foundUserWithPhone.safeModel(),
       });
-    }
+    // }
     throw new APIError(verify.message || 'error verifying otp, try resend again', httpStatus.UNAUTHORIZED);
   } catch (error) {
     return next(error);

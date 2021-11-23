@@ -12,12 +12,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.verify((error) => {
-  if (error) {
-    console.log('Invalid Credentials for email service. Error: ', error);
-    process.exit(1);
-  }
-});
+// transporter.verify((error) => {
+//   if (error) {
+//     console.log('Invalid Credentials for email service. Error: ', error);
+//     process.exit(1);
+//   }
+// });
 
 /**
  * sendEmail - Sends email to user using email service
