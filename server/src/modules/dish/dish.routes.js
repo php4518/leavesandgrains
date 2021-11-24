@@ -2,7 +2,6 @@ const express = require('express');
 const dishCtrl = require('./dish.controller');
 const { Joi } = require('express-validation');
 const { validate } = require('../../helpers');
-const path = require('path');
 const multer = require('multer');
 const router = express.Router();
 
@@ -16,9 +15,11 @@ const fileFilter = (req, file, cb) => {
 }
 
 var docStorage = multer.diskStorage({
-  destination: "./uploadedDocuments/dishImg/",
-  filename: function (req, file, callback) {
-    callback(null, file.originalname + '_' + Date.now() + path.extname(file.originalname))
+  destination: (req, file, cb) => { // setting destination of uploading files        
+    cb(null, './apipublic');
+  },
+  filename: (req, file, cb) => { // naming file
+    cb(null, file.originalname);
   }
 });
 
@@ -35,8 +36,7 @@ const paramValidation = {
     body: Joi.object({
       title: Joi.string().required(),
       description: Joi.string().required(),
-      images: Joi.string().required(),
-      imageMimeType: Joi.string(),
+      imageMimeType: Joi.array(),
       servingWeight: Joi.number(),
       price: Joi.number().required(),
       category: Joi.string(),
@@ -60,8 +60,7 @@ const paramValidation = {
     body: Joi.object({
       title: Joi.string().required(),
       description: Joi.string().required(),
-      images: Joi.string().required(),
-      imageMimeType: Joi.string(),
+      imageMimeType: Joi.array(),
       servingWeight: Joi.number(),
       price: Joi.number().required(),
       category: Joi.string(),
@@ -81,17 +80,19 @@ const paramValidation = {
 }
 
 router.route('/')
-  /** GET /api/dishes - Get list of dishes */
-  .get(dishCtrl.getAll)
+  .post(upload.array('images', 5), validate(paramValidation.addDishes), dishCtrl.create);
 
-  .post(validate(paramValidation.addDishes), dishCtrl.create, upload.single('images'));
+router.route('/')
+  /** GET /api/dishes - Get list of dishes */
+  .get(dishCtrl.getAll);
 
 router.route('/:dishId')
   /** GET /api/dishes/:dishId - Get dish */
-  .get(dishCtrl.get)
+  .get(dishCtrl.get);
 
+router.route('/:dishId')
   /** PUT /api/dishes/:dishId - Update dish */
-  .put(validate(paramValidation.updateDishes), dishCtrl.update);
+  .put(upload.array('images', 5), validate(paramValidation.updateDishes), dishCtrl.update);
 
 
 

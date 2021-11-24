@@ -6,11 +6,12 @@ const compress = require('compression');
 const methodOverride = require('method-override');
 const cors = require('cors');
 const httpStatus = require('http-status');
-const {ValidationError} = require('express-validation');
+const { ValidationError } = require('express-validation');
 const helmet = require('helmet');
 const routes = require('./routes');
 const config = require('./config');
 const APIError = require('./helpers/APIError');
+const httpContext = require('express-http-context');
 
 const app = express();
 
@@ -28,21 +29,21 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
-if(config.env === 'development') {
+if (config.env === 'development') {
   // Admin Panel
   app.use('/admin', require('./admin'));
 }
 
 // parse body params and attache them to req.body
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true, limit:'50mb', parameterLimit: 1000000}));
-app.use(bodyParser.json({limit:'50mb'})); 
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // mount all routes on /api path
 app.use('/api', routes);
 
 app.use('/public', express.static('public'));
-app.use("/uploadedDocuments/dishImg", express.static('uploadedDocuments/dishImg'));
+app.use(httpContext.middleware);
+app.use("/apipublic", express.static('apipublic'));
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {

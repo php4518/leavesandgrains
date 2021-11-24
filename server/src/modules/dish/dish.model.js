@@ -18,11 +18,11 @@ const DishSchema = new mongoose.Schema({
     required: true,
   },
   images: {
-    type: [String],
+    type: Array,
     required: true,
   },
   imageMimeType: {
-    type: [String],
+    type: Array,
   },
   servingWeight: {
     type: Number,

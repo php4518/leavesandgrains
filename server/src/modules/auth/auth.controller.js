@@ -81,7 +81,7 @@ async function verifyOTP(req, res, next) {
     if (!foundUserWithPhone) {
       throw new APIError('This phone number is not registered with us. try create a new acount instead.', httpStatus.NOT_FOUND);
     }
-    const verify = verifyOTPHash(phoneNumber, otpHash, otp);
+    // const verify = verifyOTPHash(phoneNumber, otpHash, otp);
     // if (verify.success) {
       const token = generateJWT(foundUserWithPhone.safeModel());
       return res.json({
@@ -89,7 +89,7 @@ async function verifyOTP(req, res, next) {
         user: foundUserWithPhone.safeModel(),
       });
     // }
-    throw new APIError(verify.message || 'error verifying otp, try resend again', httpStatus.UNAUTHORIZED);
+    // throw new APIError(verify.message || 'error verifying otp, try resend again', httpStatus.UNAUTHORIZED);
   } catch (error) {
     return next(error);
   }
