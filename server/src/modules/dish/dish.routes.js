@@ -94,13 +94,14 @@ router.route('/:dishId')
   /** PUT /api/dishes/:dishId - Update dish */
   .put(upload.array('images', 5), validate(paramValidation.updateDishes), dishCtrl.update);
 
+router.route('/:dishId')
+  /** DELETE /api/dishes/:dishId - Delete dish */
+  .delete(dishCtrl.remove);
 
-
-
-/** DELETE /api/dishes/:dishId - Delete dish */
-// .delete(dishCtrl.remove);
+router.route('/:imgId')
+  /** DELETE /api/dishes/:dishId - Delete dish */
+  .delete(dishCtrl.deleteImages);
 
 /** Load dish when API with dishId route parameter is hit */
 router.param('dishId', dishCtrl.load);
-
 module.exports = router;

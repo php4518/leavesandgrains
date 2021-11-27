@@ -1,6 +1,7 @@
 const Dish = require('./dish.model');
 const APIError = require('../../helpers/APIError');
 const httpStatus = require('http-status');
+let fs = require('fs');
 
 /**
  * Load dish and append to req.
@@ -115,14 +116,14 @@ async function update(req, res, next) {
   const newUploadImg = [];
   const oldUploadImg = [];
 
-  if (req.body.old_project_images) {
-    if (Array.isArray(req.body.old_project_images)) {
-      req.body.old_project_images.map(async (oldimg) => {
+  if (req.body.old_images) {
+    if (Array.isArray(req.body.old_images)) {
+      req.body.old_images.map(async (oldimg) => {
         oldUploadImg.push(oldimg);
       })
     }
     else {
-      oldUploadImg.push(req.body.old_project_images);
+      oldUploadImg.push(req.body.old_images);
     }
   } else {
     console.log("No previous images are there.");
@@ -135,11 +136,6 @@ async function update(req, res, next) {
   }
 
   var mergeImages = [...oldUploadImg, ...newUploadImg];
-
-  // await model.updateOne({ _id: req.params.id },
-  //   {
-  //     images: mergeImages,
-  //   })
 
   const dish = {
     title: req.body.title,
@@ -159,15 +155,35 @@ async function update(req, res, next) {
     carbs: req.body.carbs,
     fats: req.body.fats,
     nutritions: req.body.nutritions,
-    isActive: req.body.isActive,
+    isActive: req.body.isActive || true,
   }
 
   try {
-    console.log("dish",dish, req.params.dishId);
     const updated = await Dish.findOneAndUpdate({ _id: req.params.dishId }, { $set: dish }, { returnOriginal: false });
     return res.json(updated);
   } catch (error) {
     return next(error);
+  }
+}
+
+async function deleteImages(req, res, next) {
+  try {
+    const imgId = req.params.imgId;
+    await model.findById(req.params.imgId)
+      .select('deleteImages')
+      .exec()
+      .then(docs => {
+        fs.unlinkSync("./" + docs.deleteImages[imgId]);
+        // result.deleteOne({ _id: id }).exec();
+        res.status(200).json({
+          status: true,
+          statuscode: 200,
+          message: 'Dish image delete successfully!',
+        })
+      })
+    return;
+  } catch (err) {
+    next(err);
   }
 }
 
@@ -202,15 +218,61 @@ async function list(req, res, next) {
  * Delete dish.
  * @returns {Dish}
  */
+// async function remove(req, res, next) {
+//   const { dish } = req;
+//   try {
+//     const deletedDish = await dish.remove();
+//     return res.json(deletedDish);
+//   } catch (error) {
+//     return next(error);
+//   }
+// }
+
 async function remove(req, res, next) {
-  const { dish } = req;
   try {
-    const deletedDish = await dish.remove();
-    return res.json(deletedDish);
+    Dish.findById(req.params.dishId)
+      .select('images')
+      .exec()
+      .then((docs) => {
+        console.log("docs", docs);
+        docs.images.map(async (index, val) => {
+          fs.unlinkSync("./" + docs.images[val]);
+        });
+      })
+
+    Dish.findOneAndRemove({ _id: req.params.dishId })
+      .then(user => {
+        if (!user) {
+          return res.json({
+            status: false,
+            statuscode: 404,
+            message: 'Dish not found with id ' + req.params.dishId,
+          })
+        }
+        res.status(200).json({
+          status: true,
+          statuscode: 200,
+          message: 'Dish deleted successfully!',
+        })
+      }).catch(err => {
+        if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+          return res.json({
+            status: false,
+            statuscode: 404,
+            message: "Dish not found with id " + req.params.dishId
+          });
+        }
+        return res.json({
+          status: false,
+          statuscode: 505,
+          message: "Could not delete user with id " + req.params.dishId
+        });
+      });
   } catch (error) {
     return next(error);
   }
 }
+
 
 module.exports = {
   load,
@@ -218,6 +280,7 @@ module.exports = {
   create,
   update,
   remove,
+  deleteImages,
   getAll,
   list,
 };

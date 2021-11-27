@@ -308,7 +308,7 @@ const Menu = (props) => {
             {
               (!dishes.length) ? <Col className="no-data-available">No meals available</Col> :
                 dishes.map((item, index) =>
-                  <Col key={index} lg="4" md="6" sm="6">
+                  <Col key={index} lg="3" md="6" sm="6">
                     <DishCard dish={item} onClick={showDishDetails} addItem={handleAddItem}
                               quantity={individualMeals[item._id]?.quantity}/>
                   </Col>
