@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
-import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
-import {useDispatch, useSelector} from "react-redux";
+import React, { useEffect, useState } from "react";
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import {getDishes} from 'redux/actions/dish';
-import {addIndividualMealToCart} from 'redux/actions/cart';
+import { getDishes } from 'redux/actions/dish';
+import { addIndividualMealToCart } from 'redux/actions/cart';
 import DishCard from "../../components/dish-card";
 import DishDetails from "../../components/dish-details";
+import AddDishDetails from "../../components/add-dish-details";
 import MenuHeader from "../../components/header/menuHeader";
-import {CALORIES_TYPES, CARBS_TYPES, FAT_TYPES, MEAL_TYPES, PROTEIN_TYPES, SORT_TYPES} from "../../helpers/constants";
+import { CALORIES_TYPES, CARBS_TYPES, FAT_TYPES, MEAL_TYPES, PROTEIN_TYPES, SORT_TYPES } from "../../helpers/constants";
 import AppAlert from "../../components/alert";
 
 const defaultFilters = {
@@ -21,7 +22,7 @@ const defaultFilters = {
 
 const Menu = (props) => {
   const dispatch = useDispatch();
-  const {allDishes, dishStatus, individualMeals} = useSelector(({dish, cart}) => ({
+  const { allDishes, dishStatus, individualMeals } = useSelector(({ dish, cart }) => ({
     allDishes: dish.dishes,
     dishStatus: dish.dishStatus,
     individualMeals: cart.individualMeals
@@ -29,9 +30,13 @@ const Menu = (props) => {
 
   const [dishes, setDishes] = useState([]);
   const [dishDetail, showDishDetails] = useState(null);
+  const [addDishDetail, showAddDishDetails] = useState(null);
+  const [editDishDetail, showEditDishDetails] = useState(null);
+  const [deleteDishDetail, showDeleteDishDetails] = useState(null);
   const [filters, setFilters] = useState(defaultFilters);
   useEffect(() => dispatch(getDishes()), []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => setDishes(allDishes), [allDishes]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   const filterDishes = (filterObj) => {
     let currentDishes = [...allDishes];
@@ -125,7 +130,7 @@ const Menu = (props) => {
 
   return (
     <div className="menu-page">
-      {!props.hideHeader && <MenuHeader/>}
+      {!props.hideHeader && <MenuHeader />}
       <Row className="mb-5 mx-2">
         <Col md="3">
           <div className="menu-page-filter">
@@ -157,7 +162,7 @@ const Menu = (props) => {
                               checked={filters.categories.includes(type)}
                               onChange={updateFilters}
                             />
-                            {type} <span className="form-check-sign"/>
+                            {type} <span className="form-check-sign" />
                           </Label>
                         </FormGroup>
                       </Col>
@@ -181,7 +186,7 @@ const Menu = (props) => {
                               checked={filters.proteins.includes(type)}
                               onChange={updateFilters}
                             />
-                            {type} <span className="form-check-sign"/>
+                            {type} <span className="form-check-sign" />
                           </Label>
                         </FormGroup>
                       </Col>
@@ -207,7 +212,7 @@ const Menu = (props) => {
                                 checked={filters.calories === type}
                                 onChange={updateFilters}
                               />
-                              {type} <span className="form-check-sign"/>
+                              {type} <span className="form-check-sign" />
                             </Label>
                           </div>
                         </Col>
@@ -234,7 +239,7 @@ const Menu = (props) => {
                                 checked={filters.carbs === type}
                                 onChange={updateFilters}
                               />
-                              {type} <span className="form-check-sign"/>
+                              {type} <span className="form-check-sign" />
                             </Label>
                           </div>
                         </Col>
@@ -261,7 +266,7 @@ const Menu = (props) => {
                                 checked={filters.fats === type}
                                 onChange={updateFilters}
                               />
-                              {type} <span className="form-check-sign"/>
+                              {type} <span className="form-check-sign" />
                             </Label>
                           </div>
                         </Col>
@@ -286,7 +291,7 @@ const Menu = (props) => {
                             checked={filters.sort === type}
                             onChange={updateFilters}
                           />
-                          {type} <span className="form-check-sign"/>
+                          {type} <span className="form-check-sign" />
                         </Label>
                       </div>
                     )
@@ -298,26 +303,36 @@ const Menu = (props) => {
         </Col>
         <Col md="9">
           <div className="title">
-            <h2 className="font-weight-bold">MEALS</h2>
+            <h2 className="font-weight-bold">MEALS
+              <Button className="btn-info float-right" color="info" onClick={showAddDishDetails}>
+                Add new dish
+              </Button>
+            </h2>
             <div className="description mt-2 mb-4">Enjoy our range of 50+ high-protein meals crafted by our Chef and
               Nutritionist. Nourishing and packed with flavour.
             </div>
           </div>
-          <AppAlert alert={dishStatus}/>
+          <AppAlert alert={dishStatus} />
           <Row>
             {
               (!dishes.length) ? <Col className="no-data-available">No meals available</Col> :
                 dishes.map((item, index) =>
                   <Col key={index} lg="3" md="6" sm="6">
-                    <DishCard dish={item} onClick={showDishDetails} addItem={handleAddItem}
-                              quantity={individualMeals[item._id]?.quantity}/>
+                    <DishCard dish={item} onClick={showDishDetails} onEditClick={showEditDishDetails} addItem={handleAddItem}
+                      quantity={individualMeals[item._id]?.quantity} />
                   </Col>
                 )
             }
           </Row>
         </Col>
       </Row>
-      <DishDetails dish={dishDetail} toggleModal={() => showDishDetails(null)}/>
+      <DishDetails dish={dishDetail} toggleModal={() => showDishDetails(null)} />
+      {/* <AddDishDetails dish={editDishDetail} toggleModal={() => showEditDishDetails(null)} /> */}
+      {editDishDetail && editDishDetail != '' ?
+        <AddDishDetails dish={editDishDetail} toggleModal={() => showEditDishDetails(null)} />
+        :
+        <AddDishDetails dish={addDishDetail} toggleModal={() => showAddDishDetails(null)} />
+      }
     </div>
   );
 }

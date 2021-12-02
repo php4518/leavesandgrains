@@ -141,7 +141,7 @@ async function update(req, res, next) {
     title: req.body.title,
     description: req.body.description,
     images: mergeImages,
-    imageMimeType: req.body.dishImageType,
+    imageMimeType: [".jpg",".jpg"],
     servingWeight: req.body.servingWeight,
     price: req.body.price,
     category: req.body.category,
@@ -154,12 +154,12 @@ async function update(req, res, next) {
     protein: req.body.protein,
     carbs: req.body.carbs,
     fats: req.body.fats,
-    nutritions: req.body.nutritions,
+    nutritions: [{name : "abc" , perServing: "abc"}],
     isActive: req.body.isActive || true,
   }
 
   try {
-    const updated = await Dish.findOneAndUpdate({ _id: req.params.dishId }, { $set: dish }, { returnOriginal: false });
+    const updated = await Dish.findOneAndUpdate({ _id: req.params.id }, { $set: dish }, { returnOriginal: false });
     return res.json(updated);
   } catch (error) {
     return next(error);
@@ -168,12 +168,12 @@ async function update(req, res, next) {
 
 async function deleteImages(req, res, next) {
   try {
-    const imgId = req.params.imgId;
-    await model.findById(req.params.imgId)
+    const id = req.params.id;
+    await model.findById(req.params.id)
       .select('deleteImages')
       .exec()
       .then(docs => {
-        fs.unlinkSync("./" + docs.deleteImages[imgId]);
+        fs.unlinkSync("./" + docs.deleteImages[id]);
         // result.deleteOne({ _id: id }).exec();
         res.status(200).json({
           status: true,
@@ -230,7 +230,7 @@ async function list(req, res, next) {
 
 async function remove(req, res, next) {
   try {
-    Dish.findById(req.params.dishId)
+    Dish.findById(req.params.id)
       .select('images')
       .exec()
       .then((docs) => {
@@ -240,13 +240,13 @@ async function remove(req, res, next) {
         });
       })
 
-    Dish.findOneAndRemove({ _id: req.params.dishId })
+    Dish.findOneAndRemove({ _id: req.params.id })
       .then(user => {
         if (!user) {
           return res.json({
             status: false,
             statuscode: 404,
-            message: 'Dish not found with id ' + req.params.dishId,
+            message: 'Dish not found with id ' + req.params.id,
           })
         }
         res.status(200).json({
@@ -259,13 +259,13 @@ async function remove(req, res, next) {
           return res.json({
             status: false,
             statuscode: 404,
-            message: "Dish not found with id " + req.params.dishId
+            message: "Dish not found with id " + req.params.id
           });
         }
         return res.json({
           status: false,
           statuscode: 505,
-          message: "Could not delete user with id " + req.params.dishId
+          message: "Could not delete user with id " + req.params.id
         });
       });
   } catch (error) {

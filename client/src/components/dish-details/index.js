@@ -68,7 +68,7 @@ const DishDetails = ({dish = false, toggleModal}) => {
                     </Row>
                     <div className="nutritions">
                       {
-                        dish.nutritions.map(({name, perServing}, index) =>
+                        dish?.nutritions?.map(({name, perServing}, index) =>
                           <Row className="py-1" key={index}>
                             <Col className="text-left">{name}</Col>
                             <Col className="text-right">{perServing}</Col>

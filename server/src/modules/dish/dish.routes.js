@@ -55,11 +55,12 @@ const paramValidation = {
   },
   updateDishes: {
     params: Joi.object({
-      dishId: Joi.string().required(),
+      id: Joi.string().required(),
     }),
     body: Joi.object({
       title: Joi.string().required(),
       description: Joi.string().required(),
+      images: Joi.array(),
       imageMimeType: Joi.array(),
       servingWeight: Joi.number(),
       price: Joi.number().required(),
@@ -86,22 +87,22 @@ router.route('/')
   /** GET /api/dishes - Get list of dishes */
   .get(dishCtrl.getAll);
 
-router.route('/:dishId')
-  /** GET /api/dishes/:dishId - Get dish */
+router.route('/:id')
+  /** GET /api/dishes/:id - Get dish */
   .get(dishCtrl.get);
 
-router.route('/:dishId')
-  /** PUT /api/dishes/:dishId - Update dish */
+router.route('/:id')
+  /** PUT /api/dishes/:id - Update dish */
   .put(upload.array('images', 5), validate(paramValidation.updateDishes), dishCtrl.update);
 
-router.route('/:dishId')
-  /** DELETE /api/dishes/:dishId - Delete dish */
+router.route('/:id')
+  /** DELETE /api/dishes/:id - Delete dish */
   .delete(dishCtrl.remove);
 
-router.route('/:imgId')
-  /** DELETE /api/dishes/:dishId - Delete dish */
+router.route('/removeSingleImg/:id')
+  /** DELETE /api/dishes/:id - Delete dish */
   .delete(dishCtrl.deleteImages);
 
-/** Load dish when API with dishId route parameter is hit */
-router.param('dishId', dishCtrl.load);
+/** Load dish when API with id route parameter is hit */
+router.param('id', dishCtrl.load);
 module.exports = router;
