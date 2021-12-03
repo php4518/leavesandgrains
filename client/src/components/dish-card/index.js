@@ -5,6 +5,7 @@ import { allGainDetails, getImageUrl, getPrice, getServingWeight } from "../../h
 const DishCard = ({
   dish, showDetails = true, onClick = () => {
   }, onEditClick = () => {
+  }, onDeleteClick = () => {
   }, addItem = () => {
   }, quantity = 0
 }) => {
@@ -73,9 +74,10 @@ const DishCard = ({
                   <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
                 </Button>
                 <Button
-                  aria-label="Close"
-                  className="close"
+                  aria-label="Delete"
+                  className="delete"
                   type="button"
+                  onClick={() => onDeleteClick(dish)}
                 >
                   <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
                 </Button>

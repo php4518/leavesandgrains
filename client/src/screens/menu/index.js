@@ -7,6 +7,7 @@ import { addIndividualMealToCart } from 'redux/actions/cart';
 import DishCard from "../../components/dish-card";
 import DishDetails from "../../components/dish-details";
 import AddDishDetails from "../../components/add-dish-details";
+import DeleteDishDetails from "../../components/add-dish-details/delete-dish";
 import MenuHeader from "../../components/header/menuHeader";
 import { CALORIES_TYPES, CARBS_TYPES, FAT_TYPES, MEAL_TYPES, PROTEIN_TYPES, SORT_TYPES } from "../../helpers/constants";
 import AppAlert from "../../components/alert";
@@ -318,7 +319,7 @@ const Menu = (props) => {
               (!dishes.length) ? <Col className="no-data-available">No meals available</Col> :
                 dishes.map((item, index) =>
                   <Col key={index} lg="3" md="6" sm="6">
-                    <DishCard dish={item} onClick={showDishDetails} onEditClick={showEditDishDetails} addItem={handleAddItem}
+                    <DishCard dish={item} onClick={showDishDetails} onEditClick={showEditDishDetails} onDeleteClick={showDeleteDishDetails} addItem={handleAddItem}
                       quantity={individualMeals[item._id]?.quantity} />
                   </Col>
                 )
@@ -333,6 +334,7 @@ const Menu = (props) => {
         :
         <AddDishDetails dish={addDishDetail} toggleModal={() => showAddDishDetails(null)} />
       }
+      <DeleteDishDetails dish={deleteDishDetail} toggleModal={() => showDeleteDishDetails(null)} />
     </div>
   );
 }

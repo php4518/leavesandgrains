@@ -26,8 +26,8 @@ export const deleteDishes = (id) => {
   return { type: DELETE_DISHES, id };
 };
 
-export const deleteImg = (id) => {
-  return { type: DELETE_IMG, id };
+export const deleteDishImg = (id, imgId) => {
+  return { type: DELETE_IMG, id, imgId };
 };
 
 export const getMeals = (params = null) => {

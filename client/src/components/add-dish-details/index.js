@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
-import { postDishes, updateDishes, deleteDishes, deleteDisheImg } from 'redux/actions/dish';
+import { postDishes, updateDishes, deleteDishImg } from '../../redux/actions/dish';
 import { useDispatch } from "react-redux";
 import { getImageUrl } from "../../helpers/utils";
+
+var dataForm = new FormData();
 
 const AddDishDetails = ({ dish = false, toggleModal }) => {
     const dispatch = useDispatch();
     const [addFields, setAddFields] = useState([]);
+    const [getPreviewImages, setPeviewImages] = useState([]);
+    const [getImages, setGetImages] = useState([]);
 
     useEffect(() => {
-        setAddFields(dish);
+        if (dish?._id) {
+            setAddFields(dish);
+            let getColImg = [];
+            let getPreImg = [];
+            for (var i = 0; i < dish?.images.length; i++) {
+                getColImg.push(getImageUrl(dish?.images[i]));
+                getPreImg.push(dish?.images[i]);
+                // imgs.push(commanService.getImage(setArray[i]));
+            }
+            setGetImages(getPreImg);
+            setPeviewImages(getColImg);
+        }
     }, [dish]);
+
+    console.log("getPreviewImages", getPreviewImages);
 
     const [validationFields, setValidationFields] = useState({});
 
@@ -28,9 +45,34 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
 
     const handleInputChange = (e) => {
         if (e.target.name === "images") {
-            setAddFields({ ...addFields, [e.target.name]: Array.from(e.target.files)});
+            let images = [];
+            for (let i = 0; i < e.target.files.length; i++) {
+                if (e.target.files[i].name.match(/\.(jpg|jpeg|png|tif|tiff|gif)$/)) {
+                    images.push(URL.createObjectURL(e.target.files[i]));
+                    // this.setState({ previewProjectImages: [...this.state.previewProjectImages, ...images] });
+                    const mergeImg = [...getPreviewImages, ...images];
+                    setPeviewImages(mergeImg);
+                    dataForm.append('images', e.target.files[i])
+                }
+                else {
+                    return;
+                }
+            }
+            // setAddFields({ ...addFields, [e.target.name]: Array.from(e.target.files)});
         } else {
             setAddFields({ ...addFields, [e.target.name]: e.target.value });
+        }
+    }
+
+    const removeImageItem = (e) => {
+        const previousItems = getPreviewImages.filter((item, i) => i !== e);
+        setPeviewImages(previousItems);
+        if (getImages.length != 0) {
+            const newItems = getImages.filter((item, i) => i !== e);
+            setGetImages(newItems);
+            dispatch(deleteDishImg(dish._id, e));
+        } else {
+            console.log("no images");
         }
     }
 
@@ -38,13 +80,38 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
         e.preventDefault();
         e.stopPropagation();
         if (validateInputs()) {
+            var nutritions = [{
+                name: addFields.name,
+                perServing: addFields.perServing
+            }]
+
+            if (getImages.length !== 0) {
+                getImages.map((i) => {
+                    dataForm.append('old_images', i)
+                })
+            }
+
+            dataForm.set('title', addFields.title)
+            dataForm.set('description', addFields.description)
+            dataForm.set('servingWeight', addFields.servingWeight)
+            dataForm.set('price', addFields.price)
+            dataForm.set('category', addFields.category)
+            dataForm.set('proteinType', addFields.proteinType)
+            dataForm.set('instructions', addFields.instructions)
+            dataForm.set('ingredients', addFields.ingredients)
+            dataForm.set('contains', addFields.contains)
+            dataForm.set('ingredientInstructions', addFields.ingredientInstructions)
+            dataForm.set('calories', addFields.calories)
+            dataForm.set('protein', addFields.protein)
+            dataForm.set('carbs', addFields.carbs)
+            dataForm.set('fats', addFields.fats)
+            dataForm.set('nutritions', JSON.stringify(nutritions))
+            dataForm.set('isActive', addFields.isActive)
+
             if (!addFields?._id) {
-                dispatch(postDishes(addFields));
+                dispatch(postDishes(dataForm));
             } else {
-                // delete addFields.confirmPassword;
-                // delete addFields.confirmPassword;
-                // delete addFields.confirmPassword;
-                dispatch(updateDishes(addFields));
+                dispatch(updateDishes(addFields._id, dataForm));
             }
         }
     }
@@ -130,6 +197,13 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             type="text"
                             onChange={handleInputChange}
                         />
+                        <label>Ingredients</label>
+                        <Input
+                            name="ingredients"
+                            value={addFields?.ingredients || ''}
+                            type="text"
+                            onChange={handleInputChange}
+                        />
                         <Row>
                             <label>
                                 Upload Images<i className="fa fa-asterisk text-danger" aria-hidden="true"></i>
@@ -140,16 +214,13 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             </div>
                         </Row>
                         <Row className="p-2">
-                            {addFields?.images?.length !== 0 ?
-                                addFields?.images?.map((img, ind) =>
+                            {getPreviewImages?.length !== 0 ?
+                                getPreviewImages?.map((img, ind) =>
                                     <Col key={ind} md={2} sm={2} lg={2} xl={2} className="p-2">
                                         <div className="p-0 border border-dark position-relative" id="container-img">
-                                            <img src={getImageUrl(img)} />
-                                            {/* <div className="p-2">
-                                                <span><center>{img.replace(/^.*[\\\/]/, '')}</center></span>
-                                            </div> */}
+                                            <img src={img} />
                                         </div>
-                                        <i className="fa fa-times dlt-img-project rounded-circle" aria-hidden="true" height="20" width="20" onClick={() => this.removeImageItem(ind)} ></i>
+                                        <i className="fa fa-times dlt-img-project rounded-circle" aria-hidden="true" height="20" width="20" onClick={() => removeImageItem(ind)} ></i>
                                     </Col>
                                 )
                                 :
@@ -158,13 +229,6 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                         </Row>
                     </Col>
                     <Col md={6}>
-                        <label>Ingredients</label>
-                        <Input
-                            name="ingredients"
-                            value={addFields?.ingredients || ''}
-                            type="text"
-                            onChange={handleInputChange}
-                        />
                         <label>Contains</label>
                         <Input
                             name="contains"
@@ -207,11 +271,18 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             type="number"
                             onChange={handleInputChange}
                         />
-                        <label>Nutritions</label>
+                        <label>Nutritions name</label>
                         <Input
-                            name="nutritions"
-                            value={addFields?.nutritions || ''}
+                            name="name"
+                            value={addFields?.name || ''}
                             type="text"
+                            onChange={handleInputChange}
+                        />
+                        <label>Nutritions Per Serving</label>
+                        <Input
+                            name="perServing"
+                            value={addFields?.perServing || ''}
+                            type="number"
                             onChange={handleInputChange}
                         />
                         <label>Active</label>

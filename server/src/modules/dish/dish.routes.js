@@ -60,6 +60,7 @@ const paramValidation = {
     body: Joi.object({
       title: Joi.string().required(),
       description: Joi.string().required(),
+      old_images: Joi.any(),
       images: Joi.array(),
       imageMimeType: Joi.array(),
       servingWeight: Joi.number(),
@@ -99,7 +100,7 @@ router.route('/:id')
   /** DELETE /api/dishes/:id - Delete dish */
   .delete(dishCtrl.remove);
 
-router.route('/removeSingleImg/:id')
+router.route('/removeSingleImg/:id/:imgId')
   /** DELETE /api/dishes/:id - Delete dish */
   .delete(dishCtrl.deleteImages);
 

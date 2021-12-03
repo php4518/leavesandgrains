@@ -73,7 +73,7 @@ async function create(req, res, next) {
     protein: req.body.protein,
     carbs: req.body.carbs,
     fats: req.body.fats,
-    nutritions: req.body.nutritions,
+    nutritions: JSON.parse(req.body.nutritions),
     isActive: req.body.isActive,
   })
 
@@ -83,7 +83,7 @@ async function create(req, res, next) {
       throw new APIError('Dish name must be unique', httpStatus.CONFLICT, true);
     }
     const savedDish = await dish.save();
-
+    console.log("savedDish",savedDish)
     return res.json(savedDish);
   } catch (error) {
     return next(error);
@@ -135,6 +135,8 @@ async function update(req, res, next) {
     });
   }
 
+  console.log("oldUploadImg",oldUploadImg);
+  console.log("newUploadImg",newUploadImg);
   var mergeImages = [...oldUploadImg, ...newUploadImg];
 
   const dish = {
@@ -154,7 +156,7 @@ async function update(req, res, next) {
     protein: req.body.protein,
     carbs: req.body.carbs,
     fats: req.body.fats,
-    nutritions: [{name : "abc" , perServing: "abc"}],
+    nutritions: JSON.parse(req.body.nutritions),
     isActive: req.body.isActive || true,
   }
 
@@ -168,12 +170,15 @@ async function update(req, res, next) {
 
 async function deleteImages(req, res, next) {
   try {
-    const id = req.params.id;
-    await model.findById(req.params.id)
-      .select('deleteImages')
+    console.log("ff",req.params.imgId,req.params.id)
+    const imgId = req.params.imgId;
+    await Dish.findById(req.params.id)
+      .select('images')
       .exec()
       .then(docs => {
-        fs.unlinkSync("./" + docs.deleteImages[id]);
+        console.log("docs.images[imgId]",docs.images,imgId)
+        fs.unlinkSync("./" + docs.images[imgId]);
+        console.log("docs.images[imgId]",docs.images[imgId])
         // result.deleteOne({ _id: id }).exec();
         res.status(200).json({
           status: true,
