@@ -18,7 +18,7 @@ export const postDishes = (params = null) => {
   return { type: POST_DISHES, params };
 };
 
-export const updateDishes = (id, params = null) => {
+export const updateDishes = (id, params = []) => {
   return { type: UPDATE_DISHES, id, params };
 };
 

@@ -19,6 +19,10 @@ const DishCard = ({
     addItem(dish);
   };
 
+
+  const userDetail = JSON.parse(localStorage.getItem("persist:user"));
+  const userRole = JSON.parse(userDetail.currentUser);
+
   return (
     <div className="card">
       <div className="dish-card dish-container">
@@ -28,24 +32,26 @@ const DishCard = ({
         <div className="card-weight">
           <div className="weight-text">{getServingWeight(dish.servingWeight)}</div>
         </div>
-        <Row className="middle">
-          <Button
-            aria-label="Edit"
-            className="edit text"
-            type="button"
-            onClick={() => onEditClick(dish)}
-          >
-            <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
-          </Button>
-          <Button
-            aria-label="Delete"
-            className="delete text"
-            type="button"
-            onClick={() => onDeleteClick(dish)}
-          >
-            <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
-          </Button>
-        </Row>
+        {userRole.role === "ADMIN" ?
+          <Row className="middle">
+            <Button
+              aria-label="Edit"
+              className="edit text"
+              type="button"
+              onClick={() => onEditClick(dish)}
+            >
+              <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
+            </Button>
+            <Button
+              aria-label="Delete"
+              className="delete text"
+              type="button"
+              onClick={() => onDeleteClick(dish)}
+            >
+              <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
+            </Button>
+          </Row>
+          : null}
       </div>
 
       <div className="px-3 pb-3" onClick={() => onClick(dish)}>

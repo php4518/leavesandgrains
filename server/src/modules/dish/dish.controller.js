@@ -45,7 +45,7 @@ function get(req, res) {
  * @property {string} req.body.isActive- The Active of dish.
  * @returns {Dish}
  */
-async function create(req, res, next) {
+ async function create(req, res, next) {
   // const dish = new Dish(req.body);
 
   const dishImage = [];
@@ -83,8 +83,7 @@ async function create(req, res, next) {
       throw new APIError('Dish name must be unique', httpStatus.CONFLICT, true);
     }
     const savedDish = await dish.save();
-    console.log("savedDish",savedDish)
-    return res.json(savedDish);
+    return res.json(res);
   } catch (error) {
     return next(error);
   }

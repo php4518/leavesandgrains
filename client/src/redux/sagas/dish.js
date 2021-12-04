@@ -1,6 +1,6 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { GET_DISHES, GET_MEALS, POST_DISHES, UPDATE_DISHES, DELETE_DISHES, DELETE_IMG } from '../constants/dish';
-import { setDishes, setDishesStatus, setMeals, postDishes, updateDishes, deleteDishes, deleteDishImg } from 'redux/actions/dish';
+import { setDishes, setDishesStatus, setMeals, postDishes, updateDishes, deleteDishes, deleteDishImg } from '../../redux/actions/dish';
 import dishService from '../../services/dishService';
 import { STATUS } from "../../helpers/constants";
 
@@ -23,7 +23,7 @@ export function* addDishAsync() {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
       const response = yield call(dishService.postNewDishes, params);
-      yield put(postDishes(response));
+      // yield put(postDishes(response));
       yield put(setDishesStatus({ status: STATUS.SUCCESS }));
     } catch (err) {
       console.log(err)
@@ -49,9 +49,11 @@ export function* updateDishAsync() {
 export function* deleteDishAsync() {
   yield takeLatest(DELETE_DISHES, function* ({ id } = {}) {
     try {
-      yield put(setDishesStatus({ status: STATUS.LOADING }));
+      // yield put(setDishesStatus({ status: STATUS.LOADING }));
       const dish = yield call(dishService.deleteDishes, id);
-      yield put(deleteDishes(dish));
+      console.log("dish", dish);
+      // yield put(deleteDishes(dish));
+      yield put({ type: 'FETCH_SUCCESS', dish });
       yield put(setDishesStatus({ status: STATUS.SUCCESS }));
     } catch (err) {
       console.log(err)

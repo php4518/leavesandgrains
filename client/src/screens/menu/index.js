@@ -94,10 +94,15 @@ const Menu = (props) => {
     setDishes(currentDishes);
   };
 
+
+  const userDetail = JSON.parse(localStorage.getItem("persist:user"));
+  const userRole = JSON.parse(userDetail.currentUser);
+
   const updateFilters = (e) => {
     let key = e.target.name;
     let value = e.target.labels[0].textContent.trim();
     let currentValues;
+
     if (e.target.type === "checkbox") {
       currentValues = [...filters[key]];
       if (e.target.checked) {
@@ -305,9 +310,12 @@ const Menu = (props) => {
         <Col md="9">
           <div className="title">
             <h2 className="font-weight-bold">MEALS
-              <Button className="btn-info float-right" color="info" onClick={showAddDishDetails}>
-                Add new dish
-              </Button>
+              {userRole.role === "ADMIN" ?
+                <Button className="btn-info float-right" color="info" onClick={showAddDishDetails}>
+                  Add new dish
+                </Button>
+                : null
+              }
             </h2>
             <div className="description mt-2 mb-4">Enjoy our range of 50+ high-protein meals crafted by our Chef and
               Nutritionist. Nourishing and packed with flavour.
@@ -329,7 +337,7 @@ const Menu = (props) => {
       </Row>
       <DishDetails dish={dishDetail} toggleModal={() => showDishDetails(null)} />
       {/* <AddDishDetails dish={editDishDetail} toggleModal={() => showEditDishDetails(null)} /> */}
-      {editDishDetail && editDishDetail != '' ?
+      {editDishDetail && editDishDetail !== '' ?
         <AddDishDetails dish={editDishDetail} toggleModal={() => showEditDishDetails(null)} />
         :
         <AddDishDetails dish={addDishDetail} toggleModal={() => showAddDishDetails(null)} />

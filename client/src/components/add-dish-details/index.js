@@ -20,7 +20,6 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
             for (var i = 0; i < dish?.images.length; i++) {
                 getColImg.push(getImageUrl(dish?.images[i]));
                 getPreImg.push(dish?.images[i]);
-                // imgs.push(commanService.getImage(setArray[i]));
             }
             setGetImages(getPreImg);
             setPeviewImages(getColImg);
@@ -47,7 +46,6 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
             for (let i = 0; i < e.target.files.length; i++) {
                 if (e.target.files[i].name.match(/\.(jpg|jpeg|png|tif|tiff|gif)$/)) {
                     images.push(URL.createObjectURL(e.target.files[i]));
-                    // this.setState({ previewProjectImages: [...this.state.previewProjectImages, ...images] });
                     const mergeImg = [...getPreviewImages, ...images];
                     setPeviewImages(mergeImg);
                     dataForm.append('images', e.target.files[i])
@@ -56,7 +54,6 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                     return;
                 }
             }
-            // setAddFields({ ...addFields, [e.target.name]: Array.from(e.target.files)});
         } else {
             setAddFields({ ...addFields, [e.target.name]: e.target.value });
         }
@@ -65,7 +62,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
     const removeImageItem = (e) => {
         const previousItems = getPreviewImages.filter((item, i) => i !== e);
         setPeviewImages(previousItems);
-        if (getImages.length != 0) {
+        if (getImages.length !== 0) {
             const newItems = getImages.filter((item, i) => i !== e);
             setGetImages(newItems);
             dispatch(deleteDishImg(dish._id, e));
@@ -207,7 +204,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                                 Upload Images<i className="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </label>
                             <label className="overflow-hidden border border-dark profile-img-wrap" htmlFor="images">
-                                <label><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
+                                <label htmlFor="images"><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
                                 <Input multiple id="images" name="images" type="file" className="form-control" onChange={handleInputChange} hidden />
                             </label>
                         </Row>
