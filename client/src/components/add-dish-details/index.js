@@ -27,8 +27,6 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
         }
     }, [dish]);
 
-    console.log("getPreviewImages", getPreviewImages);
-
     const [validationFields, setValidationFields] = useState({});
 
     const validateInputs = () => {
@@ -208,10 +206,10 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             <label>
                                 Upload Images<i className="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </label>
-                            <div className="overflow-hidden border border-dark profile-img-wrap">
-                                <label htmlFor="images"><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
+                            <label className="overflow-hidden border border-dark profile-img-wrap" htmlFor="images">
+                                <label><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
                                 <Input multiple id="images" name="images" type="file" className="form-control" onChange={handleInputChange} hidden />
-                            </div>
+                            </label>
                         </Row>
                         <Row className="p-2">
                             {getPreviewImages?.length !== 0 ?

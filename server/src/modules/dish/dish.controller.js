@@ -176,9 +176,7 @@ async function deleteImages(req, res, next) {
       .select('images')
       .exec()
       .then(docs => {
-        console.log("docs.images[imgId]",docs.images,imgId)
         fs.unlinkSync("./" + docs.images[imgId]);
-        console.log("docs.images[imgId]",docs.images[imgId])
         // result.deleteOne({ _id: id }).exec();
         res.status(200).json({
           status: true,
