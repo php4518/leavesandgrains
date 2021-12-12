@@ -1,4 +1,4 @@
-import {DISH_STATUS, SET_DISHES, SET_MEALS} from '../constants/dish';
+import { DISH_STATUS, SET_DISHES, SET_MEALS, SET_NEW_DISH } from '../constants/dish';
 import initialState from "./initialState";
 
 // const initState = {
@@ -23,6 +23,12 @@ const dish = (state = initialState.dishes, action) => {
       return {
         ...state,
         meals: action.meals,
+      }
+    }
+    case SET_NEW_DISH: {
+      return {
+        ...state,
+        addFields: action.dishes,
       }
     }
     default:

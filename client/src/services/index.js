@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {BASE_URL, TOKEN_PAYLOAD_KEY} from '../helpers/config';
+import {BASE_URL} from '../helpers/config';
 import {logoutUser} from "../redux/actions/user";
 
 const service = axios.create({
@@ -12,7 +12,7 @@ service.interceptors.request.use(config => {
   const jwtToken = localStorage.getItem('AUTH_TOKEN');
 
   if (jwtToken) {
-    config.headers[TOKEN_PAYLOAD_KEY] = `Bearer ${jwtToken}`;
+    config.headers["Authorization"] = `Bearer ${jwtToken}`;
   }
   return config;
 }, error => {

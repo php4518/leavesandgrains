@@ -464,6 +464,14 @@
   opacity: 1;
 }
 
+.dish-container-snack:hover .image {
+  opacity: 0.3;
+}
+
+.dish-container-snack:hover .middle {
+  opacity: 1;
+}
+
 .text {
   background-color: #000000;
   color: white;
@@ -552,6 +560,7 @@
         img.dish-image {
           min-width: 120px;
           height: 120px;
+          width: 120px;
         }
 
         button {
@@ -973,4 +982,28 @@ form {
     font-weight: 500;
     color: $danger-color;
   }
+}
+
+.text-block {
+  position: absolute;
+  color: white;
+  bottom: 15px;
+  padding: 20px;
+}
+
+.top-left {
+  position: absolute;
+  opacity: 1;
+  top: 10px;
+  left: 15px;
+  text-shadow: 2 2px 0 black;
+  color: white;
+  font-weight: bold;
+}
+
+#house-container {
+    background-color:#eee;
+    border-radius: 30px;
+    padding: 0px 0px 15px 0px;
+    margin: 5px 1px;
 }

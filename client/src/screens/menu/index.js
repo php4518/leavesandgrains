@@ -95,9 +95,11 @@ const Menu = (props) => {
     setDishes(currentDishes);
   };
 
-
+  var userRole = '';
   const userDetail = JSON.parse(localStorage.getItem("persist:user"));
-  const userRole = JSON.parse(userDetail.currentUser);
+  if (userDetail && userDetail?.currentUser) {
+    userRole = JSON.parse(userDetail?.currentUser);
+  }
 
   const updateFilters = (e) => {
     let key = e.target.name;

@@ -82,8 +82,8 @@ function get(req, res) {
     if (foundDish) {
       throw new APIError('Dish name must be unique', httpStatus.CONFLICT, true);
     }
-    const savedDish = await dish.save();
-    return res.json(res);
+    await dish.save();
+    return res.json(dish);
   } catch (error) {
     return next(error);
   }

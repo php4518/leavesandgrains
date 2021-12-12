@@ -105,8 +105,12 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
 
             if (!addFields?._id) {
                 dispatch(postDishes(dataForm));
+                toggleModal();
+                dish = [];
             } else {
                 dispatch(updateDishes(addFields._id, dataForm));
+                toggleModal();
+                dish = [];
             }
         }
     }
