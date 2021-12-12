@@ -23,7 +23,7 @@ export function* addDishAsync() {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
       const response = yield call(dishService.postNewDishes, params);
-      // yield put(postDishes(response));
+      yield put(postDishes(response));
       yield put(setDishesStatus({ status: STATUS.SUCCESS }));
     } catch (err) {
       console.log(err)
@@ -49,10 +49,10 @@ export function* updateDishAsync() {
 export function* deleteDishAsync() {
   yield takeLatest(DELETE_DISHES, function* ({ id } = {}) {
     try {
-      // yield put(setDishesStatus({ status: STATUS.LOADING }));
+      yield put(setDishesStatus({ status: STATUS.LOADING }));
       const dish = yield call(dishService.deleteDishes, id);
       console.log("dish", dish);
-      // yield put(deleteDishes(dish));
+      yield put(deleteDishes(dish));
       yield put({ type: 'FETCH_SUCCESS', dish });
       yield put(setDishesStatus({ status: STATUS.SUCCESS }));
     } catch (err) {

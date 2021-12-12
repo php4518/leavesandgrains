@@ -34,6 +34,7 @@ const Menu = (props) => {
   const [addDishDetail, showAddDishDetails] = useState(null);
   const [editDishDetail, showEditDishDetails] = useState(null);
   const [deleteDishDetail, showDeleteDishDetails] = useState(null);
+  const [showFilters, setShowFilters] = useState(true);
   const [filters, setFilters] = useState(defaultFilters);
   useEffect(() => dispatch(getDishes()), []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => setDishes(allDishes), [allDishes]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -138,176 +139,180 @@ const Menu = (props) => {
     <div className="menu-page">
       {!props.hideHeader && <MenuHeader />}
       <Row className="mb-5 mx-2">
-        <Col md="3">
-          <div className="menu-page-filter">
-            <div className="ml-auto">
-              <Button
-                className="btn-link ml-1"
-                size="sm"
-                color="default"
-                type="button"
-                onClick={clearFilters}
-              >
-                <div className="clear-all">clear all</div>
-              </Button>
+        {showFilters ?
+          <Col md="3">
+            <div className="menu-page-filter">
+              <div className="ml-auto">
+                <Button
+                  className="btn-link ml-1"
+                  size="sm"
+                  color="default"
+                  type="button"
+                  onClick={clearFilters}
+                >
+                  <div className="clear-all">clear all</div>
+                </Button>
+              </div>
+              <Row>
+                <Col md="12" sm="3" xs="6">
+                  <div className="title mt-0">
+                    <h3>Category</h3>
+                  </div>
+                  <Row>
+                    {
+                      MEAL_TYPES.map((type, i) =>
+                        <Col md="6" key={i}>
+                          <FormGroup check>
+                            <Label check>
+                              <Input
+                                type="checkbox"
+                                name="categories"
+                                checked={filters.categories.includes(type)}
+                                onChange={updateFilters}
+                              />
+                              {type} <span className="form-check-sign" />
+                            </Label>
+                          </FormGroup>
+                        </Col>
+                      )
+                    }
+                  </Row>
+                </Col>
+                <Col md="12" sm="3" xs="6">
+                  <div className="title">
+                    <h3>Protein</h3>
+                  </div>
+                  <Row>
+                    {
+                      PROTEIN_TYPES.map((type, i) =>
+                        <Col md="6" key={i}>
+                          <FormGroup check>
+                            <Label check>
+                              <Input
+                                type="checkbox"
+                                name="proteins"
+                                checked={filters.proteins.includes(type)}
+                                onChange={updateFilters}
+                              />
+                              {type} <span className="form-check-sign" />
+                            </Label>
+                          </FormGroup>
+                        </Col>
+                      )
+                    }
+                  </Row>
+                </Col>
+                <Col md="12" sm="3" xs="6">
+                  <FormGroup>
+                    <div className="title">
+                      <h3>Calories</h3>
+                    </div>
+                    <Row className="m-0">
+                      {
+                        CALORIES_TYPES.map((type, i) =>
+                          <Col md="4" className="pl-0 pr-0" key={i}>
+                            <div className="form-check-radio">
+                              <Label check>
+                                <Input
+                                  id="calories"
+                                  name="calories"
+                                  type="radio"
+                                  checked={filters.calories === type}
+                                  onChange={updateFilters}
+                                />
+                                {type} <span className="form-check-sign" />
+                              </Label>
+                            </div>
+                          </Col>
+                        )
+                      }
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col md="12" sm="3" xs="6">
+                  <FormGroup>
+                    <div className="title">
+                      <h3>Carbs</h3>
+                    </div>
+                    <Row className="m-0">
+                      {
+                        CARBS_TYPES.map((type, i) =>
+                          <Col md="4" className="pl-0 pr-0" key={i}>
+                            <div className="form-check-radio">
+                              <Label check>
+                                <Input
+                                  id="carbs"
+                                  name="carbs"
+                                  type="radio"
+                                  checked={filters.carbs === type}
+                                  onChange={updateFilters}
+                                />
+                                {type} <span className="form-check-sign" />
+                              </Label>
+                            </div>
+                          </Col>
+                        )
+                      }
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col md="12" sm="3" xs="6">
+                  <FormGroup>
+                    <div className="title">
+                      <h3>Fats</h3>
+                    </div>
+                    <Row className="m-0">
+                      {
+                        FAT_TYPES.map((type, i) =>
+                          <Col md="4" className="pl-0 pr-0" key={i}>
+                            <div className="form-check-radio">
+                              <Label check>
+                                <Input
+                                  id="fats"
+                                  name="fats"
+                                  type="radio"
+                                  checked={filters.fats === type}
+                                  onChange={updateFilters}
+                                />
+                                {type} <span className="form-check-sign" />
+                              </Label>
+                            </div>
+                          </Col>
+                        )
+                      }
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col md="12" sm="3" xs="6">
+                  <FormGroup>
+                    <div className="title">
+                      <h3>Sort</h3>
+                    </div>
+                    {
+                      SORT_TYPES.map((type, i) =>
+                        <div className="form-check-radio" key={i}>
+                          <Label check>
+                            <Input
+                              id="sort"
+                              name="sort"
+                              type="radio"
+                              checked={filters.sort === type}
+                              onChange={updateFilters}
+                            />
+                            {type} <span className="form-check-sign" />
+                          </Label>
+                        </div>
+                      )
+                    }
+                  </FormGroup>
+                </Col>
+              </Row>
             </div>
-            <Row>
-              <Col md="12" sm="3" xs="6">
-                <div className="title mt-0">
-                  <h3>Category</h3>
-                </div>
-                <Row>
-                  {
-                    MEAL_TYPES.map((type, i) =>
-                      <Col md="6" key={i}>
-                        <FormGroup check>
-                          <Label check>
-                            <Input
-                              type="checkbox"
-                              name="categories"
-                              checked={filters.categories.includes(type)}
-                              onChange={updateFilters}
-                            />
-                            {type} <span className="form-check-sign" />
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    )
-                  }
-                </Row>
-              </Col>
-              <Col md="12" sm="3" xs="6">
-                <div className="title">
-                  <h3>Protein</h3>
-                </div>
-                <Row>
-                  {
-                    PROTEIN_TYPES.map((type, i) =>
-                      <Col md="6" key={i}>
-                        <FormGroup check>
-                          <Label check>
-                            <Input
-                              type="checkbox"
-                              name="proteins"
-                              checked={filters.proteins.includes(type)}
-                              onChange={updateFilters}
-                            />
-                            {type} <span className="form-check-sign" />
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    )
-                  }
-                </Row>
-              </Col>
-              <Col md="12" sm="3" xs="6">
-                <FormGroup>
-                  <div className="title">
-                    <h3>Calories</h3>
-                  </div>
-                  <Row className="m-0">
-                    {
-                      CALORIES_TYPES.map((type, i) =>
-                        <Col md="4" className="pl-0 pr-0" key={i}>
-                          <div className="form-check-radio">
-                            <Label check>
-                              <Input
-                                id="calories"
-                                name="calories"
-                                type="radio"
-                                checked={filters.calories === type}
-                                onChange={updateFilters}
-                              />
-                              {type} <span className="form-check-sign" />
-                            </Label>
-                          </div>
-                        </Col>
-                      )
-                    }
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col md="12" sm="3" xs="6">
-                <FormGroup>
-                  <div className="title">
-                    <h3>Carbs</h3>
-                  </div>
-                  <Row className="m-0">
-                    {
-                      CARBS_TYPES.map((type, i) =>
-                        <Col md="4" className="pl-0 pr-0" key={i}>
-                          <div className="form-check-radio">
-                            <Label check>
-                              <Input
-                                id="carbs"
-                                name="carbs"
-                                type="radio"
-                                checked={filters.carbs === type}
-                                onChange={updateFilters}
-                              />
-                              {type} <span className="form-check-sign" />
-                            </Label>
-                          </div>
-                        </Col>
-                      )
-                    }
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col md="12" sm="3" xs="6">
-                <FormGroup>
-                  <div className="title">
-                    <h3>Fats</h3>
-                  </div>
-                  <Row className="m-0">
-                    {
-                      FAT_TYPES.map((type, i) =>
-                        <Col md="4" className="pl-0 pr-0" key={i}>
-                          <div className="form-check-radio">
-                            <Label check>
-                              <Input
-                                id="fats"
-                                name="fats"
-                                type="radio"
-                                checked={filters.fats === type}
-                                onChange={updateFilters}
-                              />
-                              {type} <span className="form-check-sign" />
-                            </Label>
-                          </div>
-                        </Col>
-                      )
-                    }
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col md="12" sm="3" xs="6">
-                <FormGroup>
-                  <div className="title">
-                    <h3>Sort</h3>
-                  </div>
-                  {
-                    SORT_TYPES.map((type, i) =>
-                      <div className="form-check-radio" key={i}>
-                        <Label check>
-                          <Input
-                            id="sort"
-                            name="sort"
-                            type="radio"
-                            checked={filters.sort === type}
-                            onChange={updateFilters}
-                          />
-                          {type} <span className="form-check-sign" />
-                        </Label>
-                      </div>
-                    )
-                  }
-                </FormGroup>
-              </Col>
-            </Row>
-          </div>
-        </Col>
-        <Col md="9">
+          </Col>
+          : null
+        }
+        
+        <Col md={showFilters ? "9" : "12"}>
           <div className="title">
             <h2 className="font-weight-bold">MEALS
               {userRole.role === "ADMIN" ?
@@ -315,6 +320,15 @@ const Menu = (props) => {
                   Add new dish
                 </Button>
                 : null
+              }
+              {!showFilters ?
+                <Button className="btn-link float-right" color="info" onClick={() => setShowFilters(true)}>
+                  Show filter
+                </Button>
+                :
+                <Button className="btn-link float-right" color="info" onClick={() => setShowFilters(false)}>
+                  Hide filter
+                </Button>
               }
             </h2>
             <div className="description mt-2 mb-4">Enjoy our range of 50+ high-protein meals crafted by our Chef and

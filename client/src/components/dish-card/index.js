@@ -25,43 +25,124 @@ const DishCard = ({
 
   return (
     <div className="card">
-      <div className="dish-card dish-container">
-        <img alt="..." className="img-rounded img-responsive image"
-          src={getImageUrl(dish.images[0] || '')}
-        />
-        <div className="card-weight">
-          <div className="weight-text">{getServingWeight(dish.servingWeight)}</div>
-        </div>
-        {userRole.role === "ADMIN" ?
-          <Row className="middle">
-            <Button
-              aria-label="Edit"
-              className="edit text"
-              type="button"
-              onClick={() => onEditClick(dish)}
-            >
-              <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
-            </Button>
-            <Button
-              aria-label="Delete"
-              className="delete text"
-              type="button"
-              onClick={() => onDeleteClick(dish)}
-            >
-              <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
-            </Button>
-          </Row>
-          : null}
-      </div>
+      {dish.category !== "SNACKS" ?
+        <>
+          <div className="dish-card dish-container">
+            <img alt="..." className="img-rounded img-responsive image"
+              src={getImageUrl(dish.images[0] || '')}
+            />
+            <div className="card-weight">
+              <div className="weight-text">{getServingWeight(dish.servingWeight)}</div>
+            </div>
+            {userRole.role === "ADMIN" ?
+              <Row className="middle">
+                <Button
+                  aria-label="Edit"
+                  className="edit text col"
+                  type="button"
+                  onClick={() => onEditClick(dish)}
+                >
+                  <Col><span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span></Col>
+                </Button>
+                <Button
+                  aria-label="Delete"
+                  className="delete text col"
+                  type="button"
+                  onClick={() => onDeleteClick(dish)}
+                >
+                  <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                </Button>
+              </Row>
+              : null}
+          </div>
 
-      <div className="px-3 pb-3" onClick={() => onClick(dish)}>
-        <h4 className="card-title truncate-tail-2">{dish.title}</h4>
-        {showDetails &&
-          <div>
-            <Row className="my-3">
-              <Col><p className="card-pricing">{getPrice(dish.price)}</p></Col>
-              <Col className="d-flex">{allGainDetails(dish)}</Col>
-            </Row>
+          <div className="px-3 pb-3" onClick={() => onClick(dish)}>
+            <h4 className="card-title truncate-tail-2">{dish.title}</h4>
+            {showDetails &&
+              <div>
+                <Row className="my-3">
+                  <Col><p className="card-pricing">{getPrice(dish.price)}</p></Col>
+                  <Col className="d-flex">{allGainDetails(dish)}</Col>
+                </Row>
+                <div>
+                  {
+                    quantity ?
+                      <div className="already-added">
+                        <Button
+                          className="btn-just-icon float-left"
+                          color="info"
+                          type="button"
+                          onClick={(e) => onAddItem(e, quantity - 1)}
+                        >
+                          <i className="fa fa-minus" />
+                        </Button>
+                        <span className="w-100 items-center">{quantity}</span>
+                        <Button
+                          className="btn-just-icon float-right"
+                          color="info"
+                          type="button"
+                          onClick={(e) => onAddItem(e, quantity + 1)}
+                        >
+                          <i className="fa fa-plus" />
+                        </Button>
+                      </div> :
+                      <Button className="btn-round w-100" color="info" type="button" onClick={(e) => onAddItem(e, 1)}>
+                        add item
+                        <i className="fa fa-plus ml-2" />
+                      </Button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </>
+        :
+        // <a class="img-card" href="http://www.fostrap.com/2016/03/bootstrap-3-carousel-fade-effect.html">
+          <img className="full-image" src={getImageUrl(dish.images[0] || '')}  style={{height: 'inherit' }} alt="no image"/>
+        // </a>
+      }
+
+      {/* <div class="card-content">
+            <h4 class="card-title">
+              <a href="http://www.fostrap.com/2016/03/bootstrap-3-carousel-fade-effect.html"> Bootstrap 3 Carousel FadeIn Out Effect
+              </a>
+            </h4>
+            <p class="">
+              Tutorial to make a carousel bootstrap by adding more wonderful effect fadein ...
+            </p>
+          </div>
+          <div class="card-read-more">
+            <a href="http://www.fostrap.com/2016/03/bootstrap-3-carousel-fade-effect.html" class="btn btn-link btn-block">
+              Read More
+            </a>
+          </div> */}
+      {/* <div className="dish-card dish-container">
+            <img alt="..." className="img-rounded img-responsive image snack-card"
+              src={getImageUrl(dish.images[0] || '')}
+            />
+            {userRole.role === "ADMIN" ?
+              <Row className="middle">
+                <Button
+                  aria-label="Edit"
+                  className="edit text col"
+                  type="button"
+                  onClick={() => onEditClick(dish)}
+                >
+                  <Col><span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span></Col>
+                </Button>
+                <Button
+                  aria-label="Delete"
+                  className="delete text col"
+                  type="button"
+                  onClick={() => onDeleteClick(dish)}
+                >
+                  <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                </Button>
+              </Row>
+              : null}
+          </div>
+
+          <div className="px-3 pb-3" onClick={() => onClick(dish)}>
             <div>
               {
                 quantity ?
@@ -90,9 +171,7 @@ const DishCard = ({
                   </Button>
               }
             </div>
-          </div>
-        }
-      </div>
+          </div> */}
     </div>
   );
 }

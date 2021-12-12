@@ -2,7 +2,7 @@ import {Button, Col, Container, Form, Input, Row} from "reactstrap";
 import React, {useEffect, useState} from "react";
 import {addUserAddress, deleteUserAddresses, editUserAddresses, getUserAddresses} from "../../redux/actions/user";
 import {useDispatch, useSelector} from "react-redux";
-import AppAlert from "../alert";
+// import AppAlert from "../alert";
 import {STATUS} from "../../helpers/constants";
 
 const defaultFields = {
@@ -75,7 +75,7 @@ const AddressModule = (props) => {
             {addAddress ? 'Use Existing address' : 'Add new address'}
           </Button>
           <h3>{addAddress ? 'Add Address' : 'Select Address'}</h3>
-          <AppAlert alert={userStatus}/>
+          {/* <AppAlert alert={userStatus}/> */}
         </div>
         <div>
           {

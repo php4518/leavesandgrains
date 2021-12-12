@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Modal, Button } from "reactstrap";
+import { Modal, Button } from "reactstrap";
 import { deleteDishes } from '../../redux/actions/dish';
 import { useDispatch } from "react-redux";
 

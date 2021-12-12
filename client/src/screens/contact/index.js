@@ -1,19 +1,23 @@
-import React, {useState} from "react";
-import {Button, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row,} from "reactstrap";
+import React, { useState } from "react";
+import { Button, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, } from "reactstrap";
 import MenuHeader from "../../components/header/menuHeader";
 import AppAlert from "../../components/alert";
-import {useDispatch, useSelector} from "react-redux";
-import {useLocation} from "react-router";
-import {contactSupport} from "../../redux/actions/user";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
+import { contactSupport } from "../../redux/actions/user";
+import GoogleMapReact from 'google-map-react';
+
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 const Contact = () => {
-  const {state: {order} = {}} = useLocation();
+
+  const { state: { order } = {} } = useLocation();
   const dispatch = useDispatch();
-  const {userStatus, currentUser = {}} = useSelector(({user}) => {
-    const {userStatus, currentUser} = user;
-    return {userStatus, currentUser};
+  const { userStatus, currentUser = {} } = useSelector(({ user }) => {
+    const { userStatus, currentUser } = user;
+    return { userStatus, currentUser };
   });
-  const {_id: customer, email = '', name = ''} = currentUser;
+  const { _id: customer, email = '', name = '' } = currentUser;
 
   const [contactFields, setContactFields] = useState({
     customer,
@@ -24,7 +28,7 @@ const Contact = () => {
     description: '',
   });
 
-  const handleInputChange = (e) => setContactFields({...contactFields, [e.target.name]: e.target.value});
+  const handleInputChange = (e) => setContactFields({ ...contactFields, [e.target.name]: e.target.value });
 
   const handleSupportQuery = (e) => {
     e.preventDefault();
@@ -48,7 +52,7 @@ const Contact = () => {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="nc-icon nc-single-02"/>
+                            <i className="nc-icon nc-single-02" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
@@ -66,7 +70,7 @@ const Contact = () => {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="nc-icon nc-email-85"/>
+                            <i className="nc-icon nc-email-85" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
@@ -106,13 +110,29 @@ const Contact = () => {
                     </Col>
                   </Row>
                   <Row>
-                    <AppAlert alert={userStatus}/>
+                    <AppAlert alert={userStatus} />
                   </Row>
                 </Form>
               </Col>
             </Row>
           </Container>
         </div>
+      </div>
+      <div style={{ height: '100vh', width: '100%' }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyCKzWyGUy09ULraqdL5c30InR0qXl3FatA" }}
+          defaultCenter={{
+            lat: 59.95,
+            lng: 30.33
+          }}
+          defaultZoom={12}
+        >
+          <AnyReactComponent
+            lat={59.955413}
+            lng={30.337844}
+            text="My Marker"
+          />
+        </GoogleMapReact>
       </div>
     </>
   )
