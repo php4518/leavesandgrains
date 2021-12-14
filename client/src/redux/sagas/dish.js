@@ -1,6 +1,6 @@
 import {all, call, delay, fork, put, select, takeLatest} from 'redux-saga/effects';
 import { GET_DISHES, GET_MEALS, POST_DISHES, UPDATE_DISHES, DELETE_DISHES, DELETE_IMG } from '../constants/dish';
-import { setDishes, setDishesStatus, setMeals, postDishes, updateDishes, deleteDishes, deleteDishImg,setNewDish } from '../../redux/actions/dish';
+import { setDishes, setDishesStatus, setMeals } from '../../redux/actions/dish';
 import dishService from '../../services/dishService';
 import { STATUS } from "../../helpers/constants";
 
@@ -37,7 +37,7 @@ export function* postDishesAsync() {
       const {dish: {addDish = []} = {}} = yield select();
       const response = yield call(dishService.postNewDishes, params);
       addDish.push(response);
-      yield put(setNewDish(addDish));
+      yield put(setDishes(addDish));
       yield put(setDishesStatus({ status: STATUS.SUCCESS, message: 'Dish added successfully' }));
       yield delay(2000);
       yield put(setDishesStatus());
@@ -53,7 +53,7 @@ export function* updateDishAsync() {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
       const dish = yield call(dishService.updateDishes, id, params);
-      yield put(updateDishes(dish));
+      yield put(setDishes(dish));
       yield put(setDishesStatus({ status: STATUS.SUCCESS }));
     } catch (err) {
       console.log(err)
@@ -67,8 +67,7 @@ export function* deleteDishAsync() {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
       const dish = yield call(dishService.deleteDishes, id);
-      console.log("dish", dish);
-      yield put(deleteDishes(dish));
+      yield put(setDishes(dish));
       yield put({ type: 'FETCH_SUCCESS', dish });
       yield put(setDishesStatus({ status: STATUS.SUCCESS }));
     } catch (err) {
@@ -83,7 +82,7 @@ export function* deleteDishImgAsync() {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
       const dish = yield call(dishService.deleteDisheImg, id, imgId);
-      yield put(deleteDishImg(dish));
+      yield put(setDishes(dish));
       yield put(setDishesStatus({ status: STATUS.SUCCESS }));
     } catch (err) {
       console.log(err)

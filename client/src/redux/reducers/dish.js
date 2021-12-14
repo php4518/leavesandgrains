@@ -25,12 +25,6 @@ const dish = (state = initialState.dishes, action) => {
         meals: action.meals,
       }
     }
-    case SET_NEW_DISH: {
-      return {
-        ...state,
-        addFields: action.dishes,
-      }
-    }
     default:
       return state;
   }

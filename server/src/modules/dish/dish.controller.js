@@ -134,8 +134,6 @@ async function update(req, res, next) {
     });
   }
 
-  console.log("oldUploadImg",oldUploadImg);
-  console.log("newUploadImg",newUploadImg);
   var mergeImages = [...oldUploadImg, ...newUploadImg];
 
   const dish = {
@@ -169,7 +167,6 @@ async function update(req, res, next) {
 
 async function deleteImages(req, res, next) {
   try {
-    console.log("ff",req.params.imgId,req.params.id)
     const imgId = req.params.imgId;
     await Dish.findById(req.params.id)
       .select('images')

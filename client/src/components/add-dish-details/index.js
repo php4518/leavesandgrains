@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
-import { postDishes, updateDishes, deleteDishImg } from '../../redux/actions/dish';
+import { postDishes, updateDishes, deleteDishImg, getDishes } from '../../redux/actions/dish';
 import { useDispatch } from "react-redux";
 import { getImageUrl } from "../../helpers/utils";
 
@@ -26,6 +26,11 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
         }
     }, [dish]);
 
+    useEffect(() => {
+        dispatch(getDishes())
+        setAddFields(dish);
+    },[])
+    
     const [validationFields, setValidationFields] = useState({});
 
     const validateInputs = () => {
@@ -54,6 +59,8 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                     return;
                 }
             }
+        }else if (e.target.name === "isActive"){
+            setAddFields({ ...addFields, [e.target.name]: e.target.checked });
         } else {
             setAddFields({ ...addFields, [e.target.name]: e.target.value });
         }
@@ -107,10 +114,12 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                 dispatch(postDishes(dataForm));
                 toggleModal();
                 dish = [];
+                dispatch(getDishes())
             } else {
                 dispatch(updateDishes(addFields._id, dataForm));
                 toggleModal();
                 dish = [];
+                 dispatch(getDishes())
             }
         }
     }
@@ -284,11 +293,12 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             type="number"
                             onChange={handleInputChange}
                         />
-                        <label>Active</label>
+                        <label className="mt-3">Active</label>
                         <Input
                             name="isActive"
+                            className="ml-5 mt-3"
                             value={addFields?.isActive || ''}
-                            type="text"
+                            type="checkbox"
                             onChange={handleInputChange}
                         />
                     </Col>

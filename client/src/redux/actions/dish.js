@@ -8,7 +8,6 @@ import {
   DELETE_IMG,
   SET_DISHES,
   SET_MEALS,
-  SET_NEW_DISH
 } from '../constants/dish';
 
 export const getDishes = (params = null) => {
@@ -47,6 +46,6 @@ export const setDishesStatus = (payload) => {
   return { type: DISH_STATUS, payload };
 };
 
-export const setNewDish = (dishes) => {
-  return {type: SET_NEW_DISH, dishes};
-};
+// export const setDishes = (dishes) => {
+//   return {type: SET_NEW_DISH, dishes};
+// };

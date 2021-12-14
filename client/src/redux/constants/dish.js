@@ -7,4 +7,3 @@ export const POST_DISHES = 'POST_DISHES';
 export const UPDATE_DISHES = 'UPDATE_DISHES';
 export const DELETE_DISHES = 'DELETE_DISHES';
 export const DELETE_IMG = 'DELETE_IMG';
-export const SET_NEW_DISH = 'SET_NEW_DISH';
