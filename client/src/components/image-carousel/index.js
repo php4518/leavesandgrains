@@ -27,7 +27,7 @@ const ImageCarousel = ({items}) => {
   };
   return (
     <div className="section" id="carousel">
-      <Card className="page-carousel mb-0">
+      <Card className="page-carousel mb-0 h-auto">
         <Carousel
           activeIndex={activeIndex}
           next={next}

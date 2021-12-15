@@ -1,4 +1,4 @@
-import { DISH_STATUS, SET_DISHES, SET_MEALS, SET_NEW_DISH } from '../constants/dish';
+import { DISH_STATUS, SET_DISHES, SET_MEALS } from '../constants/dish';
 import initialState from "./initialState";
 
 // const initState = {

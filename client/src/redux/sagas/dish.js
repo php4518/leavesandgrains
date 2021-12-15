@@ -1,4 +1,4 @@
-import {all, call, delay, fork, put, select, takeLatest} from 'redux-saga/effects';
+import { all, call, delay, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { GET_DISHES, GET_MEALS, POST_DISHES, UPDATE_DISHES, DELETE_DISHES, DELETE_IMG } from '../constants/dish';
 import { setDishes, setDishesStatus, setMeals } from '../../redux/actions/dish';
 import dishService from '../../services/dishService';
@@ -19,25 +19,13 @@ export function* getAllDishesAsync() {
 }
 
 export function* postDishesAsync() {
-  // yield takeLatest(POST_DISHES, function* ({ params } = {}) {
-  //   try {
-  //     yield put(setDishesStatus({ status: STATUS.LOADING }));
-  //     const response = yield call(dishService.postNewDishes, params);
-  //     yield put(postDishes(response));
-  //     yield put(setDishesStatus({ status: STATUS.SUCCESS }));
-  //   } catch (err) {
-  //     console.log(err)
-  //     yield put(setDishesStatus({ status: STATUS.ERROR, message: err.data.message }));
-  //   }
-  // });
-
   yield takeLatest(POST_DISHES, function* ({ params } = {}) {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
-      const {dish: {addDish = []} = {}} = yield select();
+      const { dish: { dishes = [] } = {} } = yield select();
       const response = yield call(dishService.postNewDishes, params);
-      addDish.push(response);
-      yield put(setDishes(addDish));
+      dishes.push(response);
+      yield put(setDishes(dishes));
       yield put(setDishesStatus({ status: STATUS.SUCCESS, message: 'Dish added successfully' }));
       yield delay(2000);
       yield put(setDishesStatus());
@@ -52,9 +40,16 @@ export function* updateDishAsync() {
   yield takeLatest(UPDATE_DISHES, function* ({ id, params } = {}) {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
-      const dish = yield call(dishService.updateDishes, id, params);
-      yield put(setDishes(dish));
-      yield put(setDishesStatus({ status: STATUS.SUCCESS }));
+      const { dish: { dishes = [] } = {} } = yield select();
+      const response = yield call(dishService.updateDishes, id, params);
+      const index = dishes.findIndex(a => a._id === id);
+      if (index > -1) {
+        dishes[index] = response
+      }
+      yield put(setDishes(dishes));
+      yield put(setDishesStatus({ status: STATUS.SUCCESS, message: 'Dish update successfully' }));
+      yield delay(2000);
+      yield put(setDishesStatus());
     } catch (err) {
       console.log(err)
       yield put(setDishesStatus({ status: STATUS.ERROR, message: err.data.message }));
@@ -66,10 +61,17 @@ export function* deleteDishAsync() {
   yield takeLatest(DELETE_DISHES, function* ({ id } = {}) {
     try {
       yield put(setDishesStatus({ status: STATUS.LOADING }));
-      const dish = yield call(dishService.deleteDishes, id);
-      yield put(setDishes(dish));
-      yield put({ type: 'FETCH_SUCCESS', dish });
-      yield put(setDishesStatus({ status: STATUS.SUCCESS }));
+      const { dish: { dishes = [] } = {} } = yield select();
+      yield call(dishService.deleteDishes, id);
+      const index = dishes.findIndex(a => a._id === id);
+      if (index > -1) {
+        dishes.splice(index, 1);
+      }
+      yield put(setDishes(dishes));
+      // yield put({ type: 'FETCH_SUCCESS', dish });
+      yield put(setDishesStatus({ status: STATUS.SUCCESS, message: 'Dish delete successfully' }));
+      yield delay(2000);
+      yield put(setDishesStatus());
     } catch (err) {
       console.log(err)
       yield put(setDishesStatus({ status: STATUS.ERROR, message: err.data.message }));

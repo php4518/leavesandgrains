@@ -25,7 +25,7 @@ const Menu = (props) => {
   const dispatch = useDispatch();
   const { allDishes, dishStatus, individualMeals } = useSelector(({ dish, cart }) => ({
     allDishes: dish.dishes,
-    dishStatus: dish.dishStatus,
+    dishStatus: dish.dishStatus, 
     individualMeals: cart.individualMeals
   }));
 

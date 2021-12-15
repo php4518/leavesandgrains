@@ -233,7 +233,6 @@ async function remove(req, res, next) {
       .select('images')
       .exec()
       .then((docs) => {
-        console.log("docs", docs);
         docs.images.map(async (index, val) => {
           fs.unlinkSync("./" + docs.images[val]);
         });

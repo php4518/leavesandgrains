@@ -15,7 +15,7 @@ const DishDetails = ({dish = false, toggleModal}) => {
   if (!dish) return null
   return (
     <Modal isOpen={!!dish} toggle={toggleModal} size="xl" className="dish-details">
-      <div className="modal-body">
+      <div className="modal-body" style={{ display : "grid"}}>
         <button
           aria-label="Close"
           className="close"
