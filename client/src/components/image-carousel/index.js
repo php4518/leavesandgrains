@@ -27,7 +27,7 @@ const ImageCarousel = ({items}) => {
   };
   return (
     <div className="section" id="carousel">
-      <Card className="page-carousel mb-0 h-auto">
+      <div className="page-carousel mb-0">
         <Carousel
           activeIndex={activeIndex}
           next={next}
@@ -85,7 +85,7 @@ const ImageCarousel = ({items}) => {
             </>
           }
         </Carousel>
-      </Card>
+      </div>
     </div>
   );
 }

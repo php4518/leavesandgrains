@@ -1,10 +1,10 @@
 import React from "react";
-import {Col, Modal, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
-import {allGainDetails, getPrice} from "../../helpers/utils";
-import {DISH_DETAILS_TAB} from "../../helpers/constants";
+import { Col, Modal, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
+import { allGainDetails, getPrice } from "../../helpers/utils";
+import { DISH_DETAILS_TAB } from "../../helpers/constants";
 import ImageCarousel from "../image-carousel";
 
-const DishDetails = ({dish = false, toggleModal}) => {
+const DishDetails = ({ dish = false, toggleModal }) => {
   const [activeTab, setActiveTab] = React.useState(DISH_DETAILS_TAB[0]);
   const toggle = (tab) => {
     if (activeTab !== tab) {
@@ -15,7 +15,7 @@ const DishDetails = ({dish = false, toggleModal}) => {
   if (!dish) return null
   return (
     <Modal isOpen={!!dish} toggle={toggleModal} size="xl" className="dish-details">
-      <div className="modal-body" style={{ display : "grid"}}>
+      <div className="modal-header">
         <button
           aria-label="Close"
           className="close"
@@ -24,9 +24,11 @@ const DishDetails = ({dish = false, toggleModal}) => {
         >
           <span aria-hidden={true}>×</span>
         </button>
+      </div>
+      <div className="modal-body">
         <Row>
           <Col md="6" sm="12" className="pr-md-0">
-            <ImageCarousel items={dish.images}/>
+            <ImageCarousel items={dish.images} />
           </Col>
           <Col md="6" sm="12" className="scroll-content">
             <div>
@@ -36,7 +38,7 @@ const DishDetails = ({dish = false, toggleModal}) => {
                 <Col><p className="dish-price">{getPrice(dish.price)}</p></Col>
                 <Col className="d-flex align-items-end justify-content-end">{allGainDetails(dish)}</Col>
               </Row>
-              <div className="divider"/>
+              <div className="divider" />
               <div>
                 <div className="nav-tabs-navigation">
                   <div className="nav-tabs-wrapper">
@@ -68,7 +70,7 @@ const DishDetails = ({dish = false, toggleModal}) => {
                     </Row>
                     <div className="nutritions">
                       {
-                        dish?.nutritions?.map(({name, perServing}, index) =>
+                        dish?.nutritions?.map(({ name, perServing }, index) =>
                           <Row className="py-1" key={index}>
                             <Col className="text-left">{name}</Col>
                             <Col className="text-right">{perServing}</Col>
@@ -89,7 +91,7 @@ const DishDetails = ({dish = false, toggleModal}) => {
                     </div>
                   </TabPane>
                   <TabPane tabId={DISH_DETAILS_TAB[2]}>
-                    <div className="main-details" dangerouslySetInnerHTML={{__html: dish.instructions || ''}}/>
+                    <div className="main-details" dangerouslySetInnerHTML={{ __html: dish.instructions || '' }} />
                   </TabPane>
                 </TabContent>
               </div>

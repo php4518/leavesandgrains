@@ -11,10 +11,13 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
     const [addFields, setAddFields] = useState([]);
     const [getPreviewImages, setPeviewImages] = useState([]);
     const [getImages, setGetImages] = useState([]);
+    const [validationFields, setValidationFields] = useState({});
+    const [formValues, setFormValues] = useState([])
 
     useEffect(() => {
         if (dish?._id) {
             setAddFields(dish);
+            setFormValues(dish.nutritions);
             let getColImg = [];
             let getPreImg = [];
             for (var i = 0; i < dish?.images.length; i++) {
@@ -29,9 +32,24 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
     useEffect(() => {
         dispatch(getDishes())
         setAddFields(dish);
-    },[])
-    
-    const [validationFields, setValidationFields] = useState({});
+    }, [])
+
+
+    let handleChange = (i, e) => {
+        let newFormValues = [...formValues];
+        newFormValues[i][e.target.name] = e.target.value;
+        setFormValues(newFormValues);
+    }
+
+    let addFormFields = () => {
+        setFormValues([...formValues, { name: "", perServing: "" }])
+    }
+
+    let removeFormFields = (i) => {
+        let newFormValues = [...formValues];
+        newFormValues.splice(i, 1);
+        setFormValues(newFormValues)
+    }
 
     const validateInputs = () => {
         let fields = {};
@@ -59,7 +77,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                     return;
                 }
             }
-        }else if (e.target.name === "isActive"){
+        } else if (e.target.name === "isActive") {
             setAddFields({ ...addFields, [e.target.name]: e.target.checked });
         } else {
             setAddFields({ ...addFields, [e.target.name]: e.target.value });
@@ -82,10 +100,6 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
         e.preventDefault();
         e.stopPropagation();
         if (validateInputs()) {
-            var nutritions = [{
-                name: addFields.name,
-                perServing: addFields.perServing
-            }]
 
             if (getImages.length !== 0) {
                 getImages.map((i) => {
@@ -107,7 +121,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
             dataForm.set('protein', addFields.protein)
             dataForm.set('carbs', addFields.carbs)
             dataForm.set('fats', addFields.fats)
-            dataForm.set('nutritions', JSON.stringify(nutritions))
+            dataForm.set('nutritions', JSON.stringify(formValues))
             dataForm.set('isActive', addFields.isActive)
 
             if (!addFields?._id) {
@@ -119,13 +133,14 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                 dispatch(updateDishes(addFields._id, dataForm));
                 toggleModal();
                 dish = [];
-                 dispatch(getDishes())
+                dispatch(getDishes())
             }
         }
     }
 
     if (!dish) return null
 
+    console.log("formValues", formValues);
     return (
         <Modal isOpen={!!dish} toggle={toggleModal} size="xl" className="dish-details">
             <div className="modal-header modal-title">
@@ -183,7 +198,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             }}
                         />
                         <label>Category</label>
-                        <select name="category" className="form-control" value={addFields?.category || ''} onChange={handleInputChange}>
+                        <select name="category" className="form-control" value={addFields?.category || ''} onChange={handleInputChange} required>
                             <option value="" disabled>Select Category</option>
                             <option value="MEALS">MEALS</option>
                             <option value="PLUS">PLUS</option>
@@ -192,7 +207,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             <option value="DRINKS">DRINKS</option>
                         </select>
                         <label>Protein Type</label>
-                        <select name="proteinType" className="form-control" value={addFields?.proteinType || ''} onChange={handleInputChange}>
+                        <select name="proteinType" className="form-control" value={addFields?.proteinType || ''} onChange={handleInputChange} required>
                             <option value="" disabled>Select Protein Type</option>
                             <option value="VEGETARIAN">VEGETARIAN</option>
                             <option value="LAMB">LAMB</option>
@@ -203,6 +218,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             name="instructions"
                             value={addFields?.instructions || ''}
                             type="text"
+                            required
                             onChange={handleInputChange}
                         />
                         <label>Ingredients</label>
@@ -210,6 +226,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             name="ingredients"
                             value={addFields?.ingredients || ''}
                             type="text"
+                            required
                             onChange={handleInputChange}
                         />
                         <Row>
@@ -242,11 +259,13 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             name="contains"
                             value={addFields?.contains || ''}
                             type="text"
+                            required
                             onChange={handleInputChange}
                         />
                         <label>Ingredient Instructions</label>
                         <Input
                             name="ingredientInstructions"
+                            required
                             value={addFields?.ingredientInstructions || ''}
                             type="text"
                             onChange={handleInputChange}
@@ -254,6 +273,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                         <label>Calories</label>
                         <Input
                             name="calories"
+                            required
                             value={addFields?.calories || ''}
                             type="number"
                             onChange={handleInputChange}
@@ -261,6 +281,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                         <label>Protein</label>
                         <Input
                             name="protein"
+                            required
                             value={addFields?.protein || ''}
                             type="number"
                             onChange={handleInputChange}
@@ -270,6 +291,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             name="carbs"
                             value={addFields?.carbs || ''}
                             type="number"
+                            required
                             onChange={handleInputChange}
                         />
                         <label>Fats</label>
@@ -277,28 +299,28 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                             name="fats"
                             value={addFields?.fats || ''}
                             type="number"
+                            required
                             onChange={handleInputChange}
                         />
-                        <label>Nutritions name</label>
-                        <Input
-                            name="name"
-                            value={addFields?.name || ''}
-                            type="text"
-                            onChange={handleInputChange}
-                        />
-                        <label>Nutritions Per Serving</label>
-                        <Input
-                            name="perServing"
-                            value={addFields?.perServing || ''}
-                            type="number"
-                            onChange={handleInputChange}
-                        />
+                        {formValues.length !== "0" && formValues.map((element, index) => (
+                            <div key={index}>
+                                <label>Nutritions name</label>
+                                <input type="text" name="name" value={element.name || ""} onChange={e => handleChange(index, e)} required />
+                                <label>Per Serving</label>
+                                <input type="number" name="perServing" value={element.perServing || ""} onChange={e => handleChange(index, e)} required />
+                                <button type="button" className="button remove" onClick={() => removeFormFields(index)}>Remove</button>
+                            </div>
+                        ))}
+                        <div className="button-section">
+                            <button className="button add" type="button" onClick={() => addFormFields()}>Add</button>
+                        </div>
                         <label className="mt-3">Active</label>
                         <Input
                             name="isActive"
                             className="ml-5 mt-3"
                             value={addFields?.isActive || ''}
                             type="checkbox"
+                            required
                             onChange={handleInputChange}
                         />
                     </Col>

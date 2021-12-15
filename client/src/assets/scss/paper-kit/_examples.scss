@@ -280,7 +280,7 @@
 }
 
 .alert h5 {
-  // margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .title-brand {
@@ -848,7 +848,7 @@
 
       .scroll-content {
         max-height: 65vh;
-        overflow-y: scroll;
+        overflow-y:hidden;
       }
     }
 
@@ -858,8 +858,11 @@
 
     .carousel-inner {
       img {
-        //object-fit: contain;
+        // object-fit: contain;
         max-height: 70vh;
+        height: 700px;
+        // min-width: initial;
+        width: 700px;
       }
     }
   }
