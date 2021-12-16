@@ -140,9 +140,9 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
 
     if (!dish) return null
 
-    console.log("formValues", formValues);
     return (
-        <Modal isOpen={!!dish} toggle={toggleModal} size="xl" className="dish-details">
+        // <Modal isOpen={!!dish} toggle={toggleModal} size="xl" className="dish-details">
+        <div>
             <div className="modal-header modal-title">
                 {!addFields?._id ?
                     `Add New Dish` :
@@ -152,178 +152,189 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                     aria-label="Close"
                     className="close"
                     type="button"
-                    onClick={() => { toggleModal(); dish = []; }}
+                    onClick={() => { toggleModal(); dish = [] }}
                 >
                     <span aria-hidden={true}>×</span>
                 </button>
             </div>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} style={{ display: "contents" }}>
                 <div className="modal-body">
-                    <Col md={6}>
-                        <label>Dish name</label>
-                        <Input
-                            name="title"
-                            value={addFields?.title || ''}
-                            type="text"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        <label>Discription</label>
-                        <Input
-                            name="description"
-                            value={addFields?.description || ''}
-                            type="text"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        <label>Serving Weight</label>
-                        <Input
-                            name="servingWeight"
-                            value={addFields?.servingWeight || ''}
-                            type="number"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        <label>Price</label>
-                        <Input
-                            name="price"
-                            value={addFields?.price || ''}
-                            type="number"
-                            required
-                            onChange={handleInputChange}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault();
+                    <Row>
+                        <Col md={6}>
+                            <label>Dish name</label>
+                            <Input
+                                name="title"
+                                value={addFields?.title || ''}
+                                type="text"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <label>Discription</label>
+                            <Input
+                                name="description"
+                                value={addFields?.description || ''}
+                                type="text"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <label>Serving Weight</label>
+                            <Input
+                                name="servingWeight"
+                                value={addFields?.servingWeight || ''}
+                                type="number"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <label>Price</label>
+                            <Input
+                                name="price"
+                                value={addFields?.price || ''}
+                                type="number"
+                                required
+                                onChange={handleInputChange}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault();
+                                    }
+                                }}
+                            />
+                            <label>Category</label>
+                            <select name="category" className="form-control" value={addFields?.category || ''} onChange={handleInputChange} required>
+                                <option value="" disabled>Select Category</option>
+                                <option value="MEALS">MEALS</option>
+                                <option value="PLUS">PLUS</option>
+                                <option value="BREAKFAST">BREAKFAST</option>
+                                <option value="SNACKS">SNACKS</option>
+                                <option value="DRINKS">DRINKS</option>
+                            </select>
+                            <label>Protein Type</label>
+                            <select name="proteinType" className="form-control" value={addFields?.proteinType || ''} onChange={handleInputChange} required>
+                                <option value="" disabled>Select Protein Type</option>
+                                <option value="VEGETARIAN">VEGETARIAN</option>
+                                <option value="LAMB">LAMB</option>
+                                <option value="VEGAN">VEGAN</option>
+                            </select>
+                            <label>Ingredients</label>
+                            <Input
+                                name="ingredients"
+                                value={addFields?.ingredients || ''}
+                                type="text"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <Row>
+                                <label>
+                                    Upload Images<i className="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                </label>
+                                <label className="overflow-hidden border border-dark profile-img-wrap" htmlFor="images">
+                                    <label htmlFor="images"><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
+                                    <Input multiple id="images" name="images" type="file" className="form-control" onChange={handleInputChange} hidden />
+                                </label>
+                            </Row>
+                            <Row className="p-2">
+                                {getPreviewImages?.length !== 0 ?
+                                    getPreviewImages?.map((img, ind) =>
+                                        <Col key={ind} md={2} sm={2} lg={2} xl={2} className="p-2">
+                                            <div className="p-0 border border-dark position-relative" id="container-img">
+                                                <img src={img} />
+                                            </div>
+                                            <i className="fa fa-times dlt-img-project rounded-circle" aria-hidden="true" height="20" width="20" onClick={() => removeImageItem(ind)} ></i>
+                                        </Col>
+                                    )
+                                    :
+                                    <p>No images for this project</p>
                                 }
-                            }}
-                        />
-                        <label>Category</label>
-                        <select name="category" className="form-control" value={addFields?.category || ''} onChange={handleInputChange} required>
-                            <option value="" disabled>Select Category</option>
-                            <option value="MEALS">MEALS</option>
-                            <option value="PLUS">PLUS</option>
-                            <option value="BREAKFAST">BREAKFAST</option>
-                            <option value="SNACKS">SNACKS</option>
-                            <option value="DRINKS">DRINKS</option>
-                        </select>
-                        <label>Protein Type</label>
-                        <select name="proteinType" className="form-control" value={addFields?.proteinType || ''} onChange={handleInputChange} required>
-                            <option value="" disabled>Select Protein Type</option>
-                            <option value="VEGETARIAN">VEGETARIAN</option>
-                            <option value="LAMB">LAMB</option>
-                            <option value="VEGAN">VEGAN</option>
-                        </select>
-                        <label>Instructions</label>
-                        <Input
-                            name="instructions"
-                            value={addFields?.instructions || ''}
-                            type="text"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        <label>Ingredients</label>
-                        <Input
-                            name="ingredients"
-                            value={addFields?.ingredients || ''}
-                            type="text"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        <Row>
-                            <label>
-                                Upload Images<i className="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                            </label>
-                            <label className="overflow-hidden border border-dark profile-img-wrap" htmlFor="images">
-                                <label htmlFor="images"><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
-                                <Input multiple id="images" name="images" type="file" className="form-control" onChange={handleInputChange} hidden />
-                            </label>
-                        </Row>
-                        <Row className="p-2">
-                            {getPreviewImages?.length !== 0 ?
-                                getPreviewImages?.map((img, ind) =>
-                                    <Col key={ind} md={2} sm={2} lg={2} xl={2} className="p-2">
-                                        <div className="p-0 border border-dark position-relative" id="container-img">
-                                            <img src={img} />
-                                        </div>
-                                        <i className="fa fa-times dlt-img-project rounded-circle" aria-hidden="true" height="20" width="20" onClick={() => removeImageItem(ind)} ></i>
-                                    </Col>
-                                )
-                                :
-                                <p>No images for this project</p>
-                            }
-                        </Row>
-                    </Col>
-                    <Col md={6}>
-                        <label>Contains</label>
-                        <Input
-                            name="contains"
-                            value={addFields?.contains || ''}
-                            type="text"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        <label>Ingredient Instructions</label>
-                        <Input
-                            name="ingredientInstructions"
-                            required
-                            value={addFields?.ingredientInstructions || ''}
-                            type="text"
-                            onChange={handleInputChange}
-                        />
-                        <label>Calories</label>
-                        <Input
-                            name="calories"
-                            required
-                            value={addFields?.calories || ''}
-                            type="number"
-                            onChange={handleInputChange}
-                        />
-                        <label>Protein</label>
-                        <Input
-                            name="protein"
-                            required
-                            value={addFields?.protein || ''}
-                            type="number"
-                            onChange={handleInputChange}
-                        />
-                        <label>Carbs</label>
-                        <Input
-                            name="carbs"
-                            value={addFields?.carbs || ''}
-                            type="number"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        <label>Fats</label>
-                        <Input
-                            name="fats"
-                            value={addFields?.fats || ''}
-                            type="number"
-                            required
-                            onChange={handleInputChange}
-                        />
-                        {formValues.length !== "0" && formValues.map((element, index) => (
-                            <div key={index}>
-                                <label>Nutritions name</label>
-                                <input type="text" name="name" value={element.name || ""} onChange={e => handleChange(index, e)} required />
-                                <label>Per Serving</label>
-                                <input type="number" name="perServing" value={element.perServing || ""} onChange={e => handleChange(index, e)} required />
-                                <button type="button" className="button remove" onClick={() => removeFormFields(index)}>Remove</button>
+                            </Row>
+                        </Col>
+                        <Col md={6}>
+                            <label>Instructions</label>
+                            <Input
+                                name="instructions"
+                                value={addFields?.instructions || ''}
+                                type="text"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <label>Contains</label>
+                            <Input
+                                name="contains"
+                                value={addFields?.contains || ''}
+                                type="text"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <label>Ingredient Instructions</label>
+                            <Input
+                                name="ingredientInstructions"
+                                required
+                                value={addFields?.ingredientInstructions || ''}
+                                type="text"
+                                onChange={handleInputChange}
+                            />
+                            <label>Calories</label>
+                            <Input
+                                name="calories"
+                                required
+                                value={addFields?.calories || ''}
+                                type="number"
+                                onChange={handleInputChange}
+                            />
+                            <label>Protein</label>
+                            <Input
+                                name="protein"
+                                required
+                                value={addFields?.protein || ''}
+                                type="number"
+                                onChange={handleInputChange}
+                            />
+                            <label>Carbs</label>
+                            <Input
+                                name="carbs"
+                                value={addFields?.carbs || ''}
+                                type="number"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <label>Fats</label>
+                            <Input
+                                name="fats"
+                                value={addFields?.fats || ''}
+                                type="number"
+                                required
+                                onChange={handleInputChange}
+                            />
+                            <div className="button-section mt-2">
+                                <Button block className="btn-round" color="danger" type="button" onClick={() => addFormFields()}><i className="fa fa-plus" />Add Nutritions</Button>
                             </div>
-                        ))}
-                        <div className="button-section">
-                            <button className="button add" type="button" onClick={() => addFormFields()}>Add</button>
-                        </div>
-                        <label className="mt-3">Active</label>
-                        <Input
-                            name="isActive"
-                            className="ml-5 mt-3"
-                            value={addFields?.isActive || ''}
-                            type="checkbox"
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Col>
+                            <div style={{ overflowY: "auto", height: "15vh", overflowX: "hidden" }}>
+                                {formValues.length !== "0" && formValues.map((element, index) => (
+                                    <Row key={index}>
+                                        <Col sm={6}>
+                                            <label>{index + 1}) Name</label>
+                                            <Input type="text" name="name" value={element.name || ""} onChange={e => handleChange(index, e)} required />
+                                        </Col>
+                                        <Col sm={5}>
+                                            <label>Per Serving</label>
+                                            <Input type="number" name="perServing" value={element.perServing || ""} onChange={e => handleChange(index, e)} required />
+                                        </Col>
+                                        <Col sm={1} className="mt-4 p-0 @media (min-width: 576px) { p-0 }">
+                                            {/* <button type="button" className="button remove" onClick={() => removeFormFields(index)}><i className="fa fa-trash" /></button> */}
+                                            <span aria-hidden={true} onClick={() => removeFormFields(index)}><i className="fa fa-trash  fa-2x"></i></span>
+                                        </Col>
+                                    </Row>
+                                ))}
+                            </div>
+                            <label className="mt-3">Active</label>
+                            <Input
+                                name="isActive"
+                                className="ml-5 mt-3"
+                                value={addFields?.isActive || ''}
+                                type="checkbox"
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Col>
+                    </Row>
                 </div>
                 <div className="modal-footer">
                     <Button block className="btn-round w-25 my-3 my-sm-5 mx-auto" color="danger" type="submit">
@@ -331,7 +342,8 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                     </Button>
                 </div>
             </Form>
-        </Modal >
+        </div>
+        // </Modal >
     )
 }
 

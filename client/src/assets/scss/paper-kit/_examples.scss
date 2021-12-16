@@ -832,8 +832,10 @@
 
     .modal-body {
       padding: 10px;
-      display: flex;
+      display: -webkit-inline-box;;
       align-items: center;
+      height: 70vh;
+      overflow-y: auto;
 
       button.close {
         position: absolute;

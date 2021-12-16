@@ -44,7 +44,7 @@ const DishCard = ({
                   type="button"
                   onClick={() => onEditClick(dish)}
                 >
-                  <Col><span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span></Col>
+                  <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
                 </Button>
                 <Button
                   aria-label="Delete"
@@ -141,7 +141,7 @@ const DishCard = ({
                 type="button"
                 onClick={() => onEditClick(dish)}
               >
-                <Col><span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span></Col>
+                <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
               </Button>
               <Button
                 aria-label="Delete"

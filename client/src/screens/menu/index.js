@@ -25,7 +25,7 @@ const Menu = (props) => {
   const dispatch = useDispatch();
   const { allDishes, dishStatus, individualMeals } = useSelector(({ dish, cart }) => ({
     allDishes: dish.dishes,
-    dishStatus: dish.dishStatus, 
+    dishStatus: dish.dishStatus,
     individualMeals: cart.individualMeals
   }));
 
@@ -36,9 +36,16 @@ const Menu = (props) => {
   const [deleteDishDetail, showDeleteDishDetails] = useState(null);
   const [showFilters, setShowFilters] = useState(true);
   const [filters, setFilters] = useState(defaultFilters);
+  const [isForm, setIsForm] = useState(false);
   useEffect(() => dispatch(getDishes()), []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => setDishes(allDishes), [allDishes]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  useEffect(() => {
+    if (addDishDetail || editDishDetail) {
+      setIsForm(true);
+    } else {
+      setIsForm(false);
+    }
+  })
 
   const filterDishes = (filterObj) => {
     let currentDishes = [...allDishes];
@@ -313,7 +320,7 @@ const Menu = (props) => {
           </Col>
           : null
         }
-        
+
         <Col md={showFilters ? "9" : "12"}>
           <div className="title">
             <h2 className="font-weight-bold">MEALS
@@ -338,26 +345,32 @@ const Menu = (props) => {
             </div>
           </div>
           <AppAlert alert={dishStatus} />
-          <Row>
-            {
-              (!dishes.length) ? <Col className="no-data-available">No meals available</Col> :
-                dishes.map((item, index) =>
-                  <Col key={index} lg="3" md="6" sm="6">
-                    <DishCard dish={item} onClick={showDishDetails} onEditClick={showEditDishDetails} onDeleteClick={showDeleteDishDetails} addItem={handleAddItem}
-                      quantity={individualMeals[item._id]?.quantity} />
-                  </Col>
-                )
-            }
-          </Row>
+
+          {!isForm ?
+            <Row>
+              {
+                (!dishes.length) ? <Col className="no-data-available">No meals available</Col> :
+                  dishes.map((item, index) =>
+                    <Col key={index} lg="3" md="6" sm="6">
+                      <DishCard dish={item} onClick={showDishDetails} onEditClick={showEditDishDetails} onDeleteClick={showDeleteDishDetails} addItem={handleAddItem}
+                        quantity={individualMeals[item._id]?.quantity} />
+                    </Col>
+                  )
+              }
+            </Row>
+            :
+            <>
+              {editDishDetail && editDishDetail !== '' ?
+                <AddDishDetails dish={editDishDetail} toggleModal={() => showEditDishDetails(null)} />
+                :
+                <AddDishDetails dish={addDishDetail} toggleModal={() => showAddDishDetails(null)} />
+              }
+            </>
+          }
         </Col>
       </Row>
       <DishDetails dish={dishDetail} toggleModal={() => showDishDetails(null)} />
-      {/* <AddDishDetails dish={editDishDetail} toggleModal={() => showEditDishDetails(null)} /> */}
-      {editDishDetail && editDishDetail !== '' ?
-        <AddDishDetails dish={editDishDetail} toggleModal={() => showEditDishDetails(null)} />
-        :
-        <AddDishDetails dish={addDishDetail} toggleModal={() => showAddDishDetails(null)} />
-      }
+
       <DeleteDishDetails dish={deleteDishDetail} toggleModal={() => showDeleteDishDetails(null)} />
     </div>
   );
