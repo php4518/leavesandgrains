@@ -317,7 +317,7 @@ const AddDishDetails = ({ dish = false, toggleModal }) => {
                                             <label>Per Serving</label>
                                             <Input type="number" name="perServing" value={element.perServing || ""} onChange={e => handleChange(index, e)} required />
                                         </Col>
-                                        <Col sm={1} className="mt-4 p-0 @media (min-width: 576px) { p-0 }">
+                                        <Col sm={1} className="mt-4 p-0">
                                             {/* <button type="button" className="button remove" onClick={() => removeFormFields(index)}><i className="fa fa-trash" /></button> */}
                                             <span aria-hidden={true} onClick={() => removeFormFields(index)}><i className="fa fa-trash  fa-2x"></i></span>
                                         </Col>
