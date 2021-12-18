@@ -5,6 +5,7 @@ import HomePage from "./screens/home";
 import Index from "./views";
 import MenuPage from "./screens/menu";
 import OrderHome from "./screens/order-home";
+import BlogPage from "./screens/blogs";
 import AboutPage from "./screens/about";
 import ContactPage from "./screens/contact";
 import SignInPage from "./screens/sign-in";
@@ -30,7 +31,7 @@ const AppRoutes = (props) => {
       <Route exact path="/index" component={Index}/>
       <Route path="/menu" component={MenuPage}/>
       <Route path="/order" component={OrderHome}/>
-      <Route path="/blog" component={AboutPage}/>
+      <Route path="/blog" component={BlogPage}/>
       <Route path="/contact" component={ContactPage}/>
       <Route path="/about" component={AboutPage}/>
       <Route path="/sign-in" component={SignInPage}/>

@@ -44,6 +44,7 @@ app.use('/api', routes);
 app.use('/public', express.static('public'));
 app.use(httpContext.middleware);
 app.use("/apipublic", express.static('apipublic'));
+app.use("/apipublic/blog", express.static('apipublic/blog'));
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {
