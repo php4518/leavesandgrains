@@ -22,7 +22,7 @@ const BlogSchema = new mongoose.Schema({
         required: true,
     },
     blogimage: {
-        type: String,
+        type: Object,
         required: true,
     },
     writerName: {

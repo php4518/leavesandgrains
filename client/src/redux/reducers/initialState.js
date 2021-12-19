@@ -1,5 +1,6 @@
 const initialState = {
   dishes: {dishes: []},
+  blogs: {blogs: []},
   cart: {mealPlans: [], individualMeals: {}},
   user: {userAddresses: [], orders: []}
 };

@@ -9,6 +9,7 @@ const authRoutes = require('./modules/auth/auth.routes');
 const dishRoutes = require('./modules/dish/dish.routes');
 const mealRoutes = require('./modules/meals/meals.routes');
 const supportRoutes = require('./modules/support/support.routes');
+const blogsRoutes = require('./modules/blogs/blogs.routes');
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.use('/dishes', dishRoutes);
 router.use('/meals', mealRoutes);
 router.use('/support', supportRoutes);
 router.use('/admin-order', adminOrderRoutes);
+router.use('/blogs', blogsRoutes);
 
 // Validating all the APIs with jwt token.
 router.use(expressJwt({

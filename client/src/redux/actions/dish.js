@@ -45,7 +45,3 @@ export const setDishes = (dishes = []) => {
 export const setDishesStatus = (payload) => {
   return { type: DISH_STATUS, payload };
 };
-
-// export const setDishes = (dishes) => {
-//   return {type: SET_NEW_DISH, dishes};
-// };

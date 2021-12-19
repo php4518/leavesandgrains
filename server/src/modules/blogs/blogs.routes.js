@@ -1,9 +1,10 @@
 const express = require('express');
-const blogCtrl = require('./blog.controller');
+const blogCtrl = require('./blogs.controller');
 const { Joi } = require('express-validation');
 const { validate } = require('../../helpers');
 const multer = require('multer');
 const router = express.Router();
+const path = require('path');
 
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
@@ -15,11 +16,11 @@ const fileFilter = (req, file, cb) => {
 }
 
 var docStorage = multer.diskStorage({
-    destination: (req, file, cb) => {        
+    destination: (req, file, cb) => {
         cb(null, './apipublic/blog');
     },
-    filename: (req, file, cb) => { 
-        cb(null, file.originalname);
+    filename: (req, file, cb) => {
+        cb(null, file.originalname + '_' + Date.now() + path.extname(file.originalname))
     }
 });
 
@@ -36,10 +37,10 @@ const paramValidation = {
         body: Joi.object({
             title: Joi.string().required(),
             description: Joi.string().required(),
-            longdescription: Joi.string.required(),
-            blogimage: Joi.string().required(),
+            longdescription: Joi.string().required(),
+            blogimage: Joi.object(),
             writerName: Joi.string().required(),
-            category: Joi.string(),
+            category: Joi.string().required(),
             contributer: Joi.string().required(),
             isActive: Joi.boolean()
         }),
@@ -51,7 +52,7 @@ const paramValidation = {
         body: Joi.object({
             title: Joi.string().required(),
             description: Joi.string().required(),
-            longdescription: Joi.array(),
+            longdescription: Joi.string().required(),
             blogimage: Joi.string().required(),
             writerName: Joi.string().required(),
             category: Joi.string(),
@@ -62,7 +63,7 @@ const paramValidation = {
 }
 
 router.route('/')
-    .post(upload.single, validate(paramValidation.addBlog), blogCtrl.create);
+    .post(upload.single('blogimage'), validate(paramValidation.addBlog), blogCtrl.create);
 
 router.route('/')
     /** GET /api/bloges - Get list of bloges */
@@ -79,6 +80,10 @@ router.route('/:id')
 router.route('/:id')
     /** DELETE /api/bloges/:id - Delete blog */
     .delete(blogCtrl.remove);
+
+router.route('/removeSingleImg/:id/:imgId')
+    /** DELETE /api/dishes/:id - Delete dish */
+    .delete(blogCtrl.deleteImages);
 
 /** Load blog when API with id route parameter is hit */
 router.param('id', blogCtrl.load);

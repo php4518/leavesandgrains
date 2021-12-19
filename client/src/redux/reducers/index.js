@@ -2,6 +2,7 @@ import {persistReducer} from 'redux-persist'
 import Asy from 'redux-persist/lib/storage' // defaults to localStorage for web
 import {combineReducers} from 'redux';
 import dish from './dish';
+import blog from './blog';
 import cart from './cart';
 import user from './user';
 import {LOGOUT_USER} from "../constants/user";
@@ -14,6 +15,7 @@ const userPersistConfig = {
 }
 const combinedReducer = combineReducers({
   dish,
+  blog,
   cart,
   user: persistReducer(userPersistConfig, user),
 });

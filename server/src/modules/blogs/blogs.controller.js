@@ -48,11 +48,13 @@ function get(req, res) {
  async function create(req, res, next) {
   // const blog = new Blog(req.body);
 
+  console.log("req",req.body)
+  console.log("req",req.file)
   const blog = new Blog({
     title: req.body.title,
     description: req.body.description,
     longdescription: req.body.longdescription,
-    blogimage: req.file,
+    blogimage: req.file.path,
     writerName: req.body.writerName,
     category: req.body.category,
     contributer: req.body.contributer,
@@ -98,7 +100,7 @@ async function update(req, res, next) {
     title: req.body.title,
     description: req.body.description,
     longdescription: req.body.longdescription,
-    blogimage: req.file,
+    blogimage: req.file.path,
     writerName: req.body.writerName,
     category: req.body.category,
     contributer: req.body.contributer,
@@ -135,17 +137,17 @@ async function deleteImages(req, res, next) {
 }
 
 /**
- * Get bloges list.
- * @property {number} req.query.skip - Number of bloges to be skipped.
- * @property {number} req.query.limit - Limit number of bloges to be returned.
+ * Get blogs list.
+ * @property {number} req.query.skip - Number of blogs to be skipped.
+ * @property {number} req.query.limit - Limit number of blogs to be returned.
  * @returns {Blog[]}
  */
 async function getAll(req, res, next) {
   let { filters = {} } = req.query;
   try {
     filters = { isActive: true, ...filters };
-    const bloges = await Blog.getAll(filters);
-    return res.json(bloges);
+    const blogs = await Blog.getAll(filters);
+    return res.json(blogs);
   } catch (error) {
     return next(error);
   }
@@ -154,8 +156,8 @@ async function getAll(req, res, next) {
 async function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
   try {
-    const bloges = await Blog.list({ limit, skip });
-    return res.json(bloges);
+    const blogs = await Blog.list({ limit, skip });
+    return res.json(blogs);
   } catch (error) {
     return next(error);
   }
