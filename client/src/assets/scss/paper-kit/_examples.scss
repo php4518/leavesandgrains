@@ -472,6 +472,28 @@
   opacity: 1;
 }
 
+//blog
+
+.blog-container {
+  position: relative;
+}
+
+.blog-container:hover .image {
+  opacity: 0.3;
+}
+
+.blog-container:hover .middle {
+  opacity: 1;
+}
+
+.blog-container-snack:hover .image {
+  opacity: 0.3;
+}
+
+.blog-container-snack:hover .middle {
+  opacity: 1;
+}
+
 .text {
   background-color: #000000;
   color: white;

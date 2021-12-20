@@ -45,7 +45,7 @@ function get(req, res) {
  * @property {string} req.body.isActive- The Active of blog.
  * @returns {Blog}
  */
- async function create(req, res, next) {
+async function create(req, res, next) {
   // const blog = new Blog(req.body);
 
   const blog = new Blog({
@@ -94,11 +94,33 @@ function get(req, res) {
  */
 async function update(req, res, next) {
 
+  var doesIdExists = await Blog.findOne({ _id: req.params.id });
+  if (doesIdExists) {
+    console.log("req.file", req.file)
+    if (req.file) {
+      Blog.findById(req.params.id)
+        .select('blogimage')
+        .exec()
+        .then((docs) => {
+          if (docs.blogimage != "null") {
+            fs.unlink("./" + docs.blogimage, function (err) {
+              if (err) console.log(err);
+              console.log('Image deleted!');
+            });
+          }
+        })
+      await Blog.updateOne({ _id: req.params.id },
+        { blogimage: req.file.path }
+      );
+    }
+    else {
+      console.log("no new Image");
+    }
+  }
   const blog = {
     title: req.body.title,
     description: req.body.description,
     longdescription: req.body.longdescription,
-    blogimage: req.file.path,
     writerName: req.body.writerName,
     category: req.body.category,
     contributer: req.body.contributer,
@@ -110,27 +132,6 @@ async function update(req, res, next) {
     return res.json(updated);
   } catch (error) {
     return next(error);
-  }
-}
-
-async function deleteImages(req, res, next) {
-  try {
-    const imgId = req.params.imgId;
-    await Blog.findById(req.params.id)
-      .select('blogimage')
-      .exec()
-      .then(docs => {
-        fs.unlinkSync("./" + docs.blogimage[imgId]);
-        // result.deleteOne({ _id: id }).exec();
-        res.status(200).json({
-          status: true,
-          statuscode: 200,
-          message: 'Blog image delete successfully!',
-        })
-      })
-    return;
-  } catch (err) {
-    next(err);
   }
 }
 
@@ -181,9 +182,12 @@ async function remove(req, res, next) {
       .select('blogimage')
       .exec()
       .then((docs) => {
-        docs.blogimage.map(async (index, val) => {
-          fs.unlinkSync("./" + docs.blogimage[val]);
-        });
+        if (docs.blogimage != "null") {
+          fs.unlink("./" + docs.blogimage, function (err) {
+            if (err) console.log(err);
+            console.log('Image deleted!');
+          });
+        }
       })
 
     Blog.findOneAndRemove({ _id: req.params.id })
@@ -226,7 +230,6 @@ module.exports = {
   create,
   update,
   remove,
-  deleteImages,
   getAll,
   list,
 };

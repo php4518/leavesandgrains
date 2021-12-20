@@ -4,7 +4,7 @@ import { getImageUrl } from "../../helpers/utils";
 import moment from 'moment';
 
 const BlogCard = ({
-    blog, onClick = () => {
+    blog, onViewClick = () => {
     }, onEditClick = () => {
     }, onDeleteClick = () => {
     }
@@ -18,10 +18,10 @@ const BlogCard = ({
 
     return (
         <>
-            <div className="card">
-                <img src={getImageUrl(blog.blogimage || '')} className="card-img-top" alt="Card Image" />
+            <div className="card dish-container">
+                <img src={getImageUrl(blog.blogimage || '')} className="card-img-top image" alt="Card Image" />
                 {userRole && userRole?.role === "ADMIN" ?
-                    <Row className="middle">
+                    <Row className="middle" style={{ top : '30%'}}>
                         <Button
                             aria-label="Edit"
                             className="edit text col"
@@ -43,12 +43,12 @@ const BlogCard = ({
                 <div className="card-body d-flex flex-column">
                     <p className="d-flex justify-content-end">
                         <span className="pr-2 text-dark">{moment(blog.createdAt).format("DD MMM YYYY")}</span>|
-                        <p className="font-weight-bolder"><strong className="text-danger pl-2">{blog.category}</strong></p>
+                        <strong className="text-danger pl-2 font-weight-bolder">{blog.category}</strong>
                     </p>
                     <p className="card-title-uppercase bold mt-2 font-weight-bolder"><strong>{blog.title}</strong></p>
                     <small className="mb-2">{blog.description}</small>
                 </div>
-                <p className="text-dark mb-2 ml-3 align-self-start" onClick={() => onClick(blog)}><strong>Read More <i className="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></p>
+                <p className="text-dark mb-2 ml-3 align-self-start" onClick={() => onViewClick(blog)}><strong>Read More <i className="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></p>
             </div>
 
         </>

@@ -53,9 +53,8 @@ const paramValidation = {
             title: Joi.string().required(),
             description: Joi.string().required(),
             longdescription: Joi.string().required(),
-            blogimage: Joi.string().required(),
             writerName: Joi.string().required(),
-            category: Joi.string(),
+            category: Joi.string().required(),
             contributer: Joi.string().required(),
             isActive: Joi.boolean()
         }),
@@ -75,15 +74,11 @@ router.route('/:id')
 
 router.route('/:id')
     /** PUT /api/bloges/:id - Update blog */
-    .put(upload.single, validate(paramValidation.updateBlog), blogCtrl.update);
+    .put(upload.single('blogimage'), validate(paramValidation.updateBlog), blogCtrl.update);
 
 router.route('/:id')
     /** DELETE /api/bloges/:id - Delete blog */
     .delete(blogCtrl.remove);
-
-router.route('/removeSingleImg/:id/:imgId')
-    /** DELETE /api/dishes/:id - Delete dish */
-    .delete(blogCtrl.deleteImages);
 
 /** Load blog when API with id route parameter is hit */
 router.param('id', blogCtrl.load);

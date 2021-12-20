@@ -9,10 +9,10 @@ var dataForm = new FormData();
 const AddBlogDetails = ({ blog = false, toggleModal }) => {
     const dispatch = useDispatch();
     const [getPreviewImages, setPeviewImages] = useState([]);
-    const [getImages, setGetImages] = useState([]);
+    const [getImages, setGetImages] = useState({});
     const [validationFields, setValidationFields] = useState({});
     const [formValues, setFormValues] = useState([])
-    
+
     var userRole = '';
     const userDetail = JSON.parse(localStorage.getItem("persist:user"));
     if (userDetail && userDetail?.currentUser) {
@@ -23,27 +23,20 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
         writerName: userRole.name
     };
 
-    
+
     const [addFields, setAddFields] = useState(defaultFields);
 
     useEffect(() => {
         if (blog?._id) {
             setAddFields(blog);
-            setFormValues(blog.nutritions);
-            let getColImg = [];
-            let getPreImg = [];
-            for (var i = 0; i < blog?.blogimage.length; i++) {
-                getColImg.push(getImageUrl(blog?.blogimage[i]));
-                getPreImg.push(blog?.blogimage[i]);
-            }
-            setGetImages(getPreImg);
-            setPeviewImages(getColImg);
+            setGetImages(blog?.blogimage);
+            setPeviewImages(getImageUrl(blog?.blogimage));
         }
     }, [blog]);
 
     useEffect(() => {
         dispatch(getBlogs())
-        setAddFields(blog,defaultFields);
+        setAddFields(blog, defaultFields);
     }, [])
 
     const validateInputs = () => {
@@ -60,18 +53,15 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
 
     const handleInputChange = (e) => {
         if (e.target.name === "blogimage") {
-            let blogimage = [];
-            for (let i = 0; i < e.target.files.length; i++) {
-                if (e.target.files[i].name.match(/\.(jpg|jpeg|png|tif|tiff|gif)$/)) {
-                    blogimage.push(URL.createObjectURL(e.target.files[i]));
-                    const mergeImg = [...getPreviewImages, ...blogimage];
-                    setPeviewImages(mergeImg);
-                    dataForm.append('blogimage', e.target.files[i])
-                }
-                else {
-                    return;
-                }
+            if (e.target.files[0].name.match(/\.(jpg|jpeg|png|tif|tiff|gif)$/)) {
+                var blogimage = URL.createObjectURL(e.target.files[0]);
+                setPeviewImages(blogimage);
+                dataForm.set('blogimage', e.target.files[0])
             }
+            else {
+                return;
+            }
+
         } else if (e.target.name === "isActive") {
             setAddFields({ ...addFields, [e.target.name]: e.target.checked });
         } else {
@@ -79,28 +69,10 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
         }
     }
 
-    const removeImageItem = (e) => {
-        const previousItems = getPreviewImages.filter((item, i) => i !== e);
-        setPeviewImages(previousItems);
-        if (getImages.length !== 0) {
-            const newItems = getImages.filter((item, i) => i !== e);
-            setGetImages(newItems);
-            dispatch(deleteBlogImg(blog._id, e));
-        } else {
-            console.log("no blog image");
-        }
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
         if (validateInputs()) {
-            if (getImages.length !== 0) {
-                getImages.map((i) => {
-                    dataForm.append('old_blogimage', i)
-                })
-            }
-
             dataForm.set('title', addFields.title)
             dataForm.set('description', addFields.description)
             dataForm.set('longdescription', addFields.longdescription)
@@ -216,15 +188,12 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                             <label htmlFor="blogimage"><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
                             <Input id="blogimage" name="blogimage" type="file" className="form-control" onChange={handleInputChange} hidden />
                         </label>
-                        {getPreviewImages?.length !== 0 ?
-                            getPreviewImages?.map((img, ind) =>
-                                <Col key={ind} md={2} sm={2} lg={2} xl={2} className="p-2">
-                                    <div className="p-0 border border-dark position-relative" id="container-img">
-                                        <img src={img} />
-                                    </div>
-                                    <i className="fa fa-times dlt-img-project rounded-circle" aria-hidden="true" height="20" width="20" onClick={() => removeImageItem(ind)} ></i>
-                                </Col>
-                            )
+                        {getPreviewImages ?
+                            <Col md={2} sm={2} lg={2} xl={2} className="p-2">
+                                <div className="p-0 border border-dark position-relative" id="container-img">
+                                    <img src={getPreviewImages} />
+                                </div>
+                            </Col>
                             :
                             <p>No blog image</p>
                         }

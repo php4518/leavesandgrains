@@ -1,30 +1,29 @@
+import { getImageUrl } from "helpers/utils";
 import React from "react";
 import { Col, Modal, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
-import { allGainDetails, getPrice } from "../../helpers/utils";
-import ImageCarousel from "../image-carousel";
+import MenuHeader from "../../components/header/menuHeader";
 
-const BlogDetails = ({ blog = false, toggleModal }) => {
+const BlogDetails = ({ blog = false }) => {
 
     if (!blog) return null
     return (
-
-        <Row>
-            <Col md="6" sm="12" className="pr-md-0">
-                <ImageCarousel items={blog.images} />
-            </Col>
-            <Col md="6" sm="12" className="scroll-content">
+        <div className="order-page">
+            <MenuHeader />
+            <Col>
+                <img src={getImageUrl(blog.blogimage)} width="auto" height="auto" />
                 <div>
                     <h5 className="modal-title mb-3">{blog.title}</h5>
                     <div className="description">{blog.description}</div>
-                    <Row className="mt-3 mb-2">
-                        <Col><p className="blog-price">{getPrice(blog.price)}</p></Col>
-                        <Col className="d-flex align-items-end justify-content-end">{allGainDetails(blog)}</Col>
-                    </Row>
+                    <div >{blog.longdescription}</div>
+                    <div>{blog.writerName}</div>
+                    <div >{blog.category}</div>
+                    <div >{blog.contributer}</div>
+                    <div>{blog.isActive}</div>
                     <div className="divider" />
 
                 </div>
             </Col>
-        </Row>
+        </div >
     )
 }
 

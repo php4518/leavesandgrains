@@ -126,92 +126,97 @@ const Blogs = (props) => {
 
     return (
         <>
-            <div
-                className="page-header"
-                data-parallax={true}
-            >
-                <div className="filter" />
-                <div style={{
-                    display: 'block', width: "100%"
-                }}>
-                    <Carousel previous={previousButton} next={nextButton}
-                        activeIndex={activeIndex}>
-                        <CarouselIndicators items={items}
-                            activeIndex={activeIndex}
-                            onClickHandler={(newIndex) => {
-                                if (animating) return;
-                                setActiveIndex(newIndex);
-                            }} />
-                        {carouselItemData}
-                        <CarouselControl directionText="Prev"
-                            direction="prev" onClickHandler={previousButton} />
-                        <CarouselControl directionText="Next"
-                            direction="next" onClickHandler={nextButton} />
-                    </Carousel>
-                </div >
-            </div>
-            <div className="main">
-                <Container>
-                    <div className="row pt-5">
-                        <div className="col-12">
-                            {userRole.role === "ADMIN" ?
-                                <Button className="btn-info float-right" color="info" onClick={showAddBlogDetails}>
-                                    Add New Blog
-                                </Button>
-                                : null
-                            }
-                            <h3 className="text-uppercase border-bottom mb-4">Latest Articles </h3>
-                        </div>
+            {!blogDetails ?
+                <>
+                    <div
+                        className="page-header"
+                        data-parallax={true}
+                    >
+                        <div className="filter" />
+                        <div style={{
+                            display: 'block', width: "100%"
+                        }}>
+                            <Carousel previous={previousButton} next={nextButton}
+                                activeIndex={activeIndex}>
+                                <CarouselIndicators items={items}
+                                    activeIndex={activeIndex}
+                                    onClickHandler={(newIndex) => {
+                                        if (animating) return;
+                                        setActiveIndex(newIndex);
+                                    }} />
+                                {carouselItemData}
+                                <CarouselControl directionText="Prev"
+                                    direction="prev" onClickHandler={previousButton} />
+                                <CarouselControl directionText="Next"
+                                    direction="next" onClickHandler={nextButton} />
+                            </Carousel>
+                        </div >
                     </div>
-                    <AppAlert alert={blogStatus} />
-                    {!isForm ?
-                        <Row>
-                            {
-                                (!blogs.length) ? <Col className="no-data-available">No blogs available</Col> :
-                                    blogs.map((item, index) =>
-                                        <Col key={index} lg="4" md="8" sm="8">
-                                            <BlogCard blog={item} onClick={showBlogDetails} onEditClick={showEditBlogDetails} onDeleteClick={showDeleteBlogDetails} />
-                                        </Col>
-                                    )
-                            }
-                        </Row>
-                        :
-                        <>
-                            {editBlogDetail && editBlogDetail !== '' ?
-                                <AddBlogDetails blog={editBlogDetail} toggleModal={() => showEditBlogDetails(null)} />
+                    <div className="main">
+                        <Container>
+                            <div className="row pt-5">
+                                <div className="col-12">
+                                    {userRole.role === "ADMIN" ?
+                                        <Button className="btn-info float-right" color="info" onClick={showAddBlogDetails}>
+                                            Add New Blog
+                                        </Button>
+                                        : null
+                                    }
+                                    <h3 className="text-uppercase border-bottom mb-4">Latest Articles </h3>
+                                </div>
+                            </div>
+                            <AppAlert alert={blogStatus} />
+                            {!isForm ?
+                                <Row>
+                                    {
+                                        (!blogs.length) ? <Col className="no-data-available">No blogs available</Col> :
+                                            blogs.map((item, index) =>
+                                                <Col key={index} lg="4" md="8" sm="8">
+                                                    <BlogCard blog={item} onViewClick={showBlogDetails} onEditClick={showEditBlogDetails} onDeleteClick={showDeleteBlogDetails} />
+                                                </Col>
+                                            )
+                                    }
+                                </Row>
                                 :
-                                <AddBlogDetails blog={addBlogDetail} toggleModal={() => showAddBlogDetails(null)} />
+                                <>
+                                    {editBlogDetail && editBlogDetail !== '' ?
+                                        <AddBlogDetails blog={editBlogDetail} toggleModal={() => showEditBlogDetails(null)} />
+                                        :
+                                        <AddBlogDetails blog={addBlogDetail} toggleModal={() => showAddBlogDetails(null)} />
+                                    }
+                                </>
                             }
-                        </>
-                    }
-                    <Row style={{
-                        display: 'block', padding: 30, textAlign: 'center'
+                            <Row style={{
+                                display: 'block', padding: 30, textAlign: 'center'
 
-                    }}>
-                        <Pagination>
-                            {/* <PaginationItem disabled={currentPage <= 0}>
+                            }}>
+                                <Pagination>
+                                    {/* <PaginationItem disabled={currentPage <= 0}>
                             <PaginationLink onClick={handlePreviousClick} previous href="#" />
                         </PaginationItem> */}
-                            <PaginationItem>
-                                <PaginationLink href="#">1</PaginationLink>
-                            </PaginationItem>
-                            <PaginationItem>
-                                <PaginationLink href="#">2</PaginationLink>
-                            </PaginationItem>
-                            <PaginationItem>
-                                <PaginationLink href="#">3</PaginationLink>
-                            </PaginationItem>
-                            <PaginationItem>
-                                <PaginationLink href="#">4</PaginationLink>
-                            </PaginationItem>
-                            <PaginationItem>
-                                <PaginationLink href="#">5</PaginationLink>
-                            </PaginationItem>
-                        </Pagination>
-                    </Row >
-                </Container>
-            </div>
-            <BlogDetails blog={blogDetails} toggleModal={() => showBlogDetails(null)} />
+                                    <PaginationItem>
+                                        <PaginationLink href="#">1</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink href="#">2</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink href="#">3</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink href="#">4</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink href="#">5</PaginationLink>
+                                    </PaginationItem>
+                                </Pagination>
+                            </Row >
+                        </Container>
+                    </div>
+                </>
+                :
+                <BlogDetails blog={blogDetails} toggleModal={() => showBlogDetails(null)} />
+            }
             <DeleteBlogDetails blog={deleteBlogDetail} toggleModal={() => showDeleteBlogDetails(null)} />
         </>
     );
