@@ -48,8 +48,6 @@ function get(req, res) {
  async function create(req, res, next) {
   // const blog = new Blog(req.body);
 
-  console.log("req",req.body)
-  console.log("req",req.file)
   const blog = new Blog({
     title: req.body.title,
     description: req.body.description,

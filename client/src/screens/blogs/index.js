@@ -34,14 +34,13 @@ import AppAlert from "../../components/alert";
 
 const Blogs = (props) => {
     const dispatch = useDispatch();
-    const { allBlogs, blogStatus, individualMeals } = useSelector(({ blog, cart }) => ({
+    const { allBlogs, blogStatus, individualMeals } = useSelector(({ blog }) => ({
         allBlogs: blog.blogs,
         blogStatus: blog.blogStatus,
-        individualMeals: cart.individualMeals
     }));
 
     const [blogs, setBlogs] = useState([]);
-    const [blogDetail, showBlogDetails] = useState(null);
+    const [blogDetails, showBlogDetails] = useState(null);
     const [editBlogDetail, showEditBlogDetails] = useState(null);
     const [deleteBlogDetail, showDeleteBlogDetails] = useState(null);
     const [activeIndex, setActiveIndex] = React.useState(0);
@@ -125,12 +124,6 @@ const Blogs = (props) => {
         userRole = JSON.parse(userDetail?.currentUser);
     }
 
-    const handleAddItem = (item) => {
-        if (props.onMealSelect) {
-          props.onMealSelect(item)
-        }
-      };
-
     return (
         <>
             <div
@@ -161,14 +154,14 @@ const Blogs = (props) => {
                 <Container>
                     <div className="row pt-5">
                         <div className="col-12">
+                            {userRole.role === "ADMIN" ?
+                                <Button className="btn-info float-right" color="info" onClick={showAddBlogDetails}>
+                                    Add New Blog
+                                </Button>
+                                : null
+                            }
                             <h3 className="text-uppercase border-bottom mb-4">Latest Articles </h3>
                         </div>
-                        {userRole.role === "ADMIN" ?
-                            <Button className="btn-info float-right" color="info" onClick={showAddBlogDetails}>
-                                Add New Blog
-                            </Button>
-                            : null
-                        }
                     </div>
                     <AppAlert alert={blogStatus} />
                     {!isForm ?
@@ -177,8 +170,7 @@ const Blogs = (props) => {
                                 (!blogs.length) ? <Col className="no-data-available">No blogs available</Col> :
                                     blogs.map((item, index) =>
                                         <Col key={index} lg="4" md="8" sm="8">
-                                            <BlogCard blog={item} onClick={showBlogDetails} onEditClick={showEditBlogDetails} onDeleteClick={showDeleteBlogDetails} addItem={handleAddItem}
-                                                quantity={individualMeals[item._id]?.quantity} />
+                                            <BlogCard blog={item} onClick={showBlogDetails} onEditClick={showEditBlogDetails} onDeleteClick={showDeleteBlogDetails} />
                                         </Col>
                                     )
                             }
@@ -192,19 +184,6 @@ const Blogs = (props) => {
                             }
                         </>
                     }
-                    {/* <div className="row">
-                            <div className="col-lg-4 mb-3 d-flex align-items-stretch">
-                                <div className="card">
-                                    <img src="https://images.pexels.com/photos/1423619/pexels-photo-1423619.jpeg" className="card-img-top" alt="Card Image" />
-                                    <div className="card-body d-flex flex-column">
-                                        <h5 className="card-title">Japanese Street </h5>
-                                        <p className="card-text mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus tortor ac nisi blandit volutpat. Vestibulum pellentesque eros elit, ac blandit ante fringilla quis. </p>
-                                        <a href="#"><p className="text-dark mt-auto align-self-start"><strong>Read More <i className="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></p></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    */}
                     <Row style={{
                         display: 'block', padding: 30, textAlign: 'center'
 
@@ -232,6 +211,8 @@ const Blogs = (props) => {
                     </Row >
                 </Container>
             </div>
+            <BlogDetails blog={blogDetails} toggleModal={() => showBlogDetails(null)} />
+            <DeleteBlogDetails blog={deleteBlogDetail} toggleModal={() => showDeleteBlogDetails(null)} />
         </>
     );
 }

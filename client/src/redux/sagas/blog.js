@@ -22,7 +22,7 @@ export function* postBlogsAsync() {
   yield takeLatest(POST_BLOGS, function* ({ params } = {}) {
     try {
       yield put(setBlogsStatus({ status: STATUS.LOADING }));
-      const { blogs: { blogs = [] } = {} } = yield select();
+      const { blog: { blogs = [] } = {} } = yield select();
       const response = yield call(blogService.postBlogs, params);
       blogs.push(response);
       yield put(setBlogs(blogs));
@@ -40,7 +40,7 @@ export function* updateBlogAsync() {
   yield takeLatest(UPDATE_BLOGS, function* ({ id, params } = {}) {
     try {
       yield put(setBlogsStatus({ status: STATUS.LOADING }));
-      const { blogs: { blogs = [] } = {} } = yield select();
+      const { blog: { blogs = [] } = {} } = yield select();
       const response = yield call(blogService.updateBlogs, id, params);
       const index = blogs.findIndex(a => a._id === id);
       if (index > -1) {
@@ -61,13 +61,13 @@ export function* deleteBlogAsync() {
   yield takeLatest(DELETE_BLOGS, function* ({ id } = {}) {
     try {
       yield put(setBlogsStatus({ status: STATUS.LOADING }));
-      const { Blog: { Bloges = [] } = {} } = yield select();
+      const { blog: { blogs = [] } = {} } = yield select();
       yield call(blogService.deleteBlogs, id);
-      const index = Bloges.findIndex(a => a._id === id);
+      const index = blogs.findIndex(a => a._id === id);
       if (index > -1) {
-        Bloges.splice(index, 1);
+        blogs.splice(index, 1);
       }
-      yield put(setBlogs(Bloges));
+      yield put(setBlogs(blogs));
       // yield put({ type: 'FETCH_SUCCESS', Blog });
       yield put(setBlogsStatus({ status: STATUS.SUCCESS, message: 'Blog delete successfully' }));
       yield delay(2000);
