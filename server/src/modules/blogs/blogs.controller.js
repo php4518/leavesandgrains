@@ -96,7 +96,6 @@ async function update(req, res, next) {
 
   var doesIdExists = await Blog.findOne({ _id: req.params.id });
   if (doesIdExists) {
-    console.log("req.file", req.file)
     if (req.file) {
       Blog.findById(req.params.id)
         .select('blogimage')

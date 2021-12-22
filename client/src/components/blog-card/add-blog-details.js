@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
 import { postBlogs, updateBlogs, deleteBlogImg, getBlogs } from '../../redux/actions/blog';
 import { useDispatch } from "react-redux";
 import { getImageUrl } from "../../helpers/utils";
+import { Editor } from '@tinymce/tinymce-react';
 
 var dataForm = new FormData();
 
@@ -11,7 +12,7 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     const [getPreviewImages, setPeviewImages] = useState([]);
     const [getImages, setGetImages] = useState({});
     const [validationFields, setValidationFields] = useState({});
-    const [formValues, setFormValues] = useState([])
+    const [initTinyValue, setInitTinyValue] = useState(undefined)
 
     var userRole = '';
     const userDetail = JSON.parse(localStorage.getItem("persist:user"));
@@ -35,8 +36,14 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     }, [blog]);
 
     useEffect(() => {
+        // a real application might do a fetch request here to get the content
+        
+      }, []);
+
+    useEffect(() => {
         dispatch(getBlogs())
         setAddFields(blog, defaultFields);
+        setTimeout(() => setInitTinyValue(blog.longdescription), 500);
     }, [])
 
     const validateInputs = () => {
@@ -69,6 +76,16 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
         }
     }
 
+    const handleTinyChange = (e) => {
+        setAddFields({ ...addFields, ["longdescription"]: e });
+    }
+    const editorRef = useRef(null);
+    const log = () => {
+        if (editorRef.current) {
+            console.log(editorRef.current.getContent());
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -98,21 +115,13 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     if (!blog) return null
 
     return (
-        // <Modal isOpen={!!blog} toggle={toggleModal} size="xl" className="blog-details">
         <div>
             <div className="modal-header modal-title">
                 {!addFields?._id ?
                     `Add New Blog` :
                     `Update Blog Detail`
                 }
-                <Button
-                    aria-label="Close"
-                    className="close float-right"
-                    type="button"
-                    onClick={() => { toggleModal(); blog = [] }}
-                >
-                    <span aria-hidden={true}>×</span>
-                </Button>
+                <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(); blog = [] }}></i>
             </div>
             <Form onSubmit={handleSubmit} style={{ display: "contents" }}>
                 <div className="modal-body">
@@ -133,14 +142,79 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                             required
                             onChange={handleInputChange}
                         />
-                        <label>Long Description</label>
-                        <Input
+                        <div>
+                            <label>Long Description</label>
+                            {/* <Input
                             name="longdescription"
                             value={addFields?.longdescription || ''}
                             type="textarea"
                             required
                             onChange={handleInputChange}
-                        />
+                        /> */}
+                            <Editor
+                                onEditorChange={handleTinyChange}
+                                required
+                                // onInit={addFields?.longdescription}
+                                initialValue={initTinyValue}
+                                placeholder="Enter long description"
+                                init={{
+                                    height: 500,
+                                    width: 1050,
+                                    menubar: true,
+                                    mobile: {
+                                        menubar: true,
+                                        width: 500,
+                                        plugins: ['autosave', 'lists', 'autolink'],
+                                        toolbar: ['undo', 'bold', 'italic', 'styleselect']
+                                    },
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview anchor',
+                                        'searchreplace visualblocks code fullscreen',
+                                        'insertdatetime media table paste code help wordcount',
+                                    ],
+                                    toolbar: 'undo redo | formatselect | ' +
+                                        'bold italic backcolor | alignleft aligncenter ' +
+                                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                                        'removeformat | help | link image',
+                                    image_title: true,
+                                    selector: 'textarea#file-picker',
+                                    automatic_uploads: true,
+                                    file_picker_types: 'image',
+                                    /* and here's our custom image picker*/
+                                    file_picker_callback: function (cb, value, meta) {
+                                        var input = document.createElement('input');
+                                        input.setAttribute('type', 'file');
+                                        input.setAttribute('accept', 'image/*');
+                                        input.onchange = function () {
+                                            var file = this.files[0];
+
+                                            var reader = new FileReader();
+                                            reader.onload = function () {
+                                                /*
+                                                  Note: Now we need to register the blob in TinyMCEs image blob
+                                                  registry. In the next release this part hopefully won't be
+                                                  necessary, as we are looking to handle it internally.
+                                                */
+                                                var id = 'blobid' + (new Date()).getTime();
+                                                var blobCache = window.tinymce.activeEditor.editorUpload.blobCache;
+                                                var base64 = reader.result.split(',')[1];
+                                                var blobInfo = blobCache.create(id, file, base64);
+                                                blobCache.add(blobInfo);
+
+                                                /* call the callback and populate the Title field with the file name */
+                                                cb(blobInfo.blobUri(), { title: file.name });
+                                            };
+                                            reader.readAsDataURL(file);
+                                        };
+
+                                        input.click();
+                                    },
+
+                                    content_style: 'body {font - family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                }}
+                            />
+                        </div>
+                        {/* </Col> */}
                         <label>Writer Name</label>
                         <Input
                             name="writerName"
@@ -177,6 +251,7 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                                 className="ml-5 mt-3"
                                 value={addFields?.isActive || ''}
                                 type="checkbox"
+                                checked
                                 required
                                 onChange={handleInputChange}
                             />
