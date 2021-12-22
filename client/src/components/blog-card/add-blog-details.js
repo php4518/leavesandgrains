@@ -242,7 +242,6 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                                 className="ml-5 mt-3"
                                 value={addFields?.isActive || ''}
                                 type="checkbox"
-                                checked
                                 required
                                 onChange={handleInputChange}
                             />

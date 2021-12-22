@@ -31,6 +31,7 @@ import DeleteBlogDetails from "../../components/blog-card/delete-blog";
 import MenuHeader from "../../components/header/menuHeader";
 import { CALORIES_TYPES, CARBS_TYPES, FAT_TYPES, MEAL_TYPES, PROTEIN_TYPES, SORT_TYPES } from "../../helpers/constants";
 import AppAlert from "../../components/alert";
+import TablePagination from "./tablePagination";
 
 const Blogs = (props) => {
     const dispatch = useDispatch();
@@ -46,6 +47,8 @@ const Blogs = (props) => {
     const [activeIndex, setActiveIndex] = React.useState(0);
     const [addBlogDetail, showAddBlogDetails] = useState(null);
     const [isForm, setIsForm] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
+
     // State for Animation
     const [animating, setAnimating] = React.useState(false);
     useEffect(() => dispatch(getBlogs()), []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -57,6 +60,24 @@ const Blogs = (props) => {
             setIsForm(false);
         }
     })
+
+    const handlePageClick = (e, index) => {
+        e.preventDefault();
+        setCurrentPage(index);
+    };
+
+    const handlePreviousClick = (e, index) => {
+        e.preventDefault();
+        var val = currentPage - 1;
+        setCurrentPage(val)
+    }
+
+    const handleNextClick = (e, index) => {
+        e.preventDefault();
+        var val = currentPage + 1;
+        setCurrentPage(val)
+    }
+    
     // Sample items for Carousel
     const items = [
         {
@@ -186,31 +207,15 @@ const Blogs = (props) => {
                                     }
                                 </>
                             }
-                            <Row style={{
-                                display: 'block', padding: 30, textAlign: 'center'
-
-                            }}>
-                                <Pagination>
-                                    {/* <PaginationItem disabled={currentPage <= 0}>
-                            <PaginationLink onClick={handlePreviousClick} previous href="#" />
-                        </PaginationItem> */}
-                                    <PaginationItem>
-                                        <PaginationLink href="#">1</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink href="#">2</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink href="#">3</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink href="#">4</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink href="#">5</PaginationLink>
-                                    </PaginationItem>
-                                </Pagination>
-                            </Row >
+                            <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">
+                                <TablePagination
+                                    pagesCount={10}
+                                    currentPage={currentPage}
+                                    handlePageClick={handlePageClick}
+                                    handlePreviousClick={handlePreviousClick}
+                                    handleNextClick={handleNextClick}
+                                />
+                            </Col>
                         </Container>
                     </div>
                 </>

@@ -54,7 +54,7 @@ const BlogCard = ({
                         <strong className={`pl-2 font-weight-bolder ${labelClr}`}>{blog.category}</strong>
                     </p>
                     <p className="card-title-uppercase bold mt-2 font-weight-bolder"><strong>{blog.title}</strong></p>
-                    <div style={{ display: '-webkit-box', webkitLineClamp: '3', webkitBoxOrient: 'vertical', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                    <div style={{ display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                         {blog.description}
                     </div>
                     {/* <span className="mb-2" style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap',overflow: 'hidden'}}>{blog.description}</span> */}
