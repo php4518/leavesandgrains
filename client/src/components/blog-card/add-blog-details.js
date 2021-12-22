@@ -37,8 +37,8 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
 
     useEffect(() => {
         // a real application might do a fetch request here to get the content
-        
-      }, []);
+
+    }, []);
 
     useEffect(() => {
         dispatch(getBlogs())
@@ -144,17 +144,9 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                         />
                         <div>
                             <label>Long Description</label>
-                            {/* <Input
-                            name="longdescription"
-                            value={addFields?.longdescription || ''}
-                            type="textarea"
-                            required
-                            onChange={handleInputChange}
-                        /> */}
                             <Editor
                                 onEditorChange={handleTinyChange}
                                 required
-                                // onInit={addFields?.longdescription}
                                 initialValue={initTinyValue}
                                 placeholder="Enter long description"
                                 init={{
@@ -214,7 +206,6 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                                 }}
                             />
                         </div>
-                        {/* </Col> */}
                         <label>Writer Name</label>
                         <Input
                             name="writerName"
