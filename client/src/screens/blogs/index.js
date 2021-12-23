@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
     Button,
-    Card,
-    CardBody,
-    CardFooter,
-    CardTitle,
     Col,
     Container,
-    Form,
-    Input,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
     Row,
     CarouselControl,
     Carousel,
     CarouselItem,
     CarouselIndicators,
-    Pagination,
-    PaginationItem,
-    PaginationLink
+    Nav,
+    NavItem,
+    NavLink
 } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
@@ -28,14 +19,13 @@ import BlogCard from "../../components/blog-card";
 import BlogDetails from "../../components/blog-card/blog-details";
 import AddBlogDetails from "../../components/blog-card/add-blog-details";
 import DeleteBlogDetails from "../../components/blog-card/delete-blog";
-import MenuHeader from "../../components/header/menuHeader";
-import { CALORIES_TYPES, CARBS_TYPES, FAT_TYPES, MEAL_TYPES, PROTEIN_TYPES, SORT_TYPES } from "../../helpers/constants";
 import AppAlert from "../../components/alert";
 import TablePagination from "./tablePagination";
+import { BLOG_TYPES } from "../../helpers/constants";
 
 const Blogs = (props) => {
     const dispatch = useDispatch();
-    const { allBlogs, blogStatus, individualMeals } = useSelector(({ blog }) => ({
+    const { allBlogs, blogStatus } = useSelector(({ blog }) => ({
         allBlogs: blog.blogs,
         blogStatus: blog.blogStatus,
     }));
@@ -61,6 +51,20 @@ const Blogs = (props) => {
         }
     })
 
+    const updateFilters = (e) => {
+        let value = e;
+        let currentValues;
+        currentValues = value;
+        const updatedFilters = (filterName) => {
+            return allBlogs.filter(item => item.category === filterName);
+        }
+        setBlogs(updatedFilters(currentValues));
+    };
+
+    const clearFilters = () => {
+        setBlogs(allBlogs);
+    };
+
     const handlePageClick = (e, index) => {
         e.preventDefault();
         setCurrentPage(index);
@@ -77,7 +81,7 @@ const Blogs = (props) => {
         var val = currentPage + 1;
         setCurrentPage(val)
     }
-    
+
     // Sample items for Carousel
     const items = [
         {
@@ -145,6 +149,14 @@ const Blogs = (props) => {
         userRole = JSON.parse(userDetail?.currentUser);
     }
 
+    const labelClr = (blogType) => blogType === "NUTRITION" ? "text-dark" :
+        (blogType === "TRAINING" ? "text-warning" :
+            (blogType === "TRANSFORMATION" ? "text-info" :
+                (blogType === "WELLBEING" ? "text-success" :
+                    (blogType === "WELLNESS" ? "text-primary" :
+                        (blogType === "NEWS" ? "text-danger" :
+                            "alert alert-secondary")))));
+
     return (
         <>
             {!blogDetails ?
@@ -174,6 +186,24 @@ const Blogs = (props) => {
                         </div >
                     </div>
                     <div className="main">
+                        <section>
+                            <div className="blog blog-nav-header tab-navcontent d-flex blog__nav">
+                                <Container>
+                                    <Col sm={12} className="d-flex justify-content-center">
+                                        <Nav>
+                                            <NavItem>
+                                                <NavLink className="text-danger font-weight-bolder btn btn-link" onClick={clearFilters}>ALL</NavLink>
+                                            </NavItem>
+                                            {BLOG_TYPES.map((type, i) =>
+                                                <NavItem key={i}>
+                                                    <NavLink className={`font-weight-bolder btn btn-link ${labelClr(type)}` } onClick={() => updateFilters(type)}>{type}</NavLink>
+                                                </NavItem>
+                                            )}
+                                        </Nav>
+                                    </Col>
+                                </Container>
+                            </div>
+                        </section>
                         <Container>
                             <div className="row pt-5">
                                 <div className="col-12">

@@ -28,31 +28,31 @@ const ImageCarousel = ({ items }) => {
 
   return (
     <>
-      <div class="image-gallery">
-        <div class="image-container">
+      <div className="image-gallery">
+        <div className="image-container">
           <input type="radio" name="gallery_group" id="image1" checked />
-          <div class="image-1">
-            <label class="prev" for="image4"></label>
-            <label class="next" for="image2"></label>
+          <div className="image-1">
+            <label className="prev" htmlFor="image4"></label>
+            <label className="next" htmlFor="image2"></label>
           </div>
           <input type="radio" name="gallery_group" id="image2" />
-          <div class="image-2">
-            <label class="prev" for="image1"></label>
-            <label class="next" for="image3"></label> </div>
+          <div className="image-2">
+            <label className="prev" htmlFor="image1"></label>
+            <label className="next" htmlFor="image3"></label> </div>
           <input type="radio" name="gallery_group" id="image3" />
-          <div class="image-3">
-            <label class="prev" for="image2"></label>
-            <label class="next" for="image4"></label> </div>
+          <div className="image-3">
+            <label className="prev" htmlFor="image2"></label>
+            <label className="next" htmlFor="image4"></label> </div>
           <input type="radio" name="gallery_group" id="image4" />
-          <div class="image-4">
-            <label class="prev" for="image3"></label>
-            <label class="next" for="image1"></label> </div>
+          <div className="image-4">
+            <label className="prev" htmlFor="image3"></label>
+            <label className="next" htmlFor="image1"></label> </div>
         </div>
-        <div class="thumbnails">
-          <label for="image1"></label>
-          <label for="image2"></label>
-          <label for="image3"></label>
-          <label for="image4"></label>
+        <div className="thumbnails">
+          <label htmlFor="image1"></label>
+          <label htmlFor="image2"></label>
+          <label htmlFor="image3"></label>
+          <label htmlFor="image4"></label>
         </div>
       </div>
       {/* <center>
@@ -68,7 +68,7 @@ const ImageCarousel = ({ items }) => {
       </center> */}
 
       {/* <h1>3d images gallery</h1>
-      <div class="container">
+      <div className="container">
         <div id="carousel">
           <figure><img src="https://wallpapercave.com/wp/wp4708299.jpg" alt="" /></figure>
           <figure><img src="https://wallpapercave.com/wp/wp4708245.jpg" alt="" /></figure>

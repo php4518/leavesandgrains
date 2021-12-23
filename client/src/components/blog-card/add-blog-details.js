@@ -4,6 +4,7 @@ import { postBlogs, updateBlogs, deleteBlogImg, getBlogs } from '../../redux/act
 import { useDispatch } from "react-redux";
 import { getImageUrl } from "../../helpers/utils";
 import { Editor } from '@tinymce/tinymce-react';
+import { BLOG_TYPES } from "../../helpers/constants";
 
 var dataForm = new FormData();
 
@@ -217,12 +218,9 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                         <label>Category</label>
                         <select name="category" className="form-control" value={addFields?.category || ''} onChange={handleInputChange} required>
                             <option value="" disabled>Select Category</option>
-                            <option value="NUTRITION">NUTRITION</option>
-                            <option value="TRAINING">TRAINING</option>
-                            <option value="TRANSFORMATION">TRANSFORMATION</option>
-                            <option value="WELLBEING">WELLBEING</option>
-                            <option value="WELLNESS">WELLNESS</option>
-                            <option value="NEWS">NEWS</option>
+                            {BLOG_TYPES.map((type, i) =>
+                                <option key={i} value={type}>{type}</option>
+                            )}
                         </select>
 
                         <label>Contributer</label>

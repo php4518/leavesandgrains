@@ -302,3 +302,14 @@
     }
   }
 }
+
+.blog__nav {
+  position: relative;
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.068);
+  background-color: #fff;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  -ms-flex-pack: left;
+  justify-content: left;
+  z-index: 2;
+}
