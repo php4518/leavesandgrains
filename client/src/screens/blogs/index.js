@@ -38,6 +38,7 @@ const Blogs = (props) => {
     const [addBlogDetail, showAddBlogDetails] = useState(null);
     const [isForm, setIsForm] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
+    const [selectedFilter, setSelectedFilter] = useState('ALL');
 
     // State for Animation
     const [animating, setAnimating] = React.useState(false);
@@ -53,6 +54,7 @@ const Blogs = (props) => {
 
     const updateFilters = (e) => {
         let value = e;
+        setSelectedFilter(e);
         let currentValues;
         currentValues = value;
         const updatedFilters = (filterName) => {
@@ -213,7 +215,7 @@ const Blogs = (props) => {
                                         </Button>
                                         : null
                                     }
-                                    <h3 className="text-uppercase border-bottom mb-4">Latest Articles </h3>
+                                    <h3 className="text-uppercase border-bottom mb-4">{selectedFilter} Latest Articles</h3>
                                 </div>
                             </div>
                             <AppAlert alert={blogStatus} />

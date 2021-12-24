@@ -28,7 +28,7 @@ const ImageCarousel = ({ items }) => {
 
   return (
     <>
-      <div className="image-gallery">
+      {/* <div className="image-gallery">
         <div className="image-container">
           <input type="radio" name="gallery_group" id="image1" checked />
           <div className="image-1">
@@ -54,7 +54,7 @@ const ImageCarousel = ({ items }) => {
           <label htmlFor="image3"></label>
           <label htmlFor="image4"></label>
         </div>
-      </div>
+      </div> */}
       {/* <center>
         <h1 id="heading">Image Gallery</h1>
         <div id="img-box">
@@ -81,68 +81,68 @@ const ImageCarousel = ({ items }) => {
           <figure><img src="https://images.unsplash.com/photo-1568022316712-0886fa296902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80" alt="" /></figure>
         </div>
       </div> */}
+      <div className="section" id="carousel">
+        <div className="page-carousel mb-0">
+          <Carousel
+            activeIndex={activeIndex}
+            next={next}
+            previous={previous}
+          >
+            <CarouselIndicators
+              items={items}
+              activeIndex={activeIndex}
+              onClickHandler={goToIndex}
+            />
+            {items.map((item, index) => {
+              return (
+                <CarouselItem
+                  onExiting={onExiting}
+                  onExited={onExited}
+                  key={getImageUrl(item)}
+                >
+                  <img src={getImageUrl(item)} alt={item.altText} />
+                  <CarouselCaption
+                    captionText={index.toString()}
+                    captionHeader=""
+                  />
+                </CarouselItem>
+              );
+            })}
+            {
+              items.length > 1 &&
+              <>
+                <a
+                  className="left carousel-control carousel-control-prev"
+                  data-slide="prev"
+                  href="#pablo"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    previous();
+                  }}
+                  role="button"
+                >
+                  <span className="fa fa-angle-left" />
+                  <span className="sr-only">Previous</span>
+                </a>
+                <a
+                  className="right carousel-control carousel-control-next"
+                  data-slide="next"
+                  href="#pablo"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    next();
+                  }}
+                  role="button"
+                >
+                  <span className="fa fa-angle-right" />
+                  <span className="sr-only">Next</span>
+                </a>
+              </>
+            }
+          </Carousel>
+        </div>
+      </div>
     </>
-    //   <div className="section" id="carousel">
-    //   <div className="page-carousel mb-0">
-    //     <Carousel
-    //       activeIndex={activeIndex}
-    //       next={next}
-    //       previous={previous}
-    //     >
-    //       <CarouselIndicators
-    //         items={items}
-    //         activeIndex={activeIndex}
-    //         onClickHandler={goToIndex}
-    //       />
-    //       {items.map((item, index) => {
-    //         return (
-    //           <CarouselItem
-    //             onExiting={onExiting}
-    //             onExited={onExited}
-    //             key={getImageUrl(item)}
-    //           >
-    //             <img src={getImageUrl(item)} alt={item.altText}/>
-    //             <CarouselCaption
-    //               captionText={index.toString()}
-    //               captionHeader=""
-    //             />
-    //           </CarouselItem>
-    //         );
-    //       })}
-    //       {
-    //         items.length > 1 &&
-    //         <>
-    //           <a
-    //             className="left carousel-control carousel-control-prev"
-    //             data-slide="prev"
-    //             href="#pablo"
-    //             onClick={(e) => {
-    //               e.preventDefault();
-    //               previous();
-    //             }}
-    //             role="button"
-    //           >
-    //             <span className="fa fa-angle-left"/>
-    //             <span className="sr-only">Previous</span>
-    //           </a>
-    //           <a
-    //             className="right carousel-control carousel-control-next"
-    //             data-slide="next"
-    //             href="#pablo"
-    //             onClick={(e) => {
-    //               e.preventDefault();
-    //               next();
-    //             }}
-    //             role="button"
-    //           >
-    //             <span className="fa fa-angle-right"/>
-    //             <span className="sr-only">Next</span>
-    //           </a>
-    //         </>
-    //       }
-    //     </Carousel>
-    //   </div>
-    // </div>
   );
 }
 

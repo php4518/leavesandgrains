@@ -20,7 +20,7 @@ const BlogDetails = ({ blog = false }) => {
             <MenuHeader />
             <Col className="offset-md-2" sm={16} md={8}>
                 <div className="image-wrapper pt-5 pb-5" style={{ height: "700px", width: "100%" }}>
-                    <img src={getImageUrl(blog.blogimage)} className="img" width="100%" height="100%" style={{ objectFit: "contain" }} />
+                    <img src={getImageUrl(blog.blogImage)} className="img" width="100%" height="100%" style={{ objectFit: "contain" }} />
                 </div>
             </Col>
             <Col className="offset-md-3" sm={12} md={6}>
@@ -37,7 +37,7 @@ const BlogDetails = ({ blog = false }) => {
                     </Col>
                 </Row>
                 <h5 className="font-weight-bold mb-3">{blog.description}</h5>
-                <div dangerouslySetInnerHTML={{ __html: blog.longdescription }} className="mb-5" />
+                <div dangerouslySetInnerHTML={{ __html: blog.longDescription }} className="mb-5" />
                 <div className="divider" />
             </Col>
         </div >

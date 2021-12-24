@@ -27,7 +27,7 @@ function get(req, res) {
  * Create new blog
  * @property {string} req.body.title - The name of blog.
  * @property {string} req.body.description - Author name of blog.
- * @property {string} req.body.blogimage- The is image of blog.
+ * @property {string} req.body.blogImage- The is image of blog.
  * @property {string} req.body.imageMimeType- The is extension of blog image.
  * @property {string} req.body.servingWeight- The serving weight of blog.
  * @property {string} req.body.price- The price of blog.
@@ -51,8 +51,8 @@ async function create(req, res, next) {
   const blog = new Blog({
     title: req.body.title,
     description: req.body.description,
-    longdescription: req.body.longdescription,
-    blogimage: req.file.path,
+    longDescription: req.body.longDescription,
+    blogImage: req.file.path,
     writerName: req.body.writerName,
     category: req.body.category,
     contributer: req.body.contributer,
@@ -75,7 +75,7 @@ async function create(req, res, next) {
  * Update existing blog
 * @property {string} req.body.title - The name of blog.
  * @property {string} req.body.description - Author name of blog.
- * @property {string} req.body.blogimage- The isbn of blog.
+ * @property {string} req.body.blogImage- The isbn of blog.
  * @property {string} req.body.servingWeight- The serving weight of blog.
  * @property {string} req.body.price- The price of blog.
  * @property {string} req.body.category- The category of blog.
@@ -98,18 +98,18 @@ async function update(req, res, next) {
   if (doesIdExists) {
     if (req.file) {
       Blog.findById(req.params.id)
-        .select('blogimage')
+        .select('blogImage')
         .exec()
         .then((docs) => {
-          if (docs.blogimage != "null") {
-            fs.unlink("./" + docs.blogimage, function (err) {
+          if (docs.blogImage != "null") {
+            fs.unlink("./" + docs.blogImage, function (err) {
               if (err) console.log(err);
               console.log('Image deleted!');
             });
           }
         })
       await Blog.updateOne({ _id: req.params.id },
-        { blogimage: req.file.path }
+        { blogImage: req.file.path }
       );
     }
     else {
@@ -119,7 +119,7 @@ async function update(req, res, next) {
   const blog = {
     title: req.body.title,
     description: req.body.description,
-    longdescription: req.body.longdescription,
+    longDescription: req.body.longDescription,
     writerName: req.body.writerName,
     category: req.body.category,
     contributer: req.body.contributer,
@@ -178,11 +178,11 @@ async function list(req, res, next) {
 async function remove(req, res, next) {
   try {
     Blog.findById(req.params.id)
-      .select('blogimage')
+      .select('blogImage')
       .exec()
       .then((docs) => {
-        if (docs.blogimage != "null") {
-          fs.unlink("./" + docs.blogimage, function (err) {
+        if (docs.blogImage != "null") {
+          fs.unlink("./" + docs.blogImage, function (err) {
             if (err) console.log(err);
             console.log('Image deleted!');
           });

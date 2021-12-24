@@ -17,11 +17,11 @@ const BlogSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    longdescription: {
+    longDescription: {
         type: String,
         required: true,
     },
-    blogimage: {
+    blogImage: {
         type: Object,
         required: true,
     },

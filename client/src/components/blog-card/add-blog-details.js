@@ -31,8 +31,8 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     useEffect(() => {
         if (blog?._id) {
             setAddFields(blog);
-            setGetImages(blog?.blogimage);
-            setPeviewImages(getImageUrl(blog?.blogimage));
+            setGetImages(blog?.blogImage);
+            setPeviewImages(getImageUrl(blog?.blogImage));
         }
     }, [blog]);
 
@@ -44,7 +44,7 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     useEffect(() => {
         dispatch(getBlogs())
         setAddFields(blog, defaultFields);
-        setTimeout(() => setInitTinyValue(blog.longdescription), 500);
+        setTimeout(() => setInitTinyValue(blog.longDescription), 500);
     }, [])
 
     const validateInputs = () => {
@@ -60,11 +60,11 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     };
 
     const handleInputChange = (e) => {
-        if (e.target.name === "blogimage") {
+        if (e.target.name === "blogImage") {
             if (e.target.files[0].name.match(/\.(jpg|jpeg|png|tif|tiff|gif)$/)) {
-                var blogimage = URL.createObjectURL(e.target.files[0]);
-                setPeviewImages(blogimage);
-                dataForm.set('blogimage', e.target.files[0])
+                var blogImage = URL.createObjectURL(e.target.files[0]);
+                setPeviewImages(blogImage);
+                dataForm.set('blogImage', e.target.files[0])
             }
             else {
                 return;
@@ -78,7 +78,7 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     }
 
     const handleTinyChange = (e) => {
-        setAddFields({ ...addFields, ["longdescription"]: e });
+        setAddFields({ ...addFields, ["longDescription"]: e });
     }
     const editorRef = useRef(null);
     const log = () => {
@@ -93,7 +93,7 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
         if (validateInputs()) {
             dataForm.set('title', addFields.title)
             dataForm.set('description', addFields.description)
-            dataForm.set('longdescription', addFields.longdescription)
+            dataForm.set('longDescription', addFields.longDescription)
             dataForm.set('writerName', defaultFields.writerName)
             dataForm.set('category', addFields.category)
             dataForm.set('contributer', addFields.contributer)
@@ -240,6 +240,7 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                                 className="ml-5 mt-3"
                                 value={addFields?.isActive || ''}
                                 type="checkbox"
+                                defaultChecked={addFields?.isActive}
                                 required
                                 onChange={handleInputChange}
                             />
@@ -247,9 +248,9 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
                         <label>
                             Upload Blog Image<i className="fa fa-asterisk text-danger" aria-hidden="true"></i>
                         </label>
-                        <label className="overflow-hidden border border-dark profile-img-wrap" htmlFor="blogimage">
-                            <label htmlFor="blogimage"><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
-                            <Input id="blogimage" name="blogimage" type="file" className="form-control" onChange={handleInputChange} hidden />
+                        <label className="overflow-hidden border border-dark profile-img-wrap" htmlFor="blogImage">
+                            <label htmlFor="blogImage"><i className="fa fa-camera-retro" aria-hidden="true"></i></label>
+                            <Input id="blogImage" name="blogImage" type="file" className="form-control" onChange={handleInputChange} hidden />
                         </label>
                         {getPreviewImages ?
                             <Col md={2} sm={2} lg={2} xl={2} className="p-2">

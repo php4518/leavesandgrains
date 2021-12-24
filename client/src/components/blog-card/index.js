@@ -27,7 +27,7 @@ const BlogCard = ({
     return (
         <>
             <div className="card dish-container">
-                <img src={getImageUrl(blog.blogimage || '')} className="card-img-top image" alt="Card Image" />
+                <img src={getImageUrl(blog.blogImage || '')} className="card-img-top image" alt="Card Image" />
                 {userRole && userRole?.role === "ADMIN" ?
                     <Row className="middle" style={{ top: '30%' }}>
                         <Button

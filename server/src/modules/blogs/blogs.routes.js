@@ -37,8 +37,8 @@ const paramValidation = {
         body: Joi.object({
             title: Joi.string().required(),
             description: Joi.string().required(),
-            longdescription: Joi.string().required(),
-            blogimage: Joi.object(),
+            longDescription: Joi.string().required(),
+            blogImage: Joi.object(),
             writerName: Joi.string().required(),
             category: Joi.string().required(),
             contributer: Joi.string().required(),
@@ -52,7 +52,7 @@ const paramValidation = {
         body: Joi.object({
             title: Joi.string().required(),
             description: Joi.string().required(),
-            longdescription: Joi.string().required(),
+            longDescription: Joi.string().required(),
             writerName: Joi.string().required(),
             category: Joi.string().required(),
             contributer: Joi.string().required(),
@@ -62,7 +62,7 @@ const paramValidation = {
 }
 
 router.route('/')
-    .post(upload.single('blogimage'), validate(paramValidation.addBlog), blogCtrl.create);
+    .post(upload.single('blogImage'), validate(paramValidation.addBlog), blogCtrl.create);
 
 router.route('/')
     /** GET /api/bloges - Get list of bloges */
@@ -74,7 +74,7 @@ router.route('/:id')
 
 router.route('/:id')
     /** PUT /api/bloges/:id - Update blog */
-    .put(upload.single('blogimage'), validate(paramValidation.updateBlog), blogCtrl.update);
+    .put(upload.single('blogImage'), validate(paramValidation.updateBlog), blogCtrl.update);
 
 router.route('/:id')
     /** DELETE /api/bloges/:id - Delete blog */
