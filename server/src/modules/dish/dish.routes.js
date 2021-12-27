@@ -16,7 +16,7 @@ const fileFilter = (req, file, cb) => {
 
 var docStorage = multer.diskStorage({
   destination: (req, file, cb) => { // setting destination of uploading files        
-    cb(null, './apipublic');
+    cb(null, './apipublic/dish');
   },
   filename: (req, file, cb) => { // naming file
     cb(null, file.originalname);
