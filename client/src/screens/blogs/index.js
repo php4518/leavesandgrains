@@ -64,6 +64,7 @@ const Blogs = (props) => {
     };
 
     const clearFilters = () => {
+        setSelectedFilter('ALL');
         setBlogs(allBlogs);
     };
 
