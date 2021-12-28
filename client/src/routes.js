@@ -13,6 +13,7 @@ import SignUpPage from "./screens/sign-up";
 import CartHome from "./screens/cart";
 import PaymentHome from "./screens/payment";
 import ProfileHome from "./screens/profile";
+import Stockists from "./screens/stockists";
 
 const AppRoutes = (props) => {
   const {location} = props;
@@ -34,6 +35,7 @@ const AppRoutes = (props) => {
       <Route path="/blog" component={BlogPage}/>
       <Route path="/contact" component={ContactPage}/>
       <Route path="/about" component={AboutPage}/>
+      <Route path="/stockists" component={Stockists}/>
       <Route path="/sign-in" component={SignInPage}/>
       <Route path="/sign-up" component={SignUpPage}/>
       <Route path="/cart" component={CartHome}/>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import classnames from "classnames";
 import {
   Button,
@@ -14,17 +14,17 @@ import {
   NavLink,
   UncontrolledDropdown,
 } from "reactstrap";
-import {logoutUser} from "../../redux/actions/user";
-import {useDispatch, useSelector} from "react-redux";
+import { logoutUser } from "../../redux/actions/user";
+import { useDispatch, useSelector } from "react-redux";
 
 const SCROLL_OFFSET = 200;
 
 const NavigationBar = () => {
   const dispatch = useDispatch();
-  const {currentUser, mealPlans, individualMeals} = useSelector(({user, cart}) => {
-    let {currentUser} = user;
-    let {mealPlans, individualMeals} = cart;
-    return {currentUser, mealPlans, individualMeals}
+  const { currentUser, mealPlans, individualMeals } = useSelector(({ user, cart }) => {
+    let { currentUser } = user;
+    let { mealPlans, individualMeals } = cart;
+    return { currentUser, mealPlans, individualMeals }
   });
 
   const [navbarColor, setNavbarColor] = useState("navbar-transparent");
@@ -81,9 +81,9 @@ const NavigationBar = () => {
             })}
             onClick={toggleNavbarCollapse}
           >
-            <span className="navbar-toggler-bar bar1"/>
-            <span className="navbar-toggler-bar bar2"/>
-            <span className="navbar-toggler-bar bar3"/>
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
           </button>
         </div>
         <Collapse className="justify-content-end" navbar isOpen={navbarCollapse}>
@@ -114,6 +114,13 @@ const NavigationBar = () => {
                 data-placement="bottom"
                 href="/about">
                 about
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                data-placement="bottom"
+                href="/stockists">
+                stockists
               </NavLink>
             </NavItem>
             <NavItem>
@@ -154,7 +161,7 @@ const NavigationBar = () => {
                   <DropdownItem href="/profile">
                     Profile
                   </DropdownItem>
-                  <DropdownItem divider/>
+                  <DropdownItem divider />
                   <DropdownItem onClick={handleLogout}>
                     Logout
                   </DropdownItem>

@@ -4,6 +4,8 @@ const { Joi } = require('express-validation');
 const { validate } = require('../../helpers');
 const multer = require('multer');
 const router = express.Router();
+const crypto = require('crypto');
+var fs = require('fs');
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
@@ -15,11 +17,17 @@ const fileFilter = (req, file, cb) => {
 }
 
 var docStorage = multer.diskStorage({
-  destination: (req, file, cb) => { // setting destination of uploading files        
+  destination: (req, file, cb) => { // setting destination of uploading files   
+    if (!fs.existsSync(dir)) {
+      var dir = './apipublic/dish';
+      fs.mkdirSync(dir, { recursive: true });
+    }
     cb(null, './apipublic/dish');
   },
   filename: (req, file, cb) => { // naming file
-    cb(null, file.originalname);
+    var fileName = crypto.randomBytes(5).toString('hex');;
+    file.filename = fileName;
+    cb(null, fileName + '.jpg');
   }
 });
 
