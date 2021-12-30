@@ -1,57 +1,52 @@
 const express = require('express');
-const blogCtrl = require('./blogs.controller');
+const storeCtrl = require('./store.controller');
 const { Joi } = require('express-validation');
 const { validate } = require('../../helpers');
 const router = express.Router();
 
 const paramValidation = {
-    addBlog: {
+    addStore: {
         body: Joi.object({
-            title: Joi.string().required(),
-            description: Joi.string().required(),
-            longDescription: Joi.string().required(),
-            blogImage: Joi.object(),
-            writerName: Joi.string().required(),
-            category: Joi.string().required(),
-            contributer: Joi.string().required(),
-            isActive: Joi.boolean()
+            name: Joi.string().required(),
+            address: Joi.string().required(),
+            lat: Joi.string().required(),
+            lng: Joi.string().required(),
+            kilometer: Joi.string().required()
         }),
     },
-    updateBlog: {
+    updateStore: {
         params: Joi.object({
             id: Joi.string().required(),
         }),
         body: Joi.object({
-            title: Joi.string().required(),
-            description: Joi.string().required(),
-            longDescription: Joi.string().required(),
-            writerName: Joi.string().required(),
-            category: Joi.string().required(),
-            contributer: Joi.string().required(),
-            isActive: Joi.boolean()
+            name: Joi.string().required(),
+            address: Joi.string().required(),
+            lat: Joi.string().required(),
+            lng: Joi.string().required(),
+            kilometer: Joi.string().required(),
         }),
     }
 }
 
 router.route('/')
-    .post(validate(paramValidation.addBlog), blogCtrl.create);
+    .post(validate(paramValidation.addStore), storeCtrl.create);
 
 router.route('/')
-    /** GET /api/bloges - Get list of bloges */
-    .get(blogCtrl.getAll);
+    /** GET /api/store - Get list of store */
+    .get(storeCtrl.getAll);
 
 router.route('/:id')
-    /** GET /api/bloges/:id - Get blog */
-    .get(blogCtrl.get);
+    /** GET /api/store/:id - Get store */
+    .get(storeCtrl.get);
 
 router.route('/:id')
-    /** PUT /api/bloges/:id - Update blog */
-    .put(validate(paramValidation.updateBlog), blogCtrl.update);
+    /** PUT /api/store/:id - Update store */
+    .put(validate(paramValidation.updateStore), storeCtrl.update);
 
 router.route('/:id')
-    /** DELETE /api/bloges/:id - Delete blog */
-    .delete(blogCtrl.remove);
+    /** DELETE /api/store/:id - Delete store */
+    .delete(storeCtrl.remove);
 
-/** Load blog when API with id route parameter is hit */
-router.param('id', blogCtrl.load);
+/** Load store when API with id route parameter is hit */
+router.param('id', storeCtrl.load);
 module.exports = router;

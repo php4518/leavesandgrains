@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import moment from 'moment'
-import {Button, Col, Container, Row} from "reactstrap";
+import { Button, Col, Container, Row } from "reactstrap";
 import MenuHeader from "../../components/header/menuHeader";
 import AddressModule from "../../components/address-module";
 import {
@@ -9,23 +9,23 @@ import {
   setIndividualMeals,
   setMealPlans
 } from "../../redux/actions/cart";
-import {IndividualMealCard, MealPlanCard} from "../../components/cart-items";
-import {formatAddress, getCartTotal, getPrice} from "../../helpers/utils";
-import {useHistory} from "react-router";
-import {useDispatch, useSelector} from "react-redux";
+import { IndividualMealCard, MealPlanCard } from "../../components/cart-items";
+import { formatAddress, getCartTotal, getPrice } from "../../helpers/utils";
+import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const {currentUser, mealPlans, individualMeals} = useSelector(({user, cart}) => {
-    let {currentUser} = user;
-    let {mealPlans, individualMeals} = cart;
-    return {currentUser, mealPlans, individualMeals}
+  const { currentUser, mealPlans, individualMeals } = useSelector(({ user, cart }) => {
+    let { currentUser } = user;
+    let { mealPlans, individualMeals } = cart;
+    return { currentUser, mealPlans, individualMeals }
   });
 
   const [addressModule, showAddressModule] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const history = useHistory();
-  const cartTotal = getCartTotal({mealPlans, individualMeals});
+  const cartTotal = getCartTotal({ mealPlans, individualMeals });
 
   useEffect(() => {
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -36,7 +36,7 @@ const Cart = () => {
   const confirmOrder = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    history.push('/payment', {address: selectedAddress, amount: cartTotal});
+    history.push('/payment', { address: selectedAddress, amount: cartTotal });
   };
 
   const handleMealPlanDateChange = (index, date = moment().add(1, 'day')) => {
@@ -52,7 +52,7 @@ const Cart = () => {
   const isEmpty = !mealPlans.length && !Object.keys(individualMeals).length;
   return (
     <div className="cart-page">
-      <MenuHeader/>
+      <MenuHeader />
       <Container className="cart-container">
         <Row>
           <Col md={8} className="order-2 order-md-1">
@@ -100,7 +100,7 @@ const Cart = () => {
             <Col md={4} className="order-1 order-md-2">
               <div className="card my-5 p-3 rounded">
                 <h3>Order Summary</h3>
-                <div className="divider mb-3 mx-2"/>
+                <div className="divider mb-3 mx-2" />
                 <div className="d-flex justify-content-between align-items-center">
                   <h5>Subtotal</h5>
                   <h5>{getPrice(cartTotal)}</h5>
@@ -109,7 +109,7 @@ const Cart = () => {
                   <h5>Shipping</h5>
                   <h5>{getPrice(0)}</h5>
                 </div>
-                <div className="divider mb-3 mx-2"/>
+                <div className="divider mb-3 mx-2" />
                 <div className="d-flex justify-content-between align-items-center">
                   <h5>Total</h5>
                   <h5 className="font-weight-bold">{getPrice(cartTotal)}</h5>
@@ -138,7 +138,7 @@ const Cart = () => {
                     <>
                       <h5 className="font-weight-bold">
                         Delivery Location: <span className="change"
-                                                 onClick={() => showAddressModule(true)}>Change</span>
+                          onClick={() => showAddressModule(true)}>Change</span>
                       </h5>
                       <div className="font-weight-bold">{selectedAddress.name}</div>
                       <div>{formatAddress(selectedAddress)}</div>

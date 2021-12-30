@@ -11,11 +11,19 @@ const StoreSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
-    loc: {
-        type: { type: String },
-        coordinates: []
+    address: {
+        type: String,
+        required: true
+    },
+    lat: {
+        type: String,
+        required: true
+    },
+    lng: {
+        type: String,
+        required: true
     },
     kilometer: {
         type: Number,
@@ -37,16 +45,16 @@ const StoreSchema = new mongoose.Schema({
  */
 StoreSchema.statics = {
     /**
-     * Get blog
-     * @param {ObjectId} id - The objectId of blog.
+     * Get store
+     * @param {ObjectId} id - The objectId of store.
      * @returns {Promise<User, APIError>}
      */
     async get(id) {
-        const blog = await this.findById(id).exec();
-        if (!blog) {
-            throw new APIError('No such blog exists!', httpStatus.NOT_FOUND);
+        const store = await this.findById(id).exec();
+        if (!store) {
+            throw new APIError('No such store exists!', httpStatus.NOT_FOUND);
         }
-        return blog;
+        return store;
     },
 
     /**

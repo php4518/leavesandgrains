@@ -5,8 +5,9 @@ import AppAlert from "../../components/alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { contactSupport } from "../../redux/actions/user";
-import { Marker, Map, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
+import { Marker, Map, GoogleApiWrapper } from 'google-maps-react';
 import InfoWindowEx from "./InfoWindowEx";
+import StoreModule from "../../components/store-module";
 
 let autoComplete;
 
@@ -54,6 +55,8 @@ const Stockists = () => {
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState();
   const [activeMarker, setActiveMarker] = useState();
+  const [storeModule, showStoreModule] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const [contactFields, setContactFields] = useState({
     customer,
@@ -99,7 +102,7 @@ const Stockists = () => {
   const handleScriptLoad = (updateQuery, autoCompleteRef) => {
     autoComplete = new window.google.maps.places.Autocomplete(
       autoCompleteRef.current,
-      { types: ["(cities)"], componentRestrictions: { country: "us" } }
+      { types: ["(cities)"], componentRestrictions: { country: "in" } }
     );
     autoComplete.setFields(["address_components", "formatted_address"]);
     autoComplete.addListener("place_changed", () =>
@@ -146,20 +149,35 @@ const Stockists = () => {
     console.log(place);
   };
 
+  var userRole = '';
+  const userDetail = JSON.parse(localStorage.getItem("persist:user"));
+  if (userDetail && userDetail?.currentUser) {
+    userRole = JSON.parse(userDetail?.currentUser);
+  }
+
   return (
     <>
       <MenuHeader />
       <div className="main">
+        {!storeModule ?
         <Container>
-          <Col className="ml-auto mr-auto" md="10">
-            <div className="title">
-              <h2 className="font-weight-bold">Stockists</h2>
-            </div>
+          <Col lg={24} className="border-bottom">
+            {userRole.role === "ADMIN" ?
+              <Button className="btn-info float-right" color="info" onClick={(e) => showStoreModule(true)}>
+                Add New Store
+              </Button>
+              : null
+            }
+            <h3 className="text-uppercase font-weight-bold mb-3">Stockists</h3>
+          </Col>
+          <Col className="ml-auto mr-auto mt-5" md="10">
             <Form onSubmit={handleSupportQuery}>
               <Row>
                 <Col md="8">
                   <div className="search-location-input">
                     <input
+                      className="form-control"
+                      name="mapplace"
                       ref={autoCompleteRef}
                       onChange={event => setQuery(event.target.value)}
                       placeholder="Enter a City"
@@ -168,7 +186,7 @@ const Stockists = () => {
                   </div>
                 </Col>
                 <Col md="3">
-                  <Button className="btn-fill" color="danger" size="lg">
+                  <Button className="btn-fill float-right" color="danger" size="lg">
                     Find Stores
                   </Button>
                 </Col>
@@ -198,6 +216,7 @@ const Stockists = () => {
                     position={{ lat: place.lat, lng: place.lng }} />
                 )
               })}
+
               <InfoWindowEx
                 marker={activeMarker}
                 visible={showingInfoWindow}
@@ -215,11 +234,18 @@ const Stockists = () => {
             </Map>
           </div>
         </Container>
+        :
+        <StoreModule
+          selectedAddress={selectedAddress}
+          onSelectAddress={setSelectedAddress}
+        />
+        }
       </div>
     </>
   )
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCKzWyGUy09ULraqdL5c30InR0qXl3FatA",
+  // apiKey: "AIzaSyCKzWyGUy09ULraqdL5c30InR0qXl3FatA", my map
+  apiKey: "AIzaSyDWkxGiLx48nPjU-y1lVh3Cvc1mlrqHRpU",
 })(Stockists);
