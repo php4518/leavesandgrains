@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, } from "reactstrap";
 import MenuHeader from "../../components/header/menuHeader";
 import AppAlert from "../../components/alert";
@@ -8,8 +8,9 @@ import { contactSupport } from "../../redux/actions/user";
 import { Marker, Map, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
 import InfoWindowEx from "./InfoWindowEx";
 
-const Stockists = () => {
+let autoComplete;
 
+const Stockists = () => {
 
   const data = [
     {
@@ -63,6 +64,58 @@ const Stockists = () => {
     description: '',
   });
 
+  //search location
+
+
+  const [query, setQuery] = useState("");
+  const autoCompleteRef = useRef(null);
+
+
+  const loadScript = (url, callback) => {
+    let script = document.createElement("script");
+    script.type = "text/javascript";
+
+    if (script.readyState) {
+      script.onreadystatechange = function () {
+        if (script.readyState === "loaded" || script.readyState === "complete") {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else {
+      script.onload = () => callback();
+    }
+
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  };
+
+
+  useEffect(() => {
+    handleScriptLoad(setQuery, autoCompleteRef)
+  }, []);
+
+
+  const handleScriptLoad = (updateQuery, autoCompleteRef) => {
+    autoComplete = new window.google.maps.places.Autocomplete(
+      autoCompleteRef.current,
+      { types: ["(cities)"], componentRestrictions: { country: "us" } }
+    );
+    autoComplete.setFields(["address_components", "formatted_address"]);
+    autoComplete.addListener("place_changed", () =>
+      handlePlaceSelect(updateQuery)
+    );
+  }
+
+  const handlePlaceSelect = async (updateQuery) => {
+    const addressObject = autoComplete.getPlace();
+    const query = addressObject.formatted_address;
+    updateQuery(query);
+    console.log(addressObject);
+  }
+
+  //end search
+
   const handleInputChange = (e) => setContactFields({ ...contactFields, [e.target.name]: e.target.value });
 
   const handleSupportQuery = (e) => {
@@ -87,18 +140,6 @@ const Stockists = () => {
     setShowingInfoWindow(true);
     setSelectedPlace(props.place_);
     setActiveMarker(marker);
-    // this.setState({
-    //   selectedPlace: props,
-    //   activeMarker: marker,
-    //   showingInfoWindow: true
-    // });
-  }
-
-  const onClose = (props) => {
-    if (showingInfoWindow) {
-      setShowingInfoWindow(false);
-      setActiveMarker(null);
-    }
   }
 
   const showDetails = (place) => {
@@ -117,14 +158,14 @@ const Stockists = () => {
             <Form onSubmit={handleSupportQuery}>
               <Row>
                 <Col md="8">
-                  <Input
-                    name="name"
-                    value={currentUser.name}
-                    placeholder="Name"
-                    type="text"
-                    required
-                    onChange={handleInputChange}
-                  />
+                  <div className="search-location-input">
+                    <input
+                      ref={autoCompleteRef}
+                      onChange={event => setQuery(event.target.value)}
+                      placeholder="Enter a City"
+                      value={query}
+                    />
+                  </div>
                 </Col>
                 <Col md="3">
                   <Button className="btn-fill" color="danger" size="lg">
@@ -171,15 +212,6 @@ const Stockists = () => {
                   </button>
                 </div>
               </InfoWindowEx>
-              {/* <InfoWindow
-                visible={showingInfoWindow}
-                marker={activeMarker}
-                onClose={onClose}
-              >
-                <div>
-                  <h1>hhhhh</h1>
-                </div>
-              </InfoWindow> */}
             </Map>
           </div>
         </Container>
