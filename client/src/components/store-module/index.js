@@ -1,192 +1,111 @@
-import {Button, Col, Container, Form, Input, Row} from "reactstrap";
-import React, {useEffect, useState} from "react";
-import {postStore, deleteStore, updateStore, getStore} from "../../redux/actions/store";
-import {useDispatch, useSelector} from "react-redux";
-import AppAlert from "../alert";
-import {STATUS} from "../../helpers/constants";
+import React, { useState, useEffect, useRef } from "react";
+import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
+import { postStore, updateStore, getStore } from '../../redux/actions/store';
+import { useDispatch } from "react-redux";
+import { BLOG_TYPES } from "../../helpers/constants";
 
+var dataForm = new FormData();
 
-const StoreModule = (props) => {
+const StoreModule = ({ store = false, toggleModal }) => {
   const dispatch = useDispatch();
-  const {storeList, storeStatus} = useSelector(({store}) => {
-    const {storeList, storeStatus} = store;
-    return {storeList, storeStatus}
-  });
+  const [getPreviewImages, setPeviewImages] = useState([]);
+  const [validationFields, setValidationFields] = useState({});
+  const [initTinyValue, setInitTinyValue] = useState(undefined)
 
-  const [addStoreData, showAddStoreData] = useState(false);
-  const [storeFields, setStoreFields] = useState();
+  var userRole = '';
+  const userDetail = JSON.parse(localStorage.getItem("persist:user"));
+  if (userDetail && userDetail?.currentUser) {
+    userRole = JSON.parse(userDetail?.currentUser);
+  }
+
+  const [addFields, setAddFields] = useState([]);
 
   useEffect(() => {
-    /* eslint-disable react-hooks/exhaustive-deps */
-    dispatch(getStore())
-  }, []);
-
-  useEffect(() => {
-    if (storeStatus && storeStatus.status === STATUS.SUCCESS) {
-      showAddStoreData(false);
+    if (store?._id) {
+      setAddFields(store);
     }
-  }, [storeStatus]);
+  }, [store]);
 
-  const handleInputChange = (e) => setStoreFields({...storeFields, [e.target.name]: e.target.value});
+  useEffect(() => {
+    dispatch(getStore())
+    setAddFields(store);
+  }, [])
+
+  const validateInputs = () => {
+    let fields = {};
+    setValidationFields(fields);
+    return !Object.keys(fields).length;
+  };
+
+  const handleInputChange = (e) => {
+    setAddFields({ ...addFields, [e.target.name]: e.target.value });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (storeFields._id) {
-      dispatch(updateStore(storeFields));
-    } else {
-      dispatch(postStore(storeFields));
+    if (validateInputs()) {
+      dataForm.set('name', addFields.name)
+      dataForm.set('address', addFields.address)
+      dataForm.set('longDescription', addFields.longDescription)
+      dataForm.set('category', addFields.category)
+      dataForm.set('contributer', addFields.contributer)
+      dataForm.set('isActive', addFields.isActive)
+
+      if (!addFields?._id) {
+        dispatch(postStore(dataForm));
+        toggleModal();
+        store = [];
+        dispatch(getStore())
+      } else {
+        dispatch(updateStore(addFields._id, dataForm));
+        toggleModal();
+        store = [];
+        dispatch(getStore())
+      }
     }
-  };
+  }
 
-  const handleEditStore = (e, store) => {
-    e.preventDefault();
-    e.stopPropagation();
-    showAddStoreData(true);
-    setStoreFields(store);
-  };
-
-  const handleDeleteStore = (e, id) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dispatch(deleteStore(id));
-  };
-
-  const handleSelectStore = (e, store) => {
-    e.preventDefault();
-    e.stopPropagation();
-    props.onSelectStore(store);
-    setTimeout(props.toggleModal, 700);
-  };
+  // if (!store) return null
 
   return (
-    <div className={`store-page ${!props.show ? 'hide' : ''}`}>
-      <div className="modal-body">
-        <div className="header">
-          <Button className="btn-info btn-close" color="danger" onClick={props.toggleModal}>
-            Close
-          </Button>
-          <Button className="btn-info" color="info" onClick={() => showAddStoreData(!addStoreData)}>
-            {addStoreData ? 'Use Existing store' : 'Add new store'}
-          </Button>
-          <h3>{addStoreData ? 'Add Store' : 'Select Store'}</h3>
-          <AppAlert alert={storeStatus}/>
-        </div>
-        <div>
-          {
-            addStoreData ?
-              <Container className="address-form">
-                <Form onSubmit={handleSubmit}>
-                  <Row className="mt-4">
-                    <Col sm={6}>
-                      <label>Full Name</label>
-                      <Input
-                        name="name"
-                        value={storeFields.name}
-                        type="text"
-                        required
-                        onChange={handleInputChange}
-                      />
-                      <label>Flat, House no., Building, Company, Apartment</label>
-                      <Input
-                        name="storeLine1"
-                        value={storeFields.storeLine1}
-                        type="text"
-                        required
-                        onChange={handleInputChange}
-                      />
-                      <label>Area, Colony, Street, Sector, Village</label>
-                      <Input
-                        name="storeLine2"
-                        value={storeFields.storeLine2}
-                        type="text"
-                        required
-                        onChange={handleInputChange}
-                      />
-                    </Col>
-                    <Col sm={6}>
-                      <label>Pincode</label>
-                      <Input
-                        name="pincode"
-                        value={storeFields.pincode}
-                        type="text"
-                        required
-                        onChange={handleInputChange}
-                        onKeyPress={(event) => {
-                          if (!/[0-9]/.test(event.key)) {
-                            event.preventDefault();
-                          }
-                        }}
-                        maxLength={6}
-                      />
-
-                      <label>Landmark</label>
-                      <Input
-                        name="landmark"
-                        value={storeFields.landmark}
-                        placeholder="e.g. near apple hospital"
-                        type="text"
-                        onChange={handleInputChange}
-                      />
-                      <Row>
-                        <Col>
-                          <label>City</label>
-                          <Input
-                            name="city"
-                            value={storeFields.city}
-                            type="text"
-                            onChange={handleInputChange}
-                            readOnly
-                          />
-                        </Col>
-                        <Col>
-                          <label>State</label>
-                          <Input
-                            name="state"
-                            value={storeFields.state}
-                            type="text"
-                            onChange={handleInputChange}
-                            readOnly
-                          />
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Button block className="btn-round w-25 my-3 my-sm-5 mx-auto" color="danger" type="submit">
-                    {storeFields._id ? 'update' : 'Add'}
-                  </Button>
-                </Form>
-              </Container>
-              :
-              <div className="storees-wrapper">
-                {
-                  !storeList?.length ?
-                    <div>No store added yet</div>
-                    :
-                    storeList?.map(store =>
-                      <div
-                        className={`store-card ${props.selectedStore && store._id === props.selectedStore._id ? 'selected' : ''}`}
-                        key={store._id} onClick={(e) => handleSelectStore(e, store)}>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div className="title mt-1 mb-0 font-weight-bold">{store.name}</div>
-                          <div>
-                            <span onClick={(e) => handleEditStore(e, store)}>Edit</span> | <span
-                            onClick={(e) => handleDeleteStore(e, store._id)}>Delete</span></div>
-                        </div>
-                        <div className="description">{store?.storeLine1}</div>
-                        <div className="description">{store?.storeLine2}</div>
-                        <div className="description">{store?.landmark}</div>
-                        <div className="description">{store?.pincode}</div>
-                        <div className="description">{store?.city}, {store?.state}</div>
-                      </div>
-                    )
-                }
-              </div>
-          }
-        </div>
+    <div>
+      <div className="modal-header modal-title">
+        {!addFields?._id ?
+          `Add New Store` :
+          `Update Store Detail`
+        }
+        <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(); store = [] }}></i>
       </div>
-    </div>
+      <Form onSubmit={handleSubmit} style={{ display: "contents" }}>
+        <div className="modal-body">
+          <Row>
+            <label>Store name</label>
+            <Input
+              name="name"
+              value={addFields?.name || ''}
+              type="text"
+              required
+              onChange={handleInputChange}
+            />
+            <label>Address</label>
+            <Input
+              name="address"
+              value={addFields?.address || ''}
+              type="text"
+              required
+              onChange={handleInputChange}
+            />
+          </Row>
+        </div>
+        <div className="modal-footer">
+          <Button block className="btn-round w-25 my-3 my-sm-5 mx-auto" color="danger" type="submit">
+            {!addFields?._id ? 'Add' : 'Update'}
+          </Button>
+        </div>
+      </Form >
+    </div >
   )
-};
+}
 
 export default StoreModule;
