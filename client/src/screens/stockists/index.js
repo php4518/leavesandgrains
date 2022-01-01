@@ -1,60 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, } from "reactstrap";
+import { Button, Col, Container, Form, Row, } from "reactstrap";
 import MenuHeader from "../../components/header/menuHeader";
 import AppAlert from "../../components/alert";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { contactSupport } from "../../redux/actions/user";
 import { Marker, Map, GoogleApiWrapper } from 'google-maps-react';
 import InfoWindowEx from "./InfoWindowEx";
 import StoreModule from "../../components/store-module";
-import { getStore } from "redux/actions/store";
-import { setStore } from "redux/actions/store";
+import { getStore, setStore } from "redux/actions/store";
 
 let autoComplete;
 
 const Stockists = (props) => {
 
-  // const data = [
-  //   {
-  //     name: "Mumbai",
-  //     title: "Mumbai",
-  //     lat: 19.0760,
-  //     lng: 72.8777,
-  //     id: 1
-  //   },
-  //   {
-  //     name: "Surat",
-  //     title: "Surat",
-  //     lat: 21.203510,
-  //     lng: 72.839230,
-  //     id: 2
-  //   },
-  //   {
-  //     name: "Pune",
-  //     title: "pune",
-  //     lat: 18.520430,
-  //     lng: 73.856743,
-  //     id: 3
-  //   },
-  //   {
-  //     name: "Chennai",
-  //     title: "Chennai",
-  //     lat: 13.072090,
-  //     lng: 80.201860,
-  //     id: 4
-  //   }
-  // ];
-
   const dispatch = useDispatch();
   const { allStore, storeStatus } = useSelector(({ store }) => ({
-    allStore: store.stores,
+    allStore: store.store,
     storeStatus: store.storeStatus,
   }));
 
-  console.log("allStore", allStore)
-
-  const [places, setPlaces] = useState(allStore);
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState();
   const [activeMarker, setActiveMarker] = useState();
@@ -75,26 +38,6 @@ const Stockists = (props) => {
       setIsForm(false);
     }
   })
-
-  const loadScript = (url, callback) => {
-    let script = document.createElement("script");
-    script.type = "text/javascript";
-
-    if (script.readyState) {
-      script.onreadystatechange = function () {
-        if (script.readyState === "loaded" || script.readyState === "complete") {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else {
-      script.onload = () => callback();
-    }
-
-    script.src = url;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }
-
 
   useEffect(() => {
     handleScriptLoad(setQuery, autoCompleteRef)
@@ -131,11 +74,12 @@ const Stockists = (props) => {
   }
 
   const centerMoved = (mapProps, map) => {
-
+    console.log("map",map);
+    console.log("mapProps",mapProps);
   }
 
   const mapClicked = (mapProps, map, clickEvent) => {
-
+    console.log("lat",clickEvent.latLng.lat(), "long",clickEvent.latLng.lng());
   }
 
   const onMarkerClick = (props, marker, e) => {
@@ -154,7 +98,6 @@ const Stockists = (props) => {
     userRole = JSON.parse(userDetail?.currentUser);
   }
 
-  console.log("places", places);
   return (
     <>
       <MenuHeader />
@@ -207,10 +150,10 @@ const Stockists = (props) => {
                 onClick={mapClicked}
                 places={allStore}
               >
-                {places?.map((place, i) => {
+                {allStore?.map((place, i) => {
                   return (
                     <Marker
-                      key={place.id}
+                      key={i}
                       place_={place}
                       onClick={onMarkerClick}
                       position={{ lat: place.lat, lng: place.lng }} />

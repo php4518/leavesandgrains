@@ -10,8 +10,7 @@ const paramValidation = {
             name: Joi.string().required(),
             address: Joi.string().required(),
             lat: Joi.number().required(),
-            lng: Joi.number().required(),
-            kilometer: Joi.number().required()
+            lng: Joi.number().required()
         }),
     },
     updateStore: {
@@ -22,8 +21,7 @@ const paramValidation = {
             name: Joi.string().required(),
             address: Joi.string().required(),
             lat: Joi.number().required(),
-            lng: Joi.number().required(),
-            kilometer: Joi.number().required(),
+            lng: Joi.number().required()
         }),
     }
 }

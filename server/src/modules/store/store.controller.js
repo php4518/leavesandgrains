@@ -28,7 +28,6 @@ function get(req, res) {
  * @property {string} req.body.address - Author name of store.
  * @property {string} req.body.lat- The is lat of store.
  * @property {string} req.body.lng- The is lng of store.
- * @property {string} req.body.kilometer- The is kilometer of store.
  * @returns {Store}
  */
 async function create(req, res, next) {
@@ -36,8 +35,7 @@ async function create(req, res, next) {
     name: req.body.name,
     address: req.body.address,
     lat: req.body.lat,
-    lng: req.body.lng,
-    kilometer: req.body.kilometer
+    lng: req.body.lng
   })
 
   try {
@@ -58,7 +56,6 @@ async function create(req, res, next) {
  * @property {string} req.body.address - Author name of store.
  * @property {string} req.body.lat- The is lat of store.
  * @property {string} req.body.lng- The is lng of store.
- * @property {string} req.body.kilometer- The is kilometer of store.
  * @returns {Store}
  */
 async function update(req, res, next) {
@@ -67,8 +64,7 @@ async function update(req, res, next) {
     name: req.body.name,
     address: req.body.address,
     lat: req.body.lat,
-    lng: req.body.lng,
-    kilometer: req.body.kilometer
+    lng: req.body.lng
   }
 
   try {

@@ -78,7 +78,7 @@ const DishSchema = new mongoose.Schema({
     required: false,
     default: 0
   },
-  nutritions: [{name: String, perServing: Number}],
+  nutritions: [{ name: String, perServing: Number }],
   isActive: {
     type: Boolean,
     default: true,

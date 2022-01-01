@@ -18,15 +18,11 @@ const StoreSchema = new mongoose.Schema({
         required: true
     },
     lat: {
-        type: Number,
+        type: String,
         required: true
     },
     lng: {
-        type: Number,
-        required: true
-    },
-    kilometer: {
-        type: Number,
+        type: String,
         required: true
     }
 }, {

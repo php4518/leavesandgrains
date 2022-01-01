@@ -1,10 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
 import { postStore, updateStore, getStore } from '../../redux/actions/store';
-import { useDispatch } from "react-redux";
+import { Marker, Map } from 'google-maps-react';
+import { useDispatch, useSelector } from "react-redux";
 
 const StoreModule = ({ store = false, toggleModal }) => {
+
   const dispatch = useDispatch();
+  const { allStore, storeStatus } = useSelector(({ store }) => ({
+    allStore: store.store,
+    storeStatus: store.storeStatus,
+  }));
+
+  let markers = [
+    {
+      name: "Current position",
+      position: {
+        lat: 21.1702,
+        lng: 72.8311
+      }
+    }
+  ]
+
   const [validationFields, setValidationFields] = useState({});
 
   var userRole = '';
@@ -14,10 +31,20 @@ const StoreModule = ({ store = false, toggleModal }) => {
   }
 
   const [addFields, setAddFields] = useState([]);
+  const [markerPos, setMarkerPos] = useState([]);
 
   useEffect(() => {
     if (store?._id) {
       setAddFields(store);
+    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          setMarkerPos(position.coords);
+        }
+      )
+    } else {
+      console.log("turn on allow location")
     }
   }, [store]);
 
@@ -55,8 +82,21 @@ const StoreModule = ({ store = false, toggleModal }) => {
     }
   }
 
-  // if (!store) return null
+  const containerStyle = {
+    position: 'relative',
+  }
 
+  const centerMoved = (coord, index) => {
+    const { latLng } = coord;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
+    setMarkerPos(latLng)
+    setAddFields({ ...addFields, ['lat']: lat, ['lng']: lng });
+  }
+
+  // if (!store) return null
+  console.log("markerPos", markerPos);
+  console.log("addFields", addFields);
   return (
     <div>
       <div className="modal-header modal-title">
@@ -64,7 +104,15 @@ const StoreModule = ({ store = false, toggleModal }) => {
           `Add New Store` :
           `Update Store Detail`
         }
-        <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(false); store = [] }}></i>
+        {/* <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(); store = [] }}></i> */}
+        <button
+          aria-label="Close"
+          className="close"
+          type="button"
+          onClick={toggleModal}
+        >
+          <i className="fa fa-times float-right close" aria-hidden="true"></i>
+        </button>
       </div>
       <Form onSubmit={handleSubmit} style={{ display: "contents" }}>
         <div className="modal-body">
@@ -85,30 +133,21 @@ const StoreModule = ({ store = false, toggleModal }) => {
               required
               onChange={handleInputChange}
             />
-            <label>Lat</label>
-            <Input
-              name="lat"
-              value={addFields?.lat || ''}
-              type="number"
-              required
-              onChange={handleInputChange}
-            />
-            <label>Lng</label>
-            <Input
-              name="lng"
-              value={addFields?.lng || ''}
-              type="number"
-              required
-              onChange={handleInputChange}
-            />
-            <label>Kilometer</label>
-            <Input
-              name="kilometer"
-              value={addFields?.kilometer || ''}
-              type="number"
-              required
-              onChange={handleInputChange}
-            />
+            <label>Select marker location</label>
+            <div style={{ height: '50vh', width: '100%' }}>
+              <Map
+                google={window.google}
+                zoom={8}
+                containerStyle={containerStyle}
+                initialCenter={{ lat: 21.1261679, lng: 73.123147 }}
+              >
+                <Marker
+                  draggable={true}
+                  position={{ lat: markerPos?.latitude,lng: markerPos?.longitude }}
+                  onDragend={(t, map, coord) => centerMoved(coord, t)}
+                />
+              </Map>
+            </div>
           </Row>
         </div>
         <div className="modal-footer">
