@@ -2,15 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
 import { postStore, updateStore, getStore } from '../../redux/actions/store';
 import { useDispatch } from "react-redux";
-import { BLOG_TYPES } from "../../helpers/constants";
-
-var dataForm = new FormData();
 
 const StoreModule = ({ store = false, toggleModal }) => {
   const dispatch = useDispatch();
-  const [getPreviewImages, setPeviewImages] = useState([]);
   const [validationFields, setValidationFields] = useState({});
-  const [initTinyValue, setInitTinyValue] = useState(undefined)
 
   var userRole = '';
   const userDetail = JSON.parse(localStorage.getItem("persist:user"));
@@ -44,21 +39,15 @@ const StoreModule = ({ store = false, toggleModal }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (validateInputs()) {
-      dataForm.set('name', addFields.name)
-      dataForm.set('address', addFields.address)
-      dataForm.set('longDescription', addFields.longDescription)
-      dataForm.set('category', addFields.category)
-      dataForm.set('contributer', addFields.contributer)
-      dataForm.set('isActive', addFields.isActive)
 
+    if (validateInputs()) {
       if (!addFields?._id) {
-        dispatch(postStore(dataForm));
+        dispatch(postStore(addFields));
         toggleModal();
         store = [];
         dispatch(getStore())
       } else {
-        dispatch(updateStore(addFields._id, dataForm));
+        dispatch(updateStore(addFields._id, addFields));
         toggleModal();
         store = [];
         dispatch(getStore())
@@ -75,7 +64,7 @@ const StoreModule = ({ store = false, toggleModal }) => {
           `Add New Store` :
           `Update Store Detail`
         }
-        <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(); store = [] }}></i>
+        <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(false); store = [] }}></i>
       </div>
       <Form onSubmit={handleSubmit} style={{ display: "contents" }}>
         <div className="modal-body">
@@ -96,6 +85,30 @@ const StoreModule = ({ store = false, toggleModal }) => {
               required
               onChange={handleInputChange}
             />
+            <label>Lat</label>
+            <Input
+              name="lat"
+              value={addFields?.lat || ''}
+              type="number"
+              required
+              onChange={handleInputChange}
+            />
+            <label>Lng</label>
+            <Input
+              name="lng"
+              value={addFields?.lng || ''}
+              type="number"
+              required
+              onChange={handleInputChange}
+            />
+            <label>Kilometer</label>
+            <Input
+              name="kilometer"
+              value={addFields?.kilometer || ''}
+              type="number"
+              required
+              onChange={handleInputChange}
+            />
           </Row>
         </div>
         <div className="modal-footer">
@@ -103,8 +116,8 @@ const StoreModule = ({ store = false, toggleModal }) => {
             {!addFields?._id ? 'Add' : 'Update'}
           </Button>
         </div>
-      </Form >
-    </div >
+      </Form>
+    </div>
   )
 }
 

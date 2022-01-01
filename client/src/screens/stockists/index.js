@@ -8,74 +8,73 @@ import { contactSupport } from "../../redux/actions/user";
 import { Marker, Map, GoogleApiWrapper } from 'google-maps-react';
 import InfoWindowEx from "./InfoWindowEx";
 import StoreModule from "../../components/store-module";
+import { getStore } from "redux/actions/store";
+import { setStore } from "redux/actions/store";
 
 let autoComplete;
 
-const Stockists = () => {
+const Stockists = (props) => {
 
-  const data = [
-    {
-      name: "Mumbai",
-      title: "Mumbai",
-      lat: 19.0760,
-      lng: 72.8777,
-      id: 1
-    },
-    {
-      name: "Surat",
-      title: "Surat",
-      lat: 21.203510,
-      lng: 72.839230,
-      id: 2
-    },
-    {
-      name: "Pune",
-      title: "pune",
-      lat: 18.520430,
-      lng: 73.856743,
-      id: 3
-    },
-    {
-      name: "Chennai",
-      title: "Chennai",
-      lat: 13.072090,
-      lng: 80.201860,
-      id: 4
-    }
-  ];
+  // const data = [
+  //   {
+  //     name: "Mumbai",
+  //     title: "Mumbai",
+  //     lat: 19.0760,
+  //     lng: 72.8777,
+  //     id: 1
+  //   },
+  //   {
+  //     name: "Surat",
+  //     title: "Surat",
+  //     lat: 21.203510,
+  //     lng: 72.839230,
+  //     id: 2
+  //   },
+  //   {
+  //     name: "Pune",
+  //     title: "pune",
+  //     lat: 18.520430,
+  //     lng: 73.856743,
+  //     id: 3
+  //   },
+  //   {
+  //     name: "Chennai",
+  //     title: "Chennai",
+  //     lat: 13.072090,
+  //     lng: 80.201860,
+  //     id: 4
+  //   }
+  // ];
 
-  const { state: { order } = {} } = useLocation();
   const dispatch = useDispatch();
-  const { userStatus, currentUser = {} } = useSelector(({ user }) => {
-    const { userStatus, currentUser } = user;
-    return { userStatus, currentUser };
-  });
-  const { _id: customer, email = '', name = '' } = currentUser;
-  const [places, setPlaces] = useState(data);
+  const { allStore, storeStatus } = useSelector(({ store }) => ({
+    allStore: store.stores,
+    storeStatus: store.storeStatus,
+  }));
+
+  console.log("allStore", allStore)
+
+  const [places, setPlaces] = useState(allStore);
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState();
   const [activeMarker, setActiveMarker] = useState();
   const [storeModule, showStoreModule] = useState(false);
   const [editStoreDetail, showEditStoreDetails] = useState(null);
   const [deleteStoreDetail, showDeleteStoreDetails] = useState(null);
-  const [activeIndex, setActiveIndex] = React.useState(0);
   const [addStoreDetail, showAddStoreDetails] = useState(null);
-
-  const [contactFields, setContactFields] = useState({
-    customer,
-    order,
-    email,
-    name,
-    subject: '',
-    description: '',
-  });
-
-  //search location
-
-
+  const [isForm, setIsForm] = useState(false);
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
 
+  useEffect(() => dispatch(getStore()), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => setStore(allStore), [allStore]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (addStoreDetail || editStoreDetail) {
+      setIsForm(true);
+    } else {
+      setIsForm(false);
+    }
+  })
 
   const loadScript = (url, callback) => {
     let script = document.createElement("script");
@@ -94,7 +93,7 @@ const Stockists = () => {
 
     script.src = url;
     document.getElementsByTagName("head")[0].appendChild(script);
-  };
+  }
 
 
   useEffect(() => {
@@ -122,12 +121,9 @@ const Stockists = () => {
 
   //end search
 
-  const handleInputChange = (e) => setContactFields({ ...contactFields, [e.target.name]: e.target.value });
-
   const handleSupportQuery = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(contactSupport(contactFields));
   };
 
   const containerStyle = {
@@ -158,11 +154,12 @@ const Stockists = () => {
     userRole = JSON.parse(userDetail?.currentUser);
   }
 
+  console.log("places", places);
   return (
     <>
       <MenuHeader />
       <div className="main">
-        {storeModule ?
+        {!storeModule ?
           <Container>
             <Col lg={24} className="border-bottom">
               {userRole.role === "ADMIN" ?
@@ -195,7 +192,7 @@ const Stockists = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <AppAlert alert={userStatus} />
+                  <AppAlert alert={storeStatus} />
                 </Row>
               </Form>
             </Col>
@@ -208,9 +205,9 @@ const Stockists = () => {
                 initialCenter={{ lat: 19.0760, lng: 72.8777 }}
                 onDragend={centerMoved}
                 onClick={mapClicked}
-                places={data}
+                places={allStore}
               >
-                {places.map((place, i) => {
+                {places?.map((place, i) => {
                   return (
                     <Marker
                       key={place.id}

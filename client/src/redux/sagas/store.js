@@ -23,7 +23,7 @@ export function* postStoreAsync() {
     try {
       yield put(setStoreStatus({ status: STATUS.LOADING }));
       const { store: { store = [] } = {} } = yield select();
-      const response = yield call(storeService.postNewStore, params);
+      const response = yield call(storeService.postStore, params);
       store.push(response);
       yield put(setStore(store));
       yield put(setStoreStatus({ status: STATUS.SUCCESS, message: 'Store added successfully' }));

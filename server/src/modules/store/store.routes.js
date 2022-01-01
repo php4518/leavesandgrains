@@ -9,9 +9,9 @@ const paramValidation = {
         body: Joi.object({
             name: Joi.string().required(),
             address: Joi.string().required(),
-            lat: Joi.string().required(),
-            lng: Joi.string().required(),
-            kilometer: Joi.string().required()
+            lat: Joi.number().required(),
+            lng: Joi.number().required(),
+            kilometer: Joi.number().required()
         }),
     },
     updateStore: {
@@ -21,9 +21,9 @@ const paramValidation = {
         body: Joi.object({
             name: Joi.string().required(),
             address: Joi.string().required(),
-            lat: Joi.string().required(),
-            lng: Joi.string().required(),
-            kilometer: Joi.string().required(),
+            lat: Joi.number().required(),
+            lng: Joi.number().required(),
+            kilometer: Joi.number().required(),
         }),
     }
 }

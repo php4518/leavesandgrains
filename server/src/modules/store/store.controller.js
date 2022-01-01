@@ -88,7 +88,7 @@ async function update(req, res, next) {
 async function getAll(req, res, next) {
   let { filters = {} } = req.query;
   try {
-    filters = { isActive: true, ...filters };
+    filters = { ...filters };
     const store = await Store.getAll(filters);
     return res.json(store);
   } catch (error) {
