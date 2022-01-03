@@ -7,6 +7,7 @@ import { Marker, Map, GoogleApiWrapper } from 'google-maps-react';
 import InfoWindowEx from "./InfoWindowEx";
 import StoreModule from "../../components/store-module";
 import { getStore, setStore } from "redux/actions/store";
+import moment from "moment";
 
 let autoComplete;
 
@@ -28,6 +29,8 @@ const Stockists = (props) => {
   const [isForm, setIsForm] = useState(false);
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
+  const [isActive, setIsActive] = useState(0);
+
 
   useEffect(() => dispatch(getStore()), []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => setStore(allStore), [allStore]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -74,12 +77,12 @@ const Stockists = (props) => {
   }
 
   const centerMoved = (mapProps, map) => {
-    console.log("map",map);
-    console.log("mapProps",mapProps);
+    console.log("map", map);
+    console.log("mapProps", mapProps);
   }
 
   const mapClicked = (mapProps, map, clickEvent) => {
-    console.log("lat",clickEvent.latLng.lat(), "long",clickEvent.latLng.lng());
+    console.log("lat", clickEvent.latLng.lat(), "long", clickEvent.latLng.lng());
   }
 
   const onMarkerClick = (props, marker, e) => {
@@ -98,85 +101,108 @@ const Stockists = (props) => {
     userRole = JSON.parse(userDetail?.currentUser);
   }
 
+  console.log("allStore", allStore.map(rep => { return rep }));
   return (
     <>
       <MenuHeader />
       <div className="main">
         {!storeModule ?
-          <Container>
-            <Col lg={24} className="border-bottom">
-              {userRole.role === "ADMIN" ?
-                <Button className="btn-info float-right" color="info" onClick={(e) => showStoreModule(true)}>
-                  Add New Store
-                </Button>
-                : null
-              }
-              <h3 className="text-uppercase font-weight-bold mb-3">Stockists</h3>
-            </Col>
-            <Col className="ml-auto mr-auto mt-5" md="10">
-              <Form onSubmit={handleSupportQuery}>
-                <Row>
-                  <Col md="8">
-                    <div className="search-location-input">
-                      <input
-                        className="form-control"
-                        name="mapplace"
-                        ref={autoCompleteRef}
-                        onChange={event => setQuery(event.target.value)}
-                        placeholder="Enter a City"
-                        value={query}
-                      />
+          <>
+            <Container>
+              <Col lg={24} className="border-bottom">
+                {userRole.role === "ADMIN" ?
+                  <Button className="btn-info float-right" color="info" onClick={(e) => showStoreModule(true)}>
+                    Add New Store
+                  </Button>
+                  : null
+                }
+                <h3 className="text-uppercase font-weight-bold mb-3">Stockists</h3>
+              </Col>
+              <Col className="ml-auto mr-auto mt-5" md="10">
+                <Form onSubmit={handleSupportQuery}>
+                  <Row>
+                    <Col md="8">
+                      <div id="abc" className="search-location-input">
+                        <input
+                          className="form-control"
+                          name="mapplace"
+                          ref={autoCompleteRef}
+                          onChange={event => setQuery(event.target.value)}
+                          placeholder="Enter a City"
+                          value={query}
+                        />
+                      </div>
+                    </Col>
+                    <Col md="3">
+                      <Button className="btn-fill float-right" color="danger" size="lg">
+                        Find Stores
+                      </Button>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <AppAlert alert={storeStatus} />
+                  </Row>
+                </Form>
+              </Col>
+              <hr />
+              <Row>
+                <Col md="3">
+                  <div style={{ height: '80vh', width: '100%', overflowY: 'scroll' }}>
+                    <div className="list-group">
+                      {allStore?.map((place, i) => (
+                        <a href="#" onClick={() => setIsActive(i)} className={`list-group-item list-group-item-action flex-column align-items-start ${isActive === i && "active"}`}>
+                          <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{place.name}</h5>
+                            <small>{moment(place.createdAt).format("MMM YYYY")}</small>
+                          </div>
+                          <p className="mb-1">{place.address}</p>
+                          <Button className="btn">View on map</Button>
+                        </a>
+                      ))}
                     </div>
-                  </Col>
-                  <Col md="3">
-                    <Button className="btn-fill float-right" color="danger" size="lg">
-                      Find Stores
-                    </Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <AppAlert alert={storeStatus} />
-                </Row>
-              </Form>
-            </Col>
-            <hr />
-            <div style={{ height: '100vh', width: '100%' }}>
-              <Map
-                google={window.google}
-                zoom={8}
-                containerStyle={containerStyle}
-                initialCenter={{ lat: 19.0760, lng: 72.8777 }}
-                onDragend={centerMoved}
-                onClick={mapClicked}
-                places={allStore}
-              >
-                {allStore?.map((place, i) => {
-                  return (
-                    <Marker
-                      key={i}
-                      place_={place}
-                      onClick={onMarkerClick}
-                      position={{ lat: place.lat, lng: place.lng }} />
-                  )
-                })}
-
-                <InfoWindowEx
-                  marker={activeMarker}
-                  visible={showingInfoWindow}
-                >
-                  <div>
-                    <h3>{selectedPlace?.name}</h3>
-                    <button
-                      type="button"
-                      onClick={showDetails.bind(this, selectedPlace)}
-                    >
-                      Show details
-                    </button>
                   </div>
-                </InfoWindowEx>
-              </Map>
-            </div>
-          </Container>
+                </Col>
+                <Col>
+                  <div style={{ height: '80vh', width: '100%' }}>
+                    <Map
+                      google={window.google}
+                      zoom={8}
+                      containerStyle={containerStyle}
+                      initialCenter={{ lat: 19.0760, lng: 72.8777 }}
+                      onDragend={centerMoved}
+                      onClick={mapClicked}
+                      places={allStore}
+                    >
+                      {allStore?.map((place, i) => {
+                        return (
+                          <Marker
+                            key={i}
+                            place_={place}
+                            onClick={onMarkerClick}
+                            position={{ lat: place.lat, lng: place.lng }} />
+                        )
+                      })}
+
+                      <InfoWindowEx
+                        marker={activeMarker}
+                        visible={showingInfoWindow}
+                      >
+                        <div>
+                          <h3>{selectedPlace?.name}</h3>
+                          <button
+                            type="button"
+                            onClick={showDetails.bind(this, selectedPlace)}
+                          >
+                            Show details
+                          </button>
+                        </div>
+                      </InfoWindowEx>
+                    </Map>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
+          </>
           :
           <Container>
             {editStoreDetail && editStoreDetail !== '' ?
