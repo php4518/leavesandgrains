@@ -86,9 +86,16 @@ const Stockists = (props) => {
   }
 
   const onMarkerClick = (props, marker, e) => {
+    console.log("marker", marker);
     setShowingInfoWindow(true);
-    setSelectedPlace(props.place_);
-    setActiveMarker(marker);
+    if (typeof (marker) === "number") {
+      console.log("props", props);
+      setSelectedPlace(props);
+      setActiveMarker(marker);
+    } else {
+      setSelectedPlace(props.place_);
+      setActiveMarker(marker);
+    }
   }
 
   const showDetails = (place) => {
@@ -101,7 +108,6 @@ const Stockists = (props) => {
     userRole = JSON.parse(userDetail?.currentUser);
   }
 
-  console.log("allStore", allStore.map(rep => { return rep }));
   return (
     <>
       <MenuHeader />
@@ -150,7 +156,7 @@ const Stockists = (props) => {
                   <div style={{ height: '80vh', width: '100%', overflowY: 'scroll' }}>
                     <div className="list-group">
                       {allStore?.map((place, i) => (
-                        <a href="#" onClick={() => setIsActive(i)} className={`list-group-item list-group-item-action flex-column align-items-start ${isActive === i && "active"}`}>
+                        <a href="#" key={i} onClick={() => { setIsActive(i); onMarkerClick(place, i) }} className={`list-group-item list-group-item-action flex-column align-items-start ${isActive === i && "active"}`}>
                           <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">{place.name}</h5>
                             <small>{moment(place.createdAt).format("MMM YYYY")}</small>
@@ -188,7 +194,8 @@ const Stockists = (props) => {
                         visible={showingInfoWindow}
                       >
                         <div>
-                          <h3>{selectedPlace?.name}</h3>
+                          <h3 className="font-weight-bolder">{selectedPlace?.name}</h3>
+                          <p>{selectedPlace?.address}</p>
                           <button
                             type="button"
                             onClick={showDetails.bind(this, selectedPlace)}
