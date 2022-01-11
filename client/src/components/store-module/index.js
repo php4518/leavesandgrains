@@ -12,16 +12,6 @@ const StoreModule = ({ store = false, toggleModal }) => {
     storeStatus: store.storeStatus,
   }));
 
-  let markers = [
-    {
-      name: "Current position",
-      position: {
-        lat: 21.1702,
-        lng: 72.8311
-      }
-    }
-  ]
-
   const [validationFields, setValidationFields] = useState({});
 
   var userRole = '';
@@ -94,9 +84,6 @@ const StoreModule = ({ store = false, toggleModal }) => {
     setAddFields({ ...addFields, ['lat']: lat, ['lng']: lng });
   }
 
-  // if (!store) return null
-  console.log("markerPos", markerPos);
-  console.log("addFields", addFields);
   return (
     <div>
       <div className="modal-header modal-title">

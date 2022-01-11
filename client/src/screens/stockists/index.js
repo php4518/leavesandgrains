@@ -8,6 +8,7 @@ import InfoWindowEx from "./InfoWindowEx";
 import StoreModule from "../../components/store-module";
 import { getStore, setStore } from "redux/actions/store";
 import moment from "moment";
+import DeleteStoreDetails from "../../components/store-module/delete-store";
 
 let autoComplete;
 
@@ -23,22 +24,28 @@ const Stockists = (props) => {
   const [selectedPlace, setSelectedPlace] = useState();
   const [activeMarker, setActiveMarker] = useState();
   const [storeModule, showStoreModule] = useState(false);
-  const [editStoreDetail, showEditStoreDetails] = useState(null);
-  const [deleteStoreDetail, showDeleteStoreDetails] = useState(null);
-  const [addStoreDetail, showAddStoreDetails] = useState(null);
+  const [editStoreDetail, showEditStoreDetails] = useState(false);
+  const [deleteStoreDetail, showDeleteStoreDetails] = useState(false);
   const [isForm, setIsForm] = useState(false);
+  const [addStoreDetail, showAddStoreDetails] = useState(null);
+  const [mapAddress, setMapAddress] = useState({ lat: 19.0760, lng: 72.8777 });
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
   const [isActive, setIsActive] = useState(0);
 
 
-  useEffect(() => dispatch(getStore()), []); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => setStore(allStore), [allStore]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => dispatch(getStore()), []);
+  useEffect(() => setStore(allStore), [allStore]);
   useEffect(() => {
     if (addStoreDetail || editStoreDetail) {
       setIsForm(true);
+      if (addStoreDetail)
+        setMapAddress({ lat: 19.0760, lng: 72.8777 })
+      else
+        setMapAddress({ lat: 19.0760, lng: 72.8777 })
     } else {
       setIsForm(false);
+      // setMapAddress({ lat: 19.0760, lng: 72.8777 })
     }
   })
 
@@ -62,15 +69,10 @@ const Stockists = (props) => {
     const addressObject = autoComplete.getPlace();
     const query = addressObject.formatted_address;
     updateQuery(query);
-    console.log(addressObject);
+    console.log("addressObject", addressObject);
   }
 
   //end search
-
-  const handleSupportQuery = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
 
   const containerStyle = {
     position: 'relative',
@@ -86,16 +88,13 @@ const Stockists = (props) => {
   }
 
   const onMarkerClick = (props, marker, e) => {
-    console.log("marker", marker);
     setShowingInfoWindow(true);
-    if (typeof (marker) === "number") {
-      console.log("props", props);
-      setSelectedPlace(props);
-      setActiveMarker(marker);
-    } else {
-      setSelectedPlace(props.place_);
-      setActiveMarker(marker);
-    }
+    setSelectedPlace(props.place_);
+    setActiveMarker(marker);
+  }
+
+  const onListClick = (name) => {
+    console.log("name", name);
   }
 
   const showDetails = (place) => {
@@ -125,30 +124,28 @@ const Stockists = (props) => {
                 <h3 className="text-uppercase font-weight-bold mb-3">Stockists</h3>
               </Col>
               <Col className="ml-auto mr-auto mt-5" md="10">
-                <Form onSubmit={handleSupportQuery}>
-                  <Row>
-                    <Col md="8">
-                      <div id="abc" className="search-location-input">
-                        <input
-                          className="form-control"
-                          name="mapplace"
-                          ref={autoCompleteRef}
-                          onChange={event => setQuery(event.target.value)}
-                          placeholder="Enter a City"
-                          value={query}
-                        />
-                      </div>
-                    </Col>
-                    <Col md="3">
-                      <Button className="btn-fill float-right" color="danger" size="lg">
-                        Find Stores
-                      </Button>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <AppAlert alert={storeStatus} />
-                  </Row>
-                </Form>
+                <Row>
+                  <Col md="11">
+                    <div id="abc" className="search-location-input">
+                      <input
+                        className="form-control"
+                        name="mapplace"
+                        ref={autoCompleteRef}
+                        onChange={event => setQuery(event.target.value)}
+                        placeholder="Enter a City"
+                        value={query}
+                      />
+                    </div>
+                  </Col>
+                  {/* <Col md="3">
+                    <Button className="btn-fill float-right" color="danger" size="lg">
+                      Find Stores
+                    </Button>
+                  </Col> */}
+                </Row>
+                <Row>
+                  <AppAlert alert={storeStatus} />
+                </Row>
               </Col>
               <hr />
               <Row>
@@ -156,14 +153,37 @@ const Stockists = (props) => {
                   <div style={{ height: '80vh', width: '100%', overflowY: 'scroll' }}>
                     <div className="list-group">
                       {allStore?.map((place, i) => (
-                        <a href="#" key={i} onClick={() => { setIsActive(i); onMarkerClick(place, i) }} className={`list-group-item list-group-item-action flex-column align-items-start ${isActive === i && "active"}`}>
-                          <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{place.name}</h5>
-                            <small>{moment(place.createdAt).format("MMM YYYY")}</small>
-                          </div>
-                          <p className="mb-1">{place.address}</p>
-                          <Button className="btn">View on map</Button>
-                        </a>
+                        <>
+                          <a href="#" key={i} onClick={() => setIsActive(i)} className={`image list-group-item list-group-item-action flex-column align-items-start ${isActive === i && "active"}`}>
+                            <div className="d-flex w-100 justify-content-between">
+                              <h5 className="mb-1">{place.name}</h5>
+                              <small>{moment(place.createdAt).format("MMM YYYY")}</small>
+                            </div>
+                            <p className="mb-1">{place.address}</p>
+                            <Button className="btn" onClick={() => onListClick(place)}>View on map</Button>
+                            {userRole && userRole?.role === "ADMIN" ?
+                              <Row>
+                                <Button
+                                  aria-label="Edit"
+                                  className="edit text col"
+                                  type="button"
+                                  onClick={() => showEditStoreDetails(true)}
+                                >
+                                  <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                                </Button>
+                                <Button
+                                  aria-label="Delete"
+                                  className="delete text col"
+                                  type="button"
+                                  onClick={() => showDeleteStoreDetails(true)}
+                                >
+                                  <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                                </Button>
+                              </Row>
+                              : null}
+                          </a>
+
+                        </>
                       ))}
                     </div>
                   </div>
@@ -174,7 +194,7 @@ const Stockists = (props) => {
                       google={window.google}
                       zoom={8}
                       containerStyle={containerStyle}
-                      initialCenter={{ lat: 19.0760, lng: 72.8777 }}
+                      initialCenter={mapAddress}
                       onDragend={centerMoved}
                       onClick={mapClicked}
                       places={allStore}
@@ -200,7 +220,7 @@ const Stockists = (props) => {
                             type="button"
                             onClick={showDetails.bind(this, selectedPlace)}
                           >
-                            Show details
+                            Directions
                           </button>
                         </div>
                       </InfoWindowEx>
@@ -220,6 +240,7 @@ const Stockists = (props) => {
           </Container>
         }
       </div>
+      <DeleteStoreDetails store={deleteStoreDetail} toggleModal={() => showDeleteStoreDetails(null)} />
     </>
   )
 }

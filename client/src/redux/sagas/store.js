@@ -80,7 +80,7 @@ export function* deleteStoreAsync() {
 }
 
 
-export function* getMealsAsync() {
+export function* getStoreAsync() {
   yield takeLatest(GET_STORE_DATA, function* ({ params } = {}) {
     try {
       yield put(setStoreStatus({ status: STATUS.LOADING }));
@@ -97,7 +97,7 @@ export function* getMealsAsync() {
 export default function* storeSaga() {
   yield all([
     fork(getAllStoreAsync),
-    fork(getMealsAsync),
+    fork(getStoreAsync),
     fork(postStoreAsync),
     fork(updateStoreAsync),
     fork(deleteStoreAsync),
