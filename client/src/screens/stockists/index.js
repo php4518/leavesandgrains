@@ -5,7 +5,8 @@ import AppAlert from "../../components/alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Marker, Map, GoogleApiWrapper } from 'google-maps-react';
 import InfoWindowEx from "./InfoWindowEx";
-import StoreModule from "../../components/store-module";
+import StoreCard from "../../components/store-module";
+import AddStoreModule from "../../components/store-module/add-store";
 import { getStore, setStore } from "redux/actions/store";
 import moment from "moment";
 import DeleteStoreDetails from "../../components/store-module/delete-store";
@@ -20,14 +21,15 @@ const Stockists = (props) => {
     storeStatus: store.storeStatus,
   }));
 
+  console.log("allStore",allStore);
+  // console.log("store",store);
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState();
   const [activeMarker, setActiveMarker] = useState();
-  const [storeModule, showStoreModule] = useState(false);
-  const [editStoreDetail, showEditStoreDetails] = useState(false);
-  const [deleteStoreDetail, showDeleteStoreDetails] = useState(false);
+  const [addStoreModule, showAddStoreModule] = useState(null);
+  const [editStoreDetail, showEditStoreDetails] = useState(null);
+  const [deleteStoreDetail, showDeleteStoreDetails] = useState(null);
   const [isForm, setIsForm] = useState(false);
-  const [addStoreDetail, showAddStoreDetails] = useState(null);
   const [mapAddress, setMapAddress] = useState({ lat: 19.0760, lng: 72.8777 });
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
@@ -37,9 +39,9 @@ const Stockists = (props) => {
   useEffect(() => dispatch(getStore()), []);
   useEffect(() => setStore(allStore), [allStore]);
   useEffect(() => {
-    if (addStoreDetail || editStoreDetail) {
+    if (addStoreModule || editStoreDetail) {
       setIsForm(true);
-      if (addStoreDetail)
+      if (addStoreModule)
         setMapAddress({ lat: 19.0760, lng: 72.8777 })
       else
         setMapAddress({ lat: 19.0760, lng: 72.8777 })
@@ -111,12 +113,12 @@ const Stockists = (props) => {
     <>
       <MenuHeader />
       <div className="main">
-        {!storeModule ?
+        {!addStoreModule ?
           <>
             <Container>
               <Col lg={24} className="border-bottom">
                 {userRole.role === "ADMIN" ?
-                  <Button className="btn-info float-right" color="info" onClick={(e) => showStoreModule(true)}>
+                  <Button className="btn-info float-right" color="info" onClick={showAddStoreModule}>
                     Add New Store
                   </Button>
                   : null
@@ -152,39 +154,15 @@ const Stockists = (props) => {
                 <Col md="3">
                   <div style={{ height: '80vh', width: '100%', overflowY: 'scroll' }}>
                     <div className="list-group">
-                      {allStore?.map((place, i) => (
-                        <>
-                          <a href="#" key={i} onClick={() => setIsActive(i)} className={`image list-group-item list-group-item-action flex-column align-items-start ${isActive === i && "active"}`}>
-                            <div className="d-flex w-100 justify-content-between">
-                              <h5 className="mb-1">{place.name}</h5>
-                              <small>{moment(place.createdAt).format("MMM YYYY")}</small>
-                            </div>
-                            <p className="mb-1">{place.address}</p>
-                            <Button className="btn" onClick={() => onListClick(place)}>View on map</Button>
-                            {userRole && userRole?.role === "ADMIN" ?
-                              <Row>
-                                <Button
-                                  aria-label="Edit"
-                                  className="edit text col"
-                                  type="button"
-                                  onClick={() => showEditStoreDetails(true)}
-                                >
-                                  <span aria-hidden={true}><i className="fa fa-pencil" aria-hidden="true"></i></span>
-                                </Button>
-                                <Button
-                                  aria-label="Delete"
-                                  className="delete text col"
-                                  type="button"
-                                  onClick={() => showDeleteStoreDetails(true)}
-                                >
-                                  <span aria-hidden={true}><i className="fa fa-trash" aria-hidden="true"></i></span>
-                                </Button>
-                              </Row>
-                              : null}
-                          </a>
-
-                        </>
-                      ))}
+                      {
+                        (!allStore.length) ? <Col className="no-data-available">No blogs available</Col> :
+                          allStore.map((item, index) =>
+                              <StoreCard store={item} onViewClick={showingInfoWindow} onEditClick={showEditStoreDetails} onDeleteClick={showDeleteStoreDetails} />
+                          )
+                      }
+                      {/* {allStore?.map((place, i) => (
+                        <StoreCard store={item} />
+                      ))} */}
                     </div>
                   </div>
                 </Col>
@@ -233,9 +211,9 @@ const Stockists = (props) => {
           :
           <Container>
             {editStoreDetail && editStoreDetail !== '' ?
-              <StoreModule store={editStoreDetail} toggleModal={() => showEditStoreDetails(null)} />
+              <AddStoreModule store={editStoreDetail} toggleModal={() => showEditStoreDetails(null)} />
               :
-              <StoreModule store={addStoreDetail} toggleModal={() => showAddStoreDetails(null)} />
+              <AddStoreModule store={addStoreModule} toggleModal={() => showAddStoreModule(null)} />
             }
           </Container>
         }

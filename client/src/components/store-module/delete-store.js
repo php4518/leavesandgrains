@@ -14,6 +14,7 @@ const DeleteStoreDetails = ({ store = false, toggleModal }) => {
     const deletStoreRecord = () => {
         toggleModal();
         store = [];
+        console.log("addFields",addFields);
         if (addFields?._id) {
             dispatch(deleteStore(addFields?._id));
         }
