@@ -4,7 +4,8 @@ import { getImageUrl } from "../../helpers/utils";
 import moment from 'moment';
 
 const StoreCard = ({
-    store, onViewClick = () => {
+    store, isActive, onIsActive = () => {
+    }, onViewClick = () => {
     }, onEditClick = () => {
     }, onDeleteClick = () => {
     }
@@ -17,8 +18,7 @@ const StoreCard = ({
     }
 
     return (
-        // <a href="#" key={i} onClick={() => setIsActive(i)} className={`image list-group-item list-group-item-action flex-column align-items-start ${isActive === i && "active"}`}>
-        <a href="#" className={`image list-group-item list-group-item-action flex-column align-items-start`}>
+        <a href="#" onClick={() => onIsActive()} className={`image list-group-item list-group-item-action flex-column align-items-start ${isActive === store._id && "active"}`}>
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">{store?.name}</h5>
                 <small>{moment(store?.createdAt).format("MMM YYYY")}</small>

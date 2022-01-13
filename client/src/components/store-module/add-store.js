@@ -82,8 +82,9 @@ const StoreModule = ({ store = false, toggleModal }) => {
     const lng = latLng.lng();
     setMarkerPos(latLng)
     setAddFields({ ...addFields, ['lat']: lat, ['lng']: lng });
-    console.log("markerPos",markerPos);
   }
+
+  console.log("store",store);
 
   return (
     <div>

@@ -8,7 +8,6 @@ import InfoWindowEx from "./InfoWindowEx";
 import StoreCard from "../../components/store-module";
 import AddStoreModule from "../../components/store-module/add-store";
 import { getStore, setStore } from "redux/actions/store";
-import moment from "moment";
 import DeleteStoreDetails from "../../components/store-module/delete-store";
 
 let autoComplete;
@@ -21,14 +20,12 @@ const Stockists = (props) => {
     storeStatus: store.storeStatus,
   }));
 
-  console.log("allStore",allStore);
-  // console.log("store",store);
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState();
-  const [activeMarker, setActiveMarker] = useState();
   const [addStoreModule, showAddStoreModule] = useState(null);
   const [editStoreDetail, showEditStoreDetails] = useState(null);
   const [deleteStoreDetail, showDeleteStoreDetails] = useState(null);
+  const [infoWindowPosition, setInfoWindowPosition] = useState(null);
   const [isForm, setIsForm] = useState(false);
   const [mapAddress, setMapAddress] = useState({ lat: 19.0760, lng: 72.8777 });
   const [query, setQuery] = useState("");
@@ -91,22 +88,25 @@ const Stockists = (props) => {
 
   const onMarkerClick = (props, marker, e) => {
     setShowingInfoWindow(true);
-    setSelectedPlace(props.place_);
-    setActiveMarker(marker);
-  }
-
-  const onListClick = (name) => {
-    console.log("name", name);
+    setSelectedPlace(props?.place_);
+    setInfoWindowPosition(props.place_);
+    // setActiveMarker(marker);
   }
 
   const showDetails = (place) => {
-    console.log(place);
+    window.open("https://maps.google.com?q=" + place.lat + "," + place.lng);
   };
 
   var userRole = '';
   const userDetail = JSON.parse(localStorage.getItem("persist:user"));
   if (userDetail && userDetail?.currentUser) {
     userRole = JSON.parse(userDetail?.currentUser);
+  }
+
+  const viewMapInfo = (place) => {
+    setShowingInfoWindow(true);
+    setSelectedPlace(place);
+    setInfoWindowPosition(place)
   }
 
   return (
@@ -157,12 +157,9 @@ const Stockists = (props) => {
                       {
                         (!allStore.length) ? <Col className="no-data-available">No blogs available</Col> :
                           allStore.map((item, index) =>
-                              <StoreCard store={item} onViewClick={showingInfoWindow} onEditClick={showEditStoreDetails} onDeleteClick={showDeleteStoreDetails} />
+                            <StoreCard key={index} onIsActive={() => setIsActive(item._id)} isActive={isActive} store={item} onViewClick={viewMapInfo} onEditClick={showEditStoreDetails} onDeleteClick={showDeleteStoreDetails} />
                           )
                       }
-                      {/* {allStore?.map((place, i) => (
-                        <StoreCard store={item} />
-                      ))} */}
                     </div>
                   </div>
                 </Col>
@@ -186,11 +183,7 @@ const Stockists = (props) => {
                             position={{ lat: place.lat, lng: place.lng }} />
                         )
                       })}
-
-                      <InfoWindowEx
-                        marker={activeMarker}
-                        visible={showingInfoWindow}
-                      >
+                      <InfoWindowEx position={infoWindowPosition} visible={showingInfoWindow}>
                         <div>
                           <h3 className="font-weight-bolder">{selectedPlace?.name}</h3>
                           <p>{selectedPlace?.address}</p>
