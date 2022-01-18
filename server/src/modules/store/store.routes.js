@@ -18,10 +18,14 @@ const paramValidation = {
             id: Joi.string().required(),
         }),
         body: Joi.object({
+            _id: Joi.string(),
             name: Joi.string().required(),
             address: Joi.string().required(),
             lat: Joi.number().required(),
-            lng: Joi.number().required()
+            lng: Joi.number().required(),
+            createdAt: Joi.string(),
+            updatedAt: Joi.string(),
+            __v: Joi.number()
         }),
     }
 }

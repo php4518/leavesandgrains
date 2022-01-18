@@ -14,7 +14,6 @@ const DeleteStoreDetails = ({ store = false, toggleModal }) => {
     const deletStoreRecord = () => {
         toggleModal();
         store = [];
-        console.log("addFields",addFields);
         if (addFields?._id) {
             dispatch(deleteStore(addFields?._id));
         }
@@ -36,7 +35,7 @@ const DeleteStoreDetails = ({ store = false, toggleModal }) => {
                 </button>
             </div>
             <div className="modal-body">
-                <p>Are you sure want to delete this record..?</p>
+                <p>Are you sure want to delete <b>{addFields?.name}</b> record..?</p>
             </div>
             <div className="modal-footer">
                 <Button block className="btn-round w-25 my-3 my-sm-5 mx-auto" onClick={deletStoreRecord} color="danger" type="submit">

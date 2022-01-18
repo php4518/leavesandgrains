@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
 import { postStore, updateStore, getStore } from '../../redux/actions/store';
 import { Marker, Map } from 'google-maps-react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const StoreModule = ({ store = false, toggleModal }) => {
 
+
+  console.log("store", store);
+console.log("toggleModal",toggleModal);
   const dispatch = useDispatch();
   // const { allStore, storeStatus } = useSelector(({ store }) => ({
   //   allStore: store.store,
@@ -20,19 +23,23 @@ const StoreModule = ({ store = false, toggleModal }) => {
     userRole = JSON.parse(userDetail?.currentUser);
   }
 
-  const [addFields, setAddFields] = useState([]);
+  const [addFields, setAddFields] = useState();
   const [markerPos, setMarkerPos] = useState([]);
 
   useEffect(() => {
     if (store?._id) {
       setAddFields(store);
-     }
+    }
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          setMarkerPos(position.coords);
-        }
-      )
+      if (store?._id) {
+        setMarkerPos(store)
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setMarkerPos(position.coords);
+          }
+        )
+      }
     } else {
       console.log("turn on allow location")
     }
@@ -49,15 +56,14 @@ const StoreModule = ({ store = false, toggleModal }) => {
     return !Object.keys(fields).length;
   };
 
-  const handleInputChange = (e) => {
-    setAddFields({ ...addFields, [e.target.name]: e.target.value });
-  }
+  const handleInputChange = (e) => setAddFields({ ...addFields, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (validateInputs()) {
+      console.log("addFields?._id",addFields?._id);
       if (!addFields?._id) {
         dispatch(postStore(addFields));
         toggleModal();
@@ -78,13 +84,11 @@ const StoreModule = ({ store = false, toggleModal }) => {
 
   const centerMoved = (coord, index) => {
     const { latLng } = coord;
-    const lat = latLng.lat();
-    const lng = latLng.lng();
+    const lat = parseFloat(latLng.lat());
+    const lng = parseFloat(latLng.lng());
     setMarkerPos(latLng)
     setAddFields({ ...addFields, ['lat']: lat, ['lng']: lng });
   }
-
-  console.log("store",store);
 
   return (
     <div>
@@ -93,15 +97,7 @@ const StoreModule = ({ store = false, toggleModal }) => {
           `Add New Store` :
           `Update Store Detail`
         }
-        {/* <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(); store = [] }}></i> */}
-        <button
-          aria-label="Close"
-          className="close"
-          type="button"
-          onClick={toggleModal}
-        >
-          <i className="fa fa-times float-right close" aria-hidden="true"></i>
-        </button>
+        <i className="fa fa-times float-right close" aria-hidden="true" onClick={() => { toggleModal(); store = [] }}></i>
       </div>
       <Form onSubmit={handleSubmit} style={{ display: "contents" }}>
         <div className="modal-body">
@@ -132,7 +128,7 @@ const StoreModule = ({ store = false, toggleModal }) => {
               >
                 <Marker
                   draggable={true}
-                  position={{ lat: markerPos?.latitude,lng: markerPos?.longitude }}
+                  position={{ lat: markerPos?.latitude || markerPos?.lat, lng: markerPos?.longitude || markerPos?.lng }}
                   onDragend={(t, map, coord) => centerMoved(coord, t)}
                 />
               </Map>

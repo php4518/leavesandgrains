@@ -38,10 +38,6 @@ const Stockists = (props) => {
   useEffect(() => {
     if (addStoreModule || editStoreDetail) {
       setIsForm(true);
-      if (addStoreModule)
-        setMapAddress({ lat: 19.0760, lng: 72.8777 })
-      else
-        setMapAddress({ lat: 19.0760, lng: 72.8777 })
     } else {
       setIsForm(false);
       // setMapAddress({ lat: 19.0760, lng: 72.8777 })
@@ -68,7 +64,6 @@ const Stockists = (props) => {
     const addressObject = autoComplete.getPlace();
     const query = addressObject.formatted_address;
     updateQuery(query);
-    console.log("addressObject", addressObject);
   }
 
   //end search
@@ -113,9 +108,9 @@ const Stockists = (props) => {
     <>
       <MenuHeader />
       <div className="main">
-        {!addStoreModule ?
-          <>
-            <Container>
+        <Container>
+          {!addStoreModule ?
+            <>
               <Col lg={24} className="border-bottom">
                 {userRole.role === "ADMIN" ?
                   <Button className="btn-info float-right" color="info" onClick={showAddStoreModule}>
@@ -153,14 +148,14 @@ const Stockists = (props) => {
               <Row>
                 <Col md="3">
                   <div style={{ height: '80vh', width: '100%', overflowY: 'scroll' }}>
-                    <div className="list-group">
+                    <ul>
                       {
                         (!allStore.length) ? <Col className="no-data-available">No blogs available</Col> :
                           allStore.map((item, index) =>
                             <StoreCard key={index} onIsActive={() => setIsActive(item._id)} isActive={isActive} store={item} onViewClick={viewMapInfo} onEditClick={showEditStoreDetails} onDeleteClick={showDeleteStoreDetails} />
                           )
                       }
-                    </div>
+                    </ul>
                   </div>
                 </Col>
                 <Col>
@@ -199,17 +194,17 @@ const Stockists = (props) => {
                   </div>
                 </Col>
               </Row>
-            </Container>
-          </>
-          :
-          <Container>
-            {editStoreDetail && editStoreDetail !== '' ?
-              <AddStoreModule store={editStoreDetail} toggleModal={() => showEditStoreDetails(null)} />
-              :
-              <AddStoreModule store={addStoreModule} toggleModal={() => showAddStoreModule(null)} />
-            }
-          </Container>
-        }
+            </>
+            :
+            <>
+              {editStoreDetail && (editStoreDetail !== null) ?
+                <AddStoreModule store={editStoreDetail} toggleModal={() => showEditStoreDetails(null)} />
+                :
+                <AddStoreModule store={addStoreModule} toggleModal={() => showAddStoreModule(null)} />
+              }
+            </>
+          }
+        </Container>
       </div>
       <DeleteStoreDetails store={deleteStoreDetail} toggleModal={() => showDeleteStoreDetails(null)} />
     </>

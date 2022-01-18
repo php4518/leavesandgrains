@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
-import { postBlogs, updateBlogs, deleteBlogImg, getBlogs } from '../../redux/actions/blog';
+import { postBlogs, updateBlogs, getBlogs } from '../../redux/actions/blog';
 import { useDispatch } from "react-redux";
 import { getImageUrl } from "../../helpers/utils";
 import { Editor } from '@tinymce/tinymce-react';

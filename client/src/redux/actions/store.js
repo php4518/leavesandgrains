@@ -29,7 +29,7 @@ import {
     return { type: POST_STORE, params };
   };
   
-  export const updateStore = (id, params = []) => {
+  export const updateStore = (id, params = null) => {
     return { type: UPDATE_STORE, id, params };
   };
   

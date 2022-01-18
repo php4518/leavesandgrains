@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Col, Row } from "reactstrap";
-import { getImageUrl } from "../../helpers/utils";
 import moment from 'moment';
 
 const StoreCard = ({
@@ -18,13 +17,15 @@ const StoreCard = ({
     }
 
     return (
-        <a href="#" onClick={() => onIsActive()} className={`image list-group-item list-group-item-action flex-column align-items-start ${isActive === store._id && "active"}`}>
-            <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">{store?.name}</h5>
-                <small>{moment(store?.createdAt).format("MMM YYYY")}</small>
-            </div>
-            <p className="mb-1">{store?.address}</p>
-            <Button className="btn" onClick={() => onViewClick(store)}>View on map</Button>
+        <>
+            <li onClick={() => onIsActive()} className={`image list-group-item list-group-item-action flex-column align-items-start image ${isActive === store._id && "active"}`}>
+                <div className="d-flex justify-content-between">
+                    <h5 className="mb-1 font-weight-bolder">{store?.name}</h5>
+                    <small>{moment(store?.createdAt).format("MMM YYYY")}</small>
+                </div>
+                <p className="mb-1">{store?.address}</p>
+                <Button className="btn" onClick={() => onViewClick(store)}>View on map</Button>
+           
             {userRole && userRole?.role === "ADMIN" ?
                 <Row>
                     <Button
@@ -45,7 +46,8 @@ const StoreCard = ({
                     </Button>
                 </Row>
                 : null}
-        </a>
+                 </li>
+        </>
     )
 }
 
