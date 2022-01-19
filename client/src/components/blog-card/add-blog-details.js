@@ -37,11 +37,6 @@ const AddBlogDetails = ({ blog = false, toggleModal }) => {
     }, [blog]);
 
     useEffect(() => {
-        // a real application might do a fetch request here to get the content
-
-    }, []);
-
-    useEffect(() => {
         dispatch(getBlogs())
         setAddFields(blog, defaultFields);
         setTimeout(() => setInitTinyValue(blog.longDescription), 500);

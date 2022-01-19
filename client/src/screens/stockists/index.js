@@ -109,7 +109,8 @@ const Stockists = (props) => {
       <MenuHeader />
       <div className="main">
         <Container>
-          {!addStoreModule ?
+          <AppAlert alert={storeStatus} />
+          {!isForm ?
             <>
               <Col lg={24} className="border-bottom">
                 {userRole.role === "ADMIN" ?
@@ -140,9 +141,6 @@ const Stockists = (props) => {
                     </Button>
                   </Col> */}
                 </Row>
-                <Row>
-                  <AppAlert alert={storeStatus} />
-                </Row>
               </Col>
               <hr />
               <Row>
@@ -152,7 +150,7 @@ const Stockists = (props) => {
                       {
                         (!allStore.length) ? <Col className="no-data-available">No blogs available</Col> :
                           allStore.map((item, index) =>
-                            <StoreCard key={index} onIsActive={() => setIsActive(item._id)} isActive={isActive} store={item} onViewClick={viewMapInfo} onEditClick={showEditStoreDetails} onDeleteClick={showDeleteStoreDetails} />
+                            <StoreCard store={item} key={index} onIsActive={() => setIsActive(item._id)} isActive={isActive} onViewClick={viewMapInfo} onEditClick={showEditStoreDetails} onDeleteClick={showDeleteStoreDetails} />
                           )
                       }
                     </ul>
@@ -197,7 +195,7 @@ const Stockists = (props) => {
             </>
             :
             <>
-              {editStoreDetail && (editStoreDetail !== null) ?
+              {editStoreDetail && editStoreDetail !== '' ?
                 <AddStoreModule store={editStoreDetail} toggleModal={() => showEditStoreDetails(null)} />
                 :
                 <AddStoreModule store={addStoreModule} toggleModal={() => showAddStoreModule(null)} />

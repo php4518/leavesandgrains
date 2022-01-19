@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Modal, Button, Form, Input, Row } from "reactstrap";
 import { postStore, updateStore, getStore } from '../../redux/actions/store';
 import { Marker, Map } from 'google-maps-react';
@@ -6,12 +6,9 @@ import { useDispatch } from "react-redux";
 
 const StoreModule = ({ store = false, toggleModal }) => {
 
-
-  console.log("store", store);
-console.log("toggleModal",toggleModal);
   const dispatch = useDispatch();
   // const { allStore, storeStatus } = useSelector(({ store }) => ({
-  //   allStore: store.store,
+  //   allStore: store,
   //   storeStatus: store.storeStatus,
   // }));
 
@@ -23,11 +20,12 @@ console.log("toggleModal",toggleModal);
     userRole = JSON.parse(userDetail?.currentUser);
   }
 
-  const [addFields, setAddFields] = useState();
-  const [markerPos, setMarkerPos] = useState([]);
+  const [addFields, setAddFields] = useState([]);
+  const [markerPos, setMarkerPos] = useState();
 
   useEffect(() => {
     if (store?._id) {
+      dispatch(getStore())
       setAddFields(store);
     }
     if (navigator.geolocation) {
@@ -45,25 +43,21 @@ console.log("toggleModal",toggleModal);
     }
   }, []);
 
-  useEffect(() => {
-    dispatch(getStore())
-    setAddFields(store);
-  }, [])
-
   const validateInputs = () => {
     let fields = {};
     setValidationFields(fields);
     return !Object.keys(fields).length;
   };
 
-  const handleInputChange = (e) => setAddFields({ ...addFields, [e.target.name]: e.target.value });
+  const handleInputChange = (e) => {
+    setAddFields({ ...addFields, [e.target.name]: e.target.value });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (validateInputs()) {
-      console.log("addFields?._id",addFields?._id);
       if (!addFields?._id) {
         dispatch(postStore(addFields));
         toggleModal();
@@ -84,9 +78,9 @@ console.log("toggleModal",toggleModal);
 
   const centerMoved = (coord, index) => {
     const { latLng } = coord;
-    const lat = parseFloat(latLng.lat());
-    const lng = parseFloat(latLng.lng());
-    setMarkerPos(latLng)
+    var lat = latLng.lat();
+    var lng = latLng.lng();
+    setMarkerPos({lat: lat, lng: lng})
     setAddFields({ ...addFields, ['lat']: lat, ['lng']: lng });
   }
 
@@ -122,7 +116,7 @@ console.log("toggleModal",toggleModal);
             <div style={{ height: '50vh', width: '100%' }}>
               <Map
                 google={window.google}
-                zoom={8}
+                zoom={5}
                 containerStyle={containerStyle}
                 initialCenter={{ lat: 21.1261679, lng: 73.123147 }}
               >
