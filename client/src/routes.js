@@ -14,6 +14,7 @@ import CartHome from "./screens/cart";
 import PaymentHome from "./screens/payment";
 import ProfileHome from "./screens/profile";
 import Stockists from "./screens/stockists";
+import WeightLossEvent from "./screens/weight-loss-event"
 
 const AppRoutes = (props) => {
   const {location} = props;
@@ -33,6 +34,7 @@ const AppRoutes = (props) => {
       <Route path="/menu" component={MenuPage}/>
       <Route path="/order" component={OrderHome}/>
       <Route path="/blog" component={BlogPage}/>
+      <Route path="/weightloss" component={WeightLossEvent} />
       <Route path="/contact" component={ContactPage}/>
       <Route path="/about" component={AboutPage}/>
       <Route path="/stockists" component={Stockists}/>

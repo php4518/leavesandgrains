@@ -112,6 +112,13 @@ const NavigationBar = () => {
             <NavItem>
               <NavLink
                 data-placement="bottom"
+                href="/weightloss">
+                weight loss events
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                data-placement="bottom"
                 href="/about">
                 about
               </NavLink>
