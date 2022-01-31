@@ -5,8 +5,10 @@ import AppAlert from "../../components/alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { contactSupport } from "../../redux/actions/user";
-import './stylefolders/css/mainstyle.css';
-import "./mypagestyle.scss";
+
+//remove comments for UI but this css effect to other pages
+// import './stylefolders/css/mainstyle.css';
+// import "./mypagestyle.scss";
 
 const WeightLossEvent = () => {
 
